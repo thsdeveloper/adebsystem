@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
+//use DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -9,8 +11,27 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
+    // Este é o método executado quando executamos -> php artisan db:seed
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        // Este comando "desabilita" a proteção do método fill($data = []); nos models
+        Model::unguard();
+        // Desabilitas as FKs
+//        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        // Impede que seed seja executado em ambiente de produção
+        if(!app()->environment('production')):
+            $this->call(MaritalStatusTableSeeder::class);
+            $this->call(SchoolingsTableSeeder::class);
+            $this->call(UsersTableSeeder::class);
+        endif;
+
+        if(app()->environment('production')):
+            // seeds especiais para o ambiente de produção
+        endif;
+
+        // Habilitas as FKs
+//        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
     }
 }
