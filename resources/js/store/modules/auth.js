@@ -6,16 +6,18 @@ import * as types from '../mutation-types'
 export const state = {
     user: null,
     users: null,
-    token: Cookies.get('token')
-}
+    token: Cookies.get('token'),
+    drawer: null
+};
 
 // getters
 export const getters = {
     user: state => state.user,
     users: state => state.users,
     token: state => state.token,
-    check: state => state.user !== null
-}
+    check: state => state.user !== null,
+    drawer: state => state.drawer
+};
 
 // mutations
 export const mutations = {
@@ -26,6 +28,10 @@ export const mutations = {
 
     [types.FETCH_USERS_SUCCESS] (state, { users }) {
         state.users = users
+    },
+
+    [types.TOGGLE_DRAWER] (state) {
+        state.drawer = ! state.drawer
     },
 
     [types.FETCH_USER_SUCCESS] (state, { user }) {
@@ -47,7 +53,7 @@ export const mutations = {
     [types.UPDATE_USER] (state, { user }) {
         state.user = user
     }
-}
+};
 
 // actions
 export const actions = {
@@ -79,6 +85,10 @@ export const actions = {
         commit(types.UPDATE_USER, payload)
     },
 
+    toggleDrawer({ commit }){
+        commit(types.TOGGLE_DRAWER)
+    },
+
     async logout ({ commit }) {
         try {
             await axios.post('/api/logout')
@@ -92,4 +102,4 @@ export const actions = {
 
         return data.url
     }
-}
+};

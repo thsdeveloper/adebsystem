@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="$store.state.isDrawerVisible" fixed app>
+        <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="$store.state.auth.drawer" fixed app>
             <v-list dense>
                 <!--{{tabs}}-->
                 <template v-for="item in menus">
@@ -55,7 +55,7 @@
         name: "NavigationDrawer",
         middleware: 'auth',
         data: () => ({
-            drawer: null,
+
         }),
         computed: {
             menus () {

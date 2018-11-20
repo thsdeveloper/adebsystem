@@ -1,7 +1,7 @@
 <template>
     <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="blue accent-4" dark app fixed>
         <v-toolbar-title style="width: 300px">
-            <v-toolbar-side-icon @click="alert('clicou')"></v-toolbar-side-icon>
+            <v-toolbar-side-icon @click.native.stop="toggleDrawer"></v-toolbar-side-icon>
             <span class="hidden-sm-and-down">AdebSystem</span>
         </v-toolbar-title>
         <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" :label="$t('what_are_you_looking_for')" class="hidden-sm-and-down" />
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapMutations } from 'vuex'
     import LocaleDropdown from './LocaleDropdown'
 
     export default {
@@ -70,6 +70,9 @@
         },
 
         methods: {
+            async toggleDrawer(){
+                await this.$store.dispatch('auth/toggleDrawer');
+            },
             async logout () {
                 // Log out the user.
                 await this.$store.dispatch('auth/logout');
