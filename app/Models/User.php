@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Post;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -92,6 +93,11 @@ class User extends Authenticatable implements JWTSubject
     //Retorna a tabela de detalhes daquele usuário
     public function details(){
         return $this->hasOne(UserDetail::class);
+    }
+
+    //Retorna os posts daquele usuário
+    public function posts(){
+        return $this->hasMany(Post::class);
     }
 
 

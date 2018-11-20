@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             $this->call(MaritalStatusTableSeeder::class);
             $this->call(SchoolingsTableSeeder::class);
             $this->call(UsersTableSeeder::class);
+            $this->call(PostsTableSeeder::class);
         endif;
 
         if(app()->environment('production')):

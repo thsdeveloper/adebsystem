@@ -8,5 +8,10 @@ export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE'
 export const UPDATE_USER = 'UPDATE_USER'
 export const TOGGLE_DRAWER = 'TOGGLE_DRAWER'
 
+//post.ja
+export const FETCH_POSTS = 'FETCH_POSTS'
+export const CREATE_POST = 'CREATE_POST'
+
+
 // lang.js
 export const SET_LOCALE = 'SET_LOCALE'

@@ -23,6 +23,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users', 'UserController@index');
     Route::get('/userFind', 'UserController@userFind');
 
+    //Posts
+    Route::get('/posts', 'PostController@getAll');
+    Route::post('/post/create', 'PostController@store');
+
+
     Route::patch('settings/profile', 'Settings\ProfileController@update');
     Route::patch('settings/password', 'Settings\PasswordController@update');
 });

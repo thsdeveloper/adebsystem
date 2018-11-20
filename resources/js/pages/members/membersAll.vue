@@ -153,7 +153,6 @@
                 console.log('Index:', index);
                 console.log('Item:', item)
             },
-
             fetchUsers(){
                 this.$store.dispatch('auth/fetchUsers')
             }
