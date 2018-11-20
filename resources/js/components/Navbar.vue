@@ -1,7 +1,7 @@
 <template>
     <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="blue accent-4" dark app fixed>
         <v-toolbar-title style="width: 300px">
-            <v-toolbar-side-icon @click="handleClick"></v-toolbar-side-icon>
+            <v-toolbar-side-icon @click="alert('clicou')"></v-toolbar-side-icon>
             <span class="hidden-sm-and-down">AdebSystem</span>
         </v-toolbar-title>
         <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" :label="$t('what_are_you_looking_for')" class="hidden-sm-and-down" />
@@ -65,9 +65,9 @@
             snackbar: false,
         }),
 
-        computed: mapGetters({
-            user: 'auth/user'
-        }),
+        computed: {
+            ...mapGetters({user: 'auth/user'})
+        },
 
         methods: {
             async logout () {
@@ -80,9 +80,6 @@
             ativarSnackbar(){
                 this.snackbar = true;
             },
-            handleClick(e){
-                this.$emit('click', false);
-            }
         }
     }
 </script>

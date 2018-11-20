@@ -15,7 +15,7 @@ class CreateUserDetailsTable extends Migration
     {
         //Tabela de detalhes do Usuário
         Schema::create('user_details', function (Blueprint $table) {
-//            $table->increments('id');
+            $table->increments('id');
             //Tabelas de relacionamentos
             $table->integer('user_id');
             $table->integer('marital_status_id')->nullable()->comment('Estado civil do usuário');

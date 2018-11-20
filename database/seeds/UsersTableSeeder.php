@@ -1,5 +1,6 @@
 <?php
 use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Database\Seeder;
 use Faker\Factory as FactoryFaker;
 use Illuminate\Support\Facades\Schema;
@@ -8,26 +9,21 @@ class UsersTableSeeder extends Seeder
     /**
      * @var \Illuminate\Database\Eloquent\Collection
      */
-    private $roles;
+    private $user_details;
     /**
      * @var \Faker\Generator
      */
     private $faker;
     public function run()
     {
-        // Apaga toda a tabela de usuários
-        DB::table('oauth_providers', 'users')->truncate();
-//        $this->roles = Role::all();
+        $this->user_details = UserDetail::all();
         $this->faker = FactoryFaker::create('pt_BR');
-        // Cria usuários admins (dados controlados)
-        $this->createAdmins();
-        // Cria usuários demo dados faker
-        $this->createUsers();
 
+        $this->createAdmins();
+        $this->createUsers();
     }
     private function createAdmins()
     {
-//        $superuserRole = $this->roles->where('name', 'superuser')->first();
         $user = User::create([
             'email' => 'ths.pereira@gmail.com',
             'name'  => 'Thiago Pereira',
@@ -38,7 +34,6 @@ class UsersTableSeeder extends Seeder
             'name'  => 'Joquebete Carvalho',
             'password' => bcrypt('qsesbs2006')
         ]);
-        // attach user_details
         DB::table('user_details')->insert([
             'user_id' => $user->id,
             'marital_status_id' => 1,
@@ -52,21 +47,19 @@ class UsersTableSeeder extends Seeder
             'sex' => "Masculino",
             'profession' => "Analista de Sistemas",
         ]);
-//        $user->attachRole($superuserRole);
-
-        $this->command->info('User ths.pereira@gmail.com created');
+        $this->command->info('User ADMIN ths.pereira@gmail.com created');
     }
 
     private function createUsers()
     {
-        $max = $this->faker->numberBetween(100, 200);
-//        $rolesCount = $this->roles->count();
+        $max = $this->faker->numberBetween(50, 50);
+        $userDetailCount = $this->user_details->count();
         for($i=0; $i < $max; $i++):
             $user = $this->createUser();
             // attach random roles to user
-//            $this->attachRoles($user, $rolesCount);
+            $this->attachRoles($user);
         endfor;
-        $this->command->info($max . ' demo users created');
+        $this->command->info($max . ' usuários foram criados!');
     }
     private function createUser()
     {
@@ -76,13 +69,24 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt(str_random(6))
         ]);
     }
-    private function attachRoles(User $user, $rolesCount)
+    private function attachRoles(User $user)
     {
-        $number = $this->faker->numberBetween(0, $rolesCount);
+        $number = $this->faker->numberBetween(0, 50);
 
         if($number > 0):
-            $roles = collect($this->roles->random($number))->lists('id')->toArray();
-            $user->roles()->sync($roles);
+            DB::table('user_details')->insert([
+                'user_id' => $user->id,
+                'marital_status_id' => 1,
+                'spouse_id' => null,
+                'schooling_id' => 1,
+                'date_birth' => $this->faker->date('Y-m-d'),
+                'mother_name' => $this->faker->firstNameFemale,
+                'dad_name' => $this->faker->firstNameMale,
+                'cpf' => $this->faker->cpf(false),
+                'rg' => $this->faker->rg,
+                'sex' => "Masculino",
+                'profession' => "Empresario",
+            ]);
         endif;
     }
 }

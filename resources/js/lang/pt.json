@@ -32,6 +32,10 @@
   "login_with": "Login with",
   "register_with": "Register with",
   "what_are_you_looking_for": "O que você está procurando?",
-  "dashboard": "Painel de Controle"
+  "dashboard": "Painel de Controle",
+  "members": "Membros",
+  "departments": "Departamentos",
+  "members_manager": "Gerenciamento de membros",
+  "members_manager_description": "Gerencie todos os registros de membros da sua base de dados"
 
 }

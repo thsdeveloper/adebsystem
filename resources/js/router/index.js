@@ -8,7 +8,7 @@ import { sync } from 'vuex-router-sync'
 Vue.use(Meta)
 Vue.use(Router)
 
-// The middleware for every page of the application.
+// O middleware para todas as páginas do aplicativo.
 const globalMiddleware = ['locale', 'check-auth']
 
 // Load middleware modules dynamically.
