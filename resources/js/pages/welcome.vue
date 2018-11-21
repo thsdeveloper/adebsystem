@@ -46,9 +46,9 @@ export default {
     title: window.config.appName
   }),
 
-  computed: mapGetters({
-    authenticated: 'auth/check'
-  })
+  computed:{
+      ...mapGetters({authenticated: 'auth/check'})
+  }
 }
 </script>
 

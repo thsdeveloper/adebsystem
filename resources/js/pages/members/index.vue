@@ -5,15 +5,11 @@
         </transition>
     </div>
 </template>
-
 <script>
     export default {
         middleware: 'auth',
     }
 </script>
+<style scoped>
 
-<style>
-    .settings-card .card-body {
-        padding: 0;
-    }
 </style>

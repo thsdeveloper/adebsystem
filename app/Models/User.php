@@ -1,15 +1,20 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Post;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use Spatie\Permission\Traits\HasRoles;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use HasRoles;
+    use Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -84,4 +89,16 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    //Retorna a tabela de detalhes daquele usuário
+    public function details(){
+        return $this->hasOne(UserDetail::class);
+    }
+
+    //Retorna os posts daquele usuário
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
+
+
 }

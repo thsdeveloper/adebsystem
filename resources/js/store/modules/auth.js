@@ -4,76 +4,102 @@ import * as types from '../mutation-types'
 
 // state
 export const state = {
-  user: null,
-  token: Cookies.get('token')
-}
+    user: null,
+    users: null,
+    token: Cookies.get('token'),
+    drawer: null
+};
 
 // getters
 export const getters = {
-  user: state => state.user,
-  token: state => state.token,
-  check: state => state.user !== null
-}
+    user: state => state.user,
+    users: state => state.users,
+    token: state => state.token,
+    check: state => state.user !== null,
+    drawer: state => state.drawer
+};
 
 // mutations
 export const mutations = {
-  [types.SAVE_TOKEN] (state, { token, remember }) {
-    state.token = token
-    Cookies.set('token', token, { expires: remember ? 365 : null })
-  },
+    [types.SAVE_TOKEN] (state, { token, remember }) {
+        state.token = token
+        Cookies.set('token', token, { expires: remember ? 365 : null })
+    },
 
-  [types.FETCH_USER_SUCCESS] (state, { user }) {
-    state.user = user
-  },
+    [types.FETCH_USERS_SUCCESS] (state, { users }) {
+        state.users = users
+    },
 
-  [types.FETCH_USER_FAILURE] (state) {
-    state.token = null
-    Cookies.remove('token')
-  },
+    [types.TOGGLE_DRAWER] (state) {
+        state.drawer = ! state.drawer
+    },
 
-  [types.LOGOUT] (state) {
-    state.user = null
-    state.token = null
+    [types.FETCH_USER_SUCCESS] (state, { user }) {
+        state.user = user
+    },
 
-    Cookies.remove('token')
-  },
+    [types.FETCH_USER_FAILURE] (state) {
+        state.token = null
+        Cookies.remove('token')
+    },
 
-  [types.UPDATE_USER] (state, { user }) {
-    state.user = user
-  }
-}
+    [types.LOGOUT] (state) {
+        state.user = null
+        state.token = null
+
+        Cookies.remove('token')
+    },
+
+    [types.UPDATE_USER] (state, { user }) {
+        state.user = user
+    }
+};
 
 // actions
 export const actions = {
-  saveToken ({ commit, dispatch }, payload) {
-    commit(types.SAVE_TOKEN, payload)
-  },
 
-  async fetchUser ({ commit }) {
-    try {
-      const { data } = await axios.get('/api/user')
+    async fetchUsers({commit}) {
+        try {
+            const {data} = await axios.get('/api/users')
+            commit(types.FETCH_USERS_SUCCESS, { users: data })
+        }catch (e) {
+            commit(types.FETCH_USER_FAILURE)
+        }
+    },
 
-      commit(types.FETCH_USER_SUCCESS, { user: data })
-    } catch (e) {
-      commit(types.FETCH_USER_FAILURE)
+    saveToken ({ commit, dispatch }, payload) {
+        commit(types.SAVE_TOKEN, payload)
+    },
+
+    async fetchUser ({ commit }) {
+        try {
+            const { data } = await axios.get('/api/user')
+
+            commit(types.FETCH_USER_SUCCESS, { user: data })
+        } catch (e) {
+            commit(types.FETCH_USER_FAILURE)
+        }
+    },
+
+    updateUser ({ commit }, payload) {
+        commit(types.UPDATE_USER, payload)
+    },
+
+    toggleDrawer({ commit }){
+        commit(types.TOGGLE_DRAWER)
+    },
+
+    async logout ({ commit }) {
+        try {
+            await axios.post('/api/logout')
+        } catch (e) { }
+
+        commit(types.LOGOUT)
+    },
+
+    async fetchOauthUrl (ctx, { provider }) {
+        const { data } = await axios.post(`/api/oauth/${provider}`)
+
+        return data.url
     }
-  },
-
-  updateUser ({ commit }, payload) {
-    commit(types.UPDATE_USER, payload)
-  },
-
-  async logout ({ commit }) {
-    try {
-      await axios.post('/api/logout')
-    } catch (e) { }
-
-    commit(types.LOGOUT)
-  },
-
-  async fetchOauthUrl (ctx, { provider }) {
-    const { data } = await axios.post(`/api/oauth/${provider}`)
-
-    return data.url
-  }
-}
+};
