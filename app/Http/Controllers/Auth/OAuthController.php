@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\OAuthProvider;
+use App\Models\User;
+use App\Models\OAuthProvider;
 use App\Http\Controllers\Controller;
 use App\Exceptions\EmailTakenException;
 use Laravel\Socialite\Facades\Socialite;
@@ -60,11 +60,6 @@ class OAuthController extends Controller
         ]);
     }
 
-    /**
-     * @param  string $provider
-     * @param  \Laravel\Socialite\Contracts\User $sUser
-     * @return \App\User|false
-     */
     protected function findOrCreateUser($provider, $user)
     {
         $oauthProvider = OAuthProvider::where('provider', $provider)
@@ -87,11 +82,6 @@ class OAuthController extends Controller
         return $this->createUser($provider, $user);
     }
 
-    /**
-     * @param  string $provider
-     * @param  \Laravel\Socialite\Contracts\User $sUser
-     * @return \App\User
-     */
     protected function createUser($provider, $sUser)
     {
         $user = User::create([
