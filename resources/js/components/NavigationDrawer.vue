@@ -1,6 +1,18 @@
 <template>
     <div>
         <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="$store.state.auth.drawer" fixed app>
+            <v-img :aspect-ratio="16/9" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+                <v-layout pa-2 column fill-height class="lightbox white--text">
+                    <v-spacer></v-spacer>
+                    <v-flex shrink>
+                        <v-avatar size="40px" class="avatar-img">
+                            <img :src="user.photo_url" :alt="user.name">
+                        </v-avatar>
+                        <div class="subheading">{{user.name}}</div>
+                        <div class="body-1">{{user.email}}</div>
+                    </v-flex>
+                </v-layout>
+            </v-img>
             <v-list dense>
                 <!--{{tabs}}-->
                 <template v-for="item in menus">
@@ -51,6 +63,8 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     export default {
         name: "NavigationDrawer",
         middleware: 'auth',
@@ -58,6 +72,7 @@
 
         }),
         computed: {
+            ...mapGetters({user: 'auth/user'}),
             menus () {
                 return [
                     { icon: 'dashboard', text: this.$t('dashboard'), route: '/home' },
@@ -102,5 +117,17 @@
 </script>
 
 <style scoped>
+    .v-navigation-drawer {
+        transition: none !important;
+    }
 
+    .lightbox {
+        box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
+        background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 72px);
+    }
+    .v-avatar.avatar-img {
+        float: left;
+        margin-right: 12px;
+        margin-top: 3px;
+    }
 </style>

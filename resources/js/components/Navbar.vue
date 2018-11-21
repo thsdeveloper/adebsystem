@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    import { mapGetters, mapMutations } from 'vuex'
+    import { mapGetters } from 'vuex'
     import LocaleDropdown from './LocaleDropdown'
 
     export default {
