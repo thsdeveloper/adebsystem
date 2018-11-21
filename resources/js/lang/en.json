@@ -32,5 +32,10 @@
   "login_with": "Login with",
   "register_with": "Register with",
   "what_are_you_looking_for": "What are you looking for?",
-  "dashboard": "Dashboard"
+  "dashboard": "Dashboard",
+  "members": "Members",
+  "departments": "Departments",
+  "members_manager": "Member management",
+  "members_manager_description": "Manage all member records in your database"
+
 }
