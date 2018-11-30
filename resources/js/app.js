@@ -6,17 +6,19 @@ import router from '~/router'
 import i18n from '~/plugins/i18n'
 import App from '~/components/App'
 import InstantSearch from 'vue-instantsearch';
-import VueRecyclist from 'vue-recyclist'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import 'dayspan-vuetify/dist/lib/dayspan-vuetify.min.css'
 
 
 Vue.use(Vuetify);
 Vue.use(InstantSearch);
-Vue.use(VueRecyclist);
 
 import '~/plugins'
 import '~/components'
 
 Vue.config.productionTip = false;
+Vue.config.devtools = true;
+Vue.config.performance = true;
 
 /* eslint-disable no-new */
 new Vue({

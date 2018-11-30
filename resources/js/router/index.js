@@ -9,9 +9,9 @@ Vue.use(Meta)
 Vue.use(Router)
 
 // O middleware para todas as páginas do aplicativo.
-const globalMiddleware = ['locale', 'check-auth']
+const globalMiddleware = ['locale', 'check-auth'];
 
-// Load middleware modules dynamically.
+//Carregar módulos de middleware dinamicamente.
 const routeMiddleware = resolveMiddleware(
   require.context('~/middleware', false, /.*\.js$/)
 )
@@ -23,7 +23,7 @@ sync(store, router)
 export default router
 
 /**
- * Create a new router instance.
+ * Crie uma nova instância do roteador.
  *
  * @return {Router}
  */
@@ -63,7 +63,7 @@ async function beforeEach (to, from, next) {
   }
 
   // Get the middleware for all the matched components.
-  const middleware = getMiddleware(components)
+  const middleware = getMiddleware(components);
 
   // Call each middleware.
   callMiddleware(middleware, to, from, (...args) => {

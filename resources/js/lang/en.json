@@ -36,6 +36,7 @@
   "members": "Members",
   "departments": "Departments",
   "members_manager": "Member management",
-  "members_manager_description": "Manage all member records in your database"
+  "members_manager_description": "Manage all member records in your database",
+  "general_agenda": "General agenda"
 
 }

@@ -12,6 +12,23 @@ export const TOGGLE_DRAWER = 'TOGGLE_DRAWER'
 export const FETCH_POSTS = 'FETCH_POSTS'
 export const CREATE_POST = 'CREATE_POST'
 
+//Snack Bar
+export const SHOW_SNACK_BAR = 'SHOW_SNACK_BAR'
+export const CLOSE_SNACK_BAR = 'CLOSE_SNACK_BAR'
+
+//Toolbar
+export const VISIBLE_TABS = 'VISIBLE_TABS'
+
+//Notifications
+export const FETCH_NOTIFICATIONS = 'FETCH_NOTIFICATIONS'
+export const MARK_AS_READ = 'MARK_AS_READ'
+export const MARK_ALL_AS_READ = 'MARK_ALL_AS_READ'
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION'
+
+
+
+
+
 
 // lang.js
 export const SET_LOCALE = 'SET_LOCALE'

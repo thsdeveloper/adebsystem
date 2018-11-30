@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostPublished;
+use App\Notifications\PostNotification;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,16 +25,23 @@ class PostController extends Controller
     public function store(Request $request){
         $user = Auth::user();
 
-        $url = "https://catequistasbrasil.com.br/wp-content/uploads/2018/09/os-jovens-catequistas-e-a-vontade-de-aprender-catequistasbrasil.jpg";
-
+        $url = $request['url'];
         $post = new Post;
         $post->text = $request['text'];
-        $post->addMediaFromUrl($url)->toMediaCollection();
+        $post->addMediaFromBase64($url)->toMediaCollection();
 
-        $user->posts()->save($post);
+        if($user->posts()->save($post)){
+            // fire PostPublished event after post is successfully added to database
+//            event(new PostPublished($post));
+            Auth::user()->notify(new PostNotification($post));
+        }
+
+//        dd($evento);
+        // or
+//        Event::fire(new PostPublished($post));
 
         $last_post = Post::with('user', 'media')->where('id', $post->id)->first();
 
-        return $last_post;
+        return response($last_post, 201);
     }
 }

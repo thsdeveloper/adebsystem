@@ -1,5 +1,8 @@
 <template>
     <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="blue accent-4" dark app fixed>
+        <v-tabs slot="extension" v-if="tabsVisible" color="blue accent-4" slider-color="yellow" centered>
+            <v-tab v-for="i in menusTabs" :key="i" :to="i">{{ i }}</v-tab>
+        </v-tabs>
         <v-toolbar-title style="width: 300px">
             <v-toolbar-side-icon @click.native.stop="toggleDrawer"></v-toolbar-side-icon>
             <span class="hidden-sm-and-down">AdebSystem</span>
@@ -7,12 +10,10 @@
         <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" :label="$t('what_are_you_looking_for')" class="hidden-sm-and-down" />
         <v-spacer />
         <locale-dropdown/>
-        <v-btn icon @click="ativarSnackbar">
+        <v-btn icon>
             <v-icon>apps</v-icon>
         </v-btn>
-        <v-btn icon @click="ativarSnackbar">
-            <v-icon>notifications</v-icon>
-        </v-btn>
+       <notification/>
         <v-menu offset-y left>
             <v-btn icon large slot="activator">
                 <v-avatar size="32px">
@@ -42,33 +43,32 @@
                 </v-list-tile>
             </v-list>
         </v-menu>
-        <v-snackbar v-model="snackbar" color="success" bottom>
-            Aguarde! Estamos providenciando isso!
-            <v-btn dark flat @click="snackbar = false">
-                Fechar
-            </v-btn>
-        </v-snackbar>
     </v-toolbar>
 </template>
 
 <script>
     import { mapGetters } from 'vuex'
     import LocaleDropdown from './LocaleDropdown'
+    import Notification from "./Notification";
 
     export default {
         components: {
+            Notification,
             LocaleDropdown
         },
 
         data: () => ({
+            tabs: false,
             appName: window.config.appName,
-            snackbar: false,
         }),
 
         computed: {
-            ...mapGetters({user: 'auth/user'})
+            ...mapGetters({
+                user: 'auth/user',
+                tabsVisible: 'toolbar/tabsVisible',
+                menusTabs: 'toolbar/menusTabs'
+            }),
         },
-
         methods: {
             async toggleDrawer(){
                 await this.$store.dispatch('auth/toggleDrawer');
@@ -79,9 +79,6 @@
 
                 // Redirect to login.
                 this.$router.push({ name: 'login' })
-            },
-            ativarSnackbar(){
-                this.snackbar = true;
             },
         }
     }

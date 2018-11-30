@@ -1,13 +1,14 @@
 <template>
     <v-app>
         <div>
-            <navbar v-on:click="abrirOuFechar" />
+            <toolbar/>
         </div>
         <div>
             <navigation-drawer/>
         </div>
         <v-content>
-            <v-container fluid>
+            <v-container fluid grid-list-md>
+                <snackbar></snackbar>
                 <child animate-in="fadeIn"></child>
             </v-container>
         </v-content>
@@ -20,23 +21,23 @@
 
 <script>
     /* eslint-disable indent */
-    import Navbar from '~/components/Navbar'
     import Child from '../components/Child'
     import NavigationDrawer from "../components/NavigationDrawer";
+    import Snackbar from "../components/Snackbar";
+    import Toolbar from "../components/Toolbar";
 
     export default {
         components: {
+            Toolbar,
+            Snackbar,
             NavigationDrawer,
             Child,
-            Navbar
         },
         props: {
             source: String
         },
         methods: {
-            abrirOuFechar(e){
-                this.drawer = true;
-            }
+
         }
     }
 </script>

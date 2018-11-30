@@ -19,7 +19,6 @@ export const mutations = {
 
     [types.CREATE_POST] (state, { post }) {
         state.posts.unshift(post)
-
     }
 };
 
@@ -29,16 +28,17 @@ export const actions = {
         try {
             const {data} = await axios.get('/api/posts');
             commit(types.FETCH_POSTS, { posts: data })
+
         }catch (e) {
-            commit(types.FETCH_USER_FAILURE)
+
         }
     },
-    async createPost({commit}, post){
+    async createPost({commit}, form){
         try {
-            const {data} = await axios.post('/api/post/create', {text: post});
+            const {data} = await axios.post('/api/post/create', {text: form.text, url: form.urlImage});
             commit(types.CREATE_POST, { post: data })
         }catch (e) {
-            commit(types.FETCH_USER_FAILURE)
+
         }
     }
 };
