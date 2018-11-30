@@ -2,9 +2,9 @@
   "ok": "Ok",
   "cancel": "Cancelar",
   "error_alert_title": "Oops...",
-  "error_alert_text": "Something went wrong! Please try again.",
-  "token_expired_alert_title": "Session Expired!",
-  "token_expired_alert_text": "Please log in again to continue.",
+  "error_alert_text": "Algo deu errado! Por favor, tente novamente.",
+  "token_expired_alert_title": "Sessão expirada!",
+  "token_expired_alert_text": "Por favor, faça o login novamente para continuar.",
   "login": "Log In",
   "register": "Register",
   "page_not_found": "Página não encontrada",
@@ -36,6 +36,7 @@
   "members": "Membros",
   "departments": "Departamentos",
   "members_manager": "Gerenciamento de membros",
-  "members_manager_description": "Gerencie todos os registros de membros da sua base de dados"
+  "members_manager_description": "Gerencie todos os registros de membros da sua base de dados",
+  "general_agenda": "Agenda Geral"
 
 }

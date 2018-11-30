@@ -10,6 +10,10 @@ const Members = () => import('~/pages/members/index').then(m => m.default || m)
 const MembersAll = () => import('~/pages/members/membersAll').then(m => m.default || m)
 const MembersDetail = () => import('~/pages/members/membersDetail').then(m => m.default || m)
 
+//Calendar
+const Calendar = () => import('~/pages/calendar/index').then(m => m.default || m)
+
+
 
 const Home = () => import('~/pages/home').then(m => m.default || m)
 const Settings = () => import('~/pages/settings/index').then(m => m.default || m)
@@ -32,6 +36,11 @@ export default [
             { path: 'detail', name: 'members.detail', component: MembersDetail },
         ]
     },
+
+    //calendar
+    { path: '/calendar', name: 'calendar', component: Calendar },
+
+
     { path: '/settings', component: Settings,
         children: [
             { path: '', redirect: { name: 'settings.profile' } },

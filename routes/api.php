@@ -27,6 +27,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/posts', 'PostController@getAll');
     Route::post('/post/create', 'PostController@store');
 
+    //Notifications
+    Route::get('/notifications', 'NotificationController@notifications');
+    Route::put('/notification-read', 'NotificationController@markAsRead');
+    Route::put('/notification-all-read', 'NotificationController@markAllAsRead');
+
+
 
     Route::patch('settings/profile', 'Settings\ProfileController@update');
     Route::patch('settings/password', 'Settings\PasswordController@update');
