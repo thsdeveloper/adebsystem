@@ -14,7 +14,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     use HasRoles;
-    use Searchable;
+//    use Searchable;
 
     /**
      * The attributes that are mass assignable.

@@ -1,7 +1,10 @@
 <template>
     <div>
         <v-menu offset-y left>
-            <v-btn flat small slot="activator">{{ locales[locale] }}</v-btn>
+            <v-btn icon small slot="activator">
+                <v-icon>g_translate</v-icon>
+                <!--{{ locales[locale] }}-->
+            </v-btn>
             <v-list dense>
                 <v-list dense>
                     <v-list-tile v-for="(value, key) in locales" :key="key" @click.prevent="setLocale(key)">

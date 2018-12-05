@@ -8,15 +8,12 @@
             </v-card-title>
 
             <v-card-text>
-                <v-textarea name="input-7-1" label="Escreva sua publicação!" v-model="form.text" :autofocus="true" counter></v-textarea>
-                <v-tooltip bottom>
-                    <upload-btn slot="activator" :fileChangedCallback="fileChanged" icon flat color="fff">
-                        <template slot="icon">
-                            <v-icon>camera_alt</v-icon>
-                        </template>
-                    </upload-btn>
-                    <span>Adicionar foto</span>
-                </v-tooltip>
+                <v-text-field label="Escreva sua publicação!" v-model="form.text" :autofocus="true"></v-text-field>
+                <upload-btn :fileChangedCallback="fileChanged" flat color="fff">
+                    <template slot="icon">
+                        <v-icon>camera_alt</v-icon>
+                    </template>
+                </upload-btn>
 
                 <div v-if="this.form.urlImage">
                     <v-layout row wrap>
@@ -76,7 +73,6 @@
             },
             createPost(){
                 this.$store.dispatch('post/createPost', this.form);
-                this.$store.dispatch('snackbar/showSnackbar', 'Post inserido com sucesso');
                 this.newPost = '';
                 this.dialog = false;
             },
