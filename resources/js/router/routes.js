@@ -4,6 +4,7 @@ const Register = () => import('~/pages/auth/register').then(m => m.default || m)
 const PasswordEmail = () => import('~/pages/auth/password/email').then(m => m.default || m)
 const PasswordReset = () => import('~/pages/auth/password/reset').then(m => m.default || m)
 const NotFound = () => import('~/pages/errors/404').then(m => m.default || m)
+const NotPermision = () => import('~/pages/errors/notPermission').then(m => m.default || m)
 
 //Membros
 const Members = () => import('~/pages/members/index').then(m => m.default || m)
@@ -51,5 +52,6 @@ export default [
 
     { path: '/home', name: 'home', component: Home },
 
-    { path: '*', component: NotFound }
+    { path: '*', component: NotFound },
+    { path: '*', name: 'not_permission', component: NotPermision }
 ]

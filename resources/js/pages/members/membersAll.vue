@@ -54,7 +54,7 @@
     import {mapGetters} from 'vuex';
     export default {
         name: 'ListarMembros',
-        middleware: 'auth',
+        middleware: ['auth', 'admin'],
         methods:{
             clickUser(index, item){
                 console.log('Index:', index);

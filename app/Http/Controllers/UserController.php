@@ -12,8 +12,11 @@ class UserController extends Controller
         return $users;
     }
 
+    public function getUser(Request $request){
+        return $request->user();
+    }
+
     public function userFind(Request $request){
-        dd($request);
         $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse')->get();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -57,10 +58,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+
+        if($data['type_user']){
+            //Se o usuário for criado com sucesso, determina ele como super-admin
+            $roleSuperAdmin = Role::where('name', $data['type_user'])->first();
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+            ]);
+
+            if($roleSuperAdmin){
+                $user->assignRole($data['type_user']);
+            }else{
+                $role = Role::create(['name' => $data['type_user']]);
+                $user->assignRole($role);
+            }
+            return $user;
+        }else{
+            return response('Usuário não encontrado!', 500);
+        }
     }
 }

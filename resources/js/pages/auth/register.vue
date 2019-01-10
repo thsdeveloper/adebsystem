@@ -60,6 +60,7 @@
             form: new Form({
                 name: '',
                 email: '',
+                type_user: 'admin',
                 password: '',
                 password_confirmation: ''
             })
