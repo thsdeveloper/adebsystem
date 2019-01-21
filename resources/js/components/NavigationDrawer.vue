@@ -104,10 +104,10 @@
                     {
                         icon: 'keyboard_arrow_down', 'icon-alt': 'settings', text: 'Configurações', model: false,
                         children: [
-                            { icon: 'person', text: 'Usuário', route: '/settings/profile' },
+                            { icon: 'person', text: 'Minha conta', route: '/settings/profile' },
                             { icon: 'location_city', text: 'Igreja', route: '/settings/church' },
                             { icon: 'credit_card', text: 'Faturas / Cobranças', route: '/settings/invoice' },
-                            { icon: 'contact_support', text: 'Central de ajuda', route: '/settings/help' },
+                            { icon: 'help', text: 'Central de ajuda', route: '/settings/help' },
                             { icon: 'verified_user', text: 'Segurança da conta', route: '/settings/password' },
                         ]
                     },

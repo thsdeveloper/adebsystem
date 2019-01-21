@@ -37,6 +37,11 @@
   "departments": "Departments",
   "members_manager": "Member management",
   "members_manager_description": "Manage all member records in your database",
-  "general_agenda": "General agenda"
+  "general_agenda": "General agenda",
+  "hello": "Hello",
+  "close": "Close",
+  "change_password": "Change password",
+  "my_account": "My account"
+
 
 }

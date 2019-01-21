@@ -1,34 +1,33 @@
 <template>
-  <card :title="$t('your_password')">
-    <form @submit.prevent="update" @keydown="form.onKeydown($event)">
-      <alert-success :form="form" :message="$t('password_updated')"/>
+    <div>
+        <v-flex xs12 sm12 md12 align-center justify-center layout text-xs-center>
+            <v-img src="https://www.gstatic.com/identity/boq/accountsettingsmobile/securitycheckup_scene_green_632x224_2dfcc26da3020a780f78a297352a3d39.png" height="125px" contain></v-img>
+        </v-flex>
+        <v-flex xs12 sm12 md12 align-center justify-center layout text-xs-center>
+            <p class="display-1">Segurança</p>
+        </v-flex>
+        <v-flex xs12 sm12 md12 align-center justify-center layout text-xs-center>
+            <p class="subheading">Configurações e recomendações para ajudar você a manter sua conta segura</p>
+        </v-flex>
+        <v-layout row wrap>
+            <v-flex xs12 sm12 md12 lg6 offset-lg3>
+                <form @submit.prevent="update" @keydown="form.onKeydown($event)">
+                    <alert-success :form="form" :message="$t('password_updated')"/>
 
-      <!-- Password -->
-      <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">{{ $t('new_password') }}</label>
-        <div class="col-md-7">
-          <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
-          <has-error :form="form" field="password"/>
-        </div>
-      </div>
+                    <v-flex xs12 sm12 md12>
+                        <v-text-field :label="$t('new_password')" required v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" name="password" type="password"></v-text-field>
+                        <has-error :form="form" field="password"/>
+                    </v-flex>
 
-      <!-- Password Confirmation -->
-      <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">{{ $t('confirm_password') }}</label>
-        <div class="col-md-7">
-          <input v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control" type="password" name="password_confirmation">
-          <has-error :form="form" field="password_confirmation"/>
-        </div>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="form-group row">
-        <div class="col-md-9 ml-md-auto">
-          <v-button :loading="form.busy" type="success">{{ $t('update') }}</v-button>
-        </div>
-      </div>
-    </form>
-  </card>
+                    <v-flex xs12 sm12 md12>
+                        <v-text-field :label="$t('confirm_password')" required v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" name="password_confirmation" type="password"></v-text-field>
+                        <has-error :form="form" field="password_confirmation"/>
+                    </v-flex>
+                    <v-button :loading="form.busy" type="success">{{ $t('update') }}</v-button>
+                </form>
+            </v-flex>
+        </v-layout>
+    </div>
 </template>
 
 <script>
@@ -50,7 +49,7 @@ export default {
 
   methods: {
     async update () {
-      await this.form.patch('/api/settings/password')
+      await this.form.patch('/api/settings/password');
 
       this.form.reset()
     }
