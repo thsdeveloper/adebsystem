@@ -81,10 +81,10 @@
                 this.$store.dispatch('auth/saveToken', {
                     token: data.token,
                     remember: this.remember
-                })
+                });
 
                 // Fetch the user.
-                await this.$store.dispatch('auth/fetchUser')
+                await this.$store.dispatch('auth/fetchUser');
 
                 // Redirect home.
                 this.$router.push({ name: 'home' })

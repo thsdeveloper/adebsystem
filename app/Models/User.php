@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Post;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +15,9 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     use HasRoles;
-    use Searchable;
+//    use Searchable;
+
+    protected $guard_name = 'api';
 
     /**
      * The attributes that are mass assignable.
@@ -100,5 +103,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Post::class);
     }
 
+    public function isRoleAdmin(){
+        return response()->json($this->hasRole('admin'));
+    }
 
 }

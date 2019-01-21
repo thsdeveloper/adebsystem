@@ -1,5 +1,5 @@
 <template>
-    <v-menu offset-y left :close-on-content-click="false">
+    <v-menu offset-y left :close-on-content-click="false" max-width="380px" min-width="380px">
         <v-btn icon slot="activator">
             <v-badge color="red darken-4" v-if="notifications.length > 0">
                 <span slot="badge" class="badge-criativa">{{notifications.length}}</span>
@@ -10,8 +10,7 @@
         <v-list two-line subheader>
             <v-subheader>
                 <v-icon>notifications</v-icon> Notificações
-
-                <v-btn icon right absolute @click.prevent="markAllAsRead">
+                <v-btn icon right absolute @click.prevent="markAllAsRead" v-if="notifications.length > 0">
                     <v-icon  color="grey lighten-1">done_all</v-icon>
                 </v-btn>
             </v-subheader>

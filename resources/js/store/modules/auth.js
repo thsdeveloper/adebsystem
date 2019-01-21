@@ -60,7 +60,7 @@ export const actions = {
 
     async fetchUsers({commit}) {
         try {
-            const {data} = await axios.get('/api/users')
+            const {data} = await axios.get('/api/users');
             commit(types.FETCH_USERS_SUCCESS, { users: data })
         }catch (e) {
             commit(types.FETCH_USER_FAILURE)
@@ -73,9 +73,9 @@ export const actions = {
 
     async fetchUser ({ commit }) {
         try {
-            const { data } = await axios.get('/api/user')
+            const { data } = await axios.get('/api/user');
 
-            commit(types.FETCH_USER_SUCCESS, { user: data })
+            commit(types.FETCH_USER_SUCCESS, { user: data });
         } catch (e) {
             commit(types.FETCH_USER_FAILURE)
         }
