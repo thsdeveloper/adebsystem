@@ -25,6 +25,12 @@ export const MARK_AS_READ = 'MARK_AS_READ'
 export const MARK_ALL_AS_READ = 'MARK_ALL_AS_READ'
 export const ADD_NOTIFICATION = 'ADD_NOTIFICATION'
 
+//Members
+export const FETCH_PROFESSIONS = 'FETCH_PROFESSIONS'
+
+
+export const PERMISSIONS = 'PERMISSIONS'
+
 
 
 

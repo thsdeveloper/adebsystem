@@ -27,7 +27,65 @@
                     </v-layout>
                     <v-divider light></v-divider>
                     <v-card-actions class="pa-3">
-                        <v-btn slot="activator" flat to="/settings/password">{{ $t('update') }}</v-btn>
+
+                        <v-dialog v-model="dialog" width="500">
+                            <v-btn slot="activator" flat>{{ $t('update') }}</v-btn>
+                            <v-card>
+                                <v-card-title class="headline grey lighten-2" primary-title>Funções administrativas</v-card-title>
+                                <v-card-text>
+                                    <v-list
+                                            subheader
+                                            three-line
+                                    >
+                                        <v-subheader>General</v-subheader>
+                                        <v-list-tile @click="">
+                                            <v-list-tile-action>
+                                                <v-checkbox
+                                                        v-model="notifications"
+                                                ></v-checkbox>
+                                            </v-list-tile-action>
+
+                                            <v-list-tile-content @click.prevent="notifications = !notifications">
+                                                <v-list-tile-title>Notifications</v-list-tile-title>
+                                                <v-list-tile-sub-title>Notify me about updates to apps or games that I downloaded</v-list-tile-sub-title>
+                                            </v-list-tile-content>
+                                        </v-list-tile>
+
+                                        <v-list-tile @click="">
+                                            <v-list-tile-action>
+                                                <v-checkbox
+                                                        v-model="sound"
+                                                ></v-checkbox>
+                                            </v-list-tile-action>
+
+                                            <v-list-tile-content @click.prevent="sound = !sound">
+                                                <v-list-tile-title>Sound</v-list-tile-title>
+                                                <v-list-tile-sub-title>Auto-update apps at any time. Data charges may apply</v-list-tile-sub-title>
+                                            </v-list-tile-content>
+                                        </v-list-tile>
+
+                                        <v-list-tile @click="">
+                                            <v-list-tile-action>
+                                                <v-checkbox
+                                                        v-model="widgets"
+                                                ></v-checkbox>
+                                            </v-list-tile-action>
+
+                                            <v-list-tile-content @click.prevent="widgets = !widgets">
+                                                <v-list-tile-title>Auto-add widgets</v-list-tile-title>
+                                                <v-list-tile-sub-title>Automatically add home screen widgets</v-list-tile-sub-title>
+                                            </v-list-tile-content>
+                                        </v-list-tile>
+                                    </v-list>
+                                </v-card-text>
+                                <v-divider></v-divider>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="primary" flat @click="dialog = false">I accept
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                     </v-card-actions>
                 </v-card>
             </v-flex>

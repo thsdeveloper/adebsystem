@@ -86,6 +86,9 @@
                 // Fetch the user.
                 await this.$store.dispatch('auth/fetchUser');
 
+                // Busca as permissões do usuario logado
+                await this.$store.dispatch('auth/permissions');
+
                 // Redirect home.
                 this.$router.push({ name: 'home' })
             }

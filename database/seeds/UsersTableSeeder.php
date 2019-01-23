@@ -47,7 +47,7 @@ class UsersTableSeeder extends Seeder
             'sex' => "Masculino",
             'profession' => "Analista de Sistemas",
         ]);
-        $this->command->info('User ADMIN ths.pereira@gmail.com created');
+        $this->command->info('[Usuário Admin] adicionado com sucesso ao banco!');
     }
 
     private function createUsers()
@@ -59,7 +59,7 @@ class UsersTableSeeder extends Seeder
             // attach random roles to user
             $this->attachRoles($user);
         endfor;
-        $this->command->info($max . ' usuários foram criados!');
+        $this->command->info('[Usuários] adicionado com sucesso ao banco!');
     }
     private function createUser()
     {

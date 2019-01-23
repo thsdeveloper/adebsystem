@@ -25,6 +25,11 @@ class DatabaseSeeder extends Seeder
             $this->call(SchoolingsTableSeeder::class);
             $this->call(UsersTableSeeder::class);
             $this->call(PostsTableSeeder::class);
+            $this->call(ProfessionsTableSeeder::class);
+            $this->call(RegionsTableSeeder::class);
+            $this->call(StatesTableSeeder::class);
+            $this->call(CitiesTableSeeder::class);
+            $this->call(NeighborhoodsTableSeeder::class);
         endif;
 
         if(app()->environment('production')):

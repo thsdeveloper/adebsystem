@@ -7,7 +7,8 @@ export const state = {
     user: null,
     users: null,
     token: Cookies.get('token'),
-    drawer: null
+    drawer: null,
+    permissions: null
 };
 
 // getters
@@ -16,7 +17,8 @@ export const getters = {
     users: state => state.users,
     token: state => state.token,
     check: state => state.user !== null,
-    drawer: state => state.drawer
+    drawer: state => state.drawer,
+    permissions: state => state.permissions
 };
 
 // mutations
@@ -52,6 +54,10 @@ export const mutations = {
 
     [types.UPDATE_USER] (state, { user }) {
         state.user = user
+    },
+
+    [types.PERMISSIONS] (state, { permissions }) {
+        state.permissions = permissions
     }
 };
 
@@ -81,6 +87,15 @@ export const actions = {
         }
     },
 
+    async permissions({commit}){
+        try {
+            const { data } = await axios.get('/api/get-permissions');
+            commit(types.PERMISSIONS, { permissions: data });
+        } catch (e) {
+            // commit(types.FETCH_USER_FAILURE)
+        }
+    },
+
     updateUser ({ commit }, payload) {
         commit(types.UPDATE_USER, payload)
     },
@@ -98,7 +113,7 @@ export const actions = {
     },
 
     async fetchOauthUrl (ctx, { provider }) {
-        const { data } = await axios.post(`/api/oauth/${provider}`)
+        const { data } = await axios.post(`/api/oauth/${provider}`);
 
         return data.url
     }

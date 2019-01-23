@@ -16,25 +16,27 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
 
-    Route::group(['middleware' => ['role:admin']], function () {
-        Route::get('/user', 'UserController@getUser');
+    //users
+    Route::get('/user', 'UserController@getUser');
+    Route::get('/get-permissions', 'UserController@getPermission');
+    Route::get('/users', 'UserController@index');
+    Route::get('/userFind', 'UserController@userFind');
 
-        Route::get('/users', 'UserController@index');
-        Route::get('/userFind', 'UserController@userFind');
+    //Posts
+    Route::get('/posts', 'PostController@getAll');
+    Route::post('/post/create', 'PostController@store');
 
-        //Posts
-        Route::get('/posts', 'PostController@getAll');
-        Route::post('/post/create', 'PostController@store');
+    //Notifications
+    Route::get('/notifications', 'NotificationController@notifications');
+    Route::put('/notification-read', 'NotificationController@markAsRead');
+    Route::put('/notification-all-read', 'NotificationController@markAllAsRead');
 
-        //Notifications
-        Route::get('/notifications', 'NotificationController@notifications');
-        Route::put('/notification-read', 'NotificationController@markAsRead');
-        Route::put('/notification-all-read', 'NotificationController@markAllAsRead');
+    //Settings
+    Route::patch('settings/profile', 'Settings\ProfileController@update');
+    Route::patch('settings/password', 'Settings\PasswordController@update');
 
-
-        Route::patch('settings/profile', 'Settings\ProfileController@update');
-        Route::patch('settings/password', 'Settings\PasswordController@update');
-    });
+    //Members
+    Route::get('/professions', 'UserController@getProfessions');
 
 
 });

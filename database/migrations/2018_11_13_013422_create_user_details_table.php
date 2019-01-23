@@ -34,6 +34,7 @@ class CreateUserDetailsTable extends Migration
             $table->string('rg', 50)->comment('Registro Geral do Usuário - RG');
             $table->string('sex')->comment('Sexo do Usuário');
             $table->string('profession')->nullable()->comment('Profissão do usuário');
+            $table->char('phone', 11)->nullable()->comment('Telefone de contato do usuário');
         });
     }
 

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profession;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -16,7 +18,19 @@ class UserController extends Controller
         return $request->user();
     }
 
+    public function getPermission(){
+      return Auth::user()->getRoleNames();
+    }
+
     public function userFind(Request $request){
         $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse')->get();
     }
+
+    public function getProfessions(){
+        $professions = Profession::all();
+        return response()->json($professions);
+
+    }
+
+
 }
