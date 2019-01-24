@@ -20,9 +20,9 @@
             return { title: this.$t('home') }
         },
         methods: {
-            fetchPosts(){
-                this.$store.dispatch('toolbar/tabsVisible', {tabsVisible: false});
-            },
+            // fetchPosts(){
+            //     this.$store.dispatch('toolbar/tabsVisible', {tabsVisible: false});
+            // },
         },
     }
 </script>

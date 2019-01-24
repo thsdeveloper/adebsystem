@@ -1,19 +1,24 @@
 <template>
     <v-dialog v-model="modalCreateMember" width="800">
         <v-btn slot="activator" dark fab fixed bottom right color="purple"><v-icon>add</v-icon></v-btn>
-
         <v-card>
-            <v-card>
-                <v-card-title class="headline purple lighten-2" primary-title>
-                    <v-flex white--text>
-                        Novo membro
-                    </v-flex>
-                </v-card-title>
-                <v-card-text>
-                    <v-container grid-list-md>
-                        <v-layout wrap>
+            <v-card-title class="headline purple lighten-2" primary-title>
+                <v-flex white--text>
+                    Novo membro
+                </v-flex>
+            </v-card-title>
+            <v-card-text>
+                <v-container grid-list-md text-xs-center>
+                    <v-form ref="form" v-model="valid" lazy-validation>
+                        <v-layout row wrap>
+                            <v-flex xs12 sm6 md8>
+                                <v-text-field v-model="form.name" label="Nome completo" :rules="nameRules" :counter="255" required></v-text-field>
+                            </v-flex>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field v-model="form.name" label="Nome completo" required></v-text-field>
+                                <v-text-field v-model="form.cpf" :mask="maskCPF" label="CPF*" required></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-text-field v-model="form.rg" label="RG*" required></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
                                 <v-text-field v-model="form.email" label="Email" hint="Email válido para verificação"></v-text-field>
@@ -35,42 +40,45 @@
                                 <v-text-field v-model="form.dad_name" label="Nome do Pai"></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field v-model="form.cpf" label="CPF*" required></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field v-model="form.rg" label="RG*" required></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm6 md4>
                                 <v-select  v-model="form.sex" :items="['Masculino', 'Feminino']" label="Sexo*" required></v-select>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
                                 <auto-complete-profession @click="professionSelected"/>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
-                                <auto-complete-profession @click="professionSelected"/>
+                                <v-text-field v-model="form.phone" :mask="maskPhone" label="Telefone celular"></v-text-field>
                             </v-flex>
                         </v-layout>
-                    </v-container>
-                    <small>*indicates required field</small>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click="modalCreateMember = false">Close</v-btn>
-                    <v-btn color="blue darken-1" flat @click="modalCreateMember = false">Save</v-btn>
-                </v-card-actions>
-            </v-card>
+                        <session-endereco/>
+                    </v-form>
+                </v-container>
+            </v-card-text>
+            <v-card-actions>
+                <v-btn color="blue darken-1" flat @click="reset">Limpar</v-btn>
+                <v-btn color="success" flat :disabled="!valid"  @click="validate">Salvar</v-btn>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
 
 <script>
     import AutoCompleteProfession from "./AutoCompleteProfession";
+    import SessionEndereco from "./SessionEndereco";
     export default {
         name: "createMember",
-        components: {AutoCompleteProfession},
+        components: {SessionEndereco, AutoCompleteProfession},
         data: () => ({
             modalCreateMember: false,
             modalDateBirth: false,
+            maskCPF: '###.###.###-##',
+            maskPhone: '(##) # ####-####',
+            valid: false,
+
+            nameRules: [
+                v => !!v || 'Nome é obrigatório',
+                v => (v && v.length <= 255) || 'O nome deve ter menos de 255 caracteres'
+            ],
+
             form:{
                 name: null,
                 email: null,
@@ -81,11 +89,22 @@
                 rg: null,
                 sex: null,
                 profession: null,
+                phone: null
             },
         }),
         methods:{
             professionSelected(id){
                 this.form.profession = id;
+            },
+
+            validate () {
+                if (this.$refs.form.validate()) {
+                    alert('validou');
+                }
+            },
+
+            reset () {
+                this.$refs.form.reset()
             },
         },
 

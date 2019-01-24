@@ -38,7 +38,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     //Members
     Route::get('/professions', 'UserController@getProfessions');
 
-
+    //Address
+    Route::get('/states', 'AddressController@getStates');
+    Route::get('/states/{id}/cities', 'AddressController@getCities');
+    Route::get('/neighborhoods/{id}', 'AddressController@getNeighborhoods');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
