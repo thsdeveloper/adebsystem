@@ -41,7 +41,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Send the response after the user was authenticated.
+     * Envie a resposta depois que o usuário foi autenticado.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

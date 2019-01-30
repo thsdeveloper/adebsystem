@@ -16,6 +16,7 @@ class PostsTableSeeder extends Seeder
     {
         $this->faker = FactoryFaker::create('pt_BR');
         factory('App\Post', 10)->create();
+        $this->command->info('[Posts] adicionado com sucesso ao banco!');
     }
 
 

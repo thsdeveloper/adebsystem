@@ -12,10 +12,6 @@
                 <child animate-in="fadeIn"></child>
             </v-container>
         </v-content>
-        <v-footer class="pa-3 text-xs-center">
-            <v-spacer></v-spacer>
-            <div>&copy; Todos os direitos reservados {{ new Date().getFullYear() }}</div>
-        </v-footer>
     </v-app>
 </template>
 

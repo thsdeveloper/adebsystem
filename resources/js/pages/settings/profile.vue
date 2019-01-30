@@ -1,40 +1,92 @@
 <template>
     <div>
-        <v-card>
-            <v-img class="white--text" height="100px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
-                <v-container fill-height fluid>
-                    <v-layout fill-height>
-                        <v-flex xs12 align-end flexbox>
-                            <span class="headline">Olá, {{form.name}}</span>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-            </v-img>
-            <v-card-title>
-                <div>
-                    <vcl-facebook :width="600"></vcl-facebook>
-                    <card :title="$t('your_info')">
-                        <form @submit.prevent="update" @keydown="form.onKeydown($event)">
-                            <alert-success :form="form" :message="$t('info_updated')"/>
 
-                                <label class="col-md-3 col-form-label text-md-right">{{ $t('name') }}</label>
-                                    <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control" type="text" name="name">
-                                    <has-error :form="form" field="name"/>
-                                <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
-                                    <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
-                                    <has-error :form="form" field="email" />
-
-                            <!-- Submit Button -->
-                                    <v-button :loading="form.busy" type="success">{{ $t('update') }}</v-button>
-                        </form>
-                    </card>
-                </div>
-            </v-card-title>
-            <v-card-actions>
-                <v-btn flat color="orange">Share</v-btn>
-                <v-btn flat color="orange">Explore</v-btn>
-            </v-card-actions>
-        </v-card>
+        <v-flex xs12 sm12 md12 align-center justify-center layout text-xs-center>
+            <v-avatar :size="96" color="grey lighten-4">
+                <img :src="user.photo_url" :alt="user.name">
+                <!--<img src="https://vuetifyjs.com/apple-touch-icon-180x180.png" alt="avatar">-->
+            </v-avatar>
+        </v-flex>
+        <v-flex xs12 sm12 md12 align-center justify-center layout text-xs-center>
+            <p class="display-1">{{$t('hello')}}, {{form.name}}</p>
+        </v-flex>
+        <v-flex xs12 sm12 md12 align-center justify-center layout text-xs-center>
+            <p class="subheading">Gerencie suas informações, privacidade e segurança para que o AdebSystem atenda suas necessidades</p>
+        </v-flex>
+        <v-layout row wrap>
+        <v-flex xs12 sm12 md6 d-flex child-flex>
+            <v-card>
+                <v-layout row>
+                    <v-flex xs7>
+                        <v-card-title primary-title>
+                            <div>
+                                <div class="headline">Revise suas configurações de privacidade</div>
+                                <div>Faça o Check-up de privacidade, um guia passo a passo que ajuda você a escolher suas configurações de privacidade</div>
+                            </div>
+                        </v-card-title>
+                    </v-flex>
+                    <v-flex align-self-center>
+                        <v-img src="https://www.gstatic.com/identity/boq/accountsettingsmobile/privacycheckup_initial_192x192_dbd02aee16e8b81162402f71f0960a84.png" height="125px" contain></v-img>
+                    </v-flex>
+                </v-layout>
+                <v-divider light></v-divider>
+                <v-card-actions class="pa-3">
+                    <v-dialog v-model="dialogUpdateInfo" persistent max-width="600px">
+                        <v-btn slot="activator" flat>{{ $t('update') }}</v-btn>
+                        <v-card>
+                            <form @submit.prevent="update" @keydown="form.onKeydown($event)">
+                                <v-card-title>
+                                    <span class="headline">Informações pessoais</span>
+                                    <p class="subheading">Informações básicas, como seu nome e foto, usadas nos serviços do AdebSystem</p>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-container grid-list-md>
+                                        <v-layout wrap>
+                                            <alert-success :form="form" :message="$t('info_updated')"/>
+                                            <v-flex xs12 sm12 md12>
+                                                <v-text-field :label="$t('name')" required v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" name="name"></v-text-field>
+                                                <has-error :form="form" field="name"/>
+                                            </v-flex>
+                                            <v-flex xs12 sm12 md12>
+                                                <v-text-field :label="$t('email')" required v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" name="email"></v-text-field>
+                                                <has-error :form="form" field="name"/>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>
+                                    <small>*Só você pode ver suas configurações. O AdebSystem tem o compromisso de proteger sua privacidade e segurança. </small>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="blue darken-1" flat @click="dialogUpdateInfo = false">{{ $t('close') }}</v-btn>
+                                    <v-btn color="blue darken-1" flat type="submit">{{ $t('update') }}</v-btn>
+                                </v-card-actions>
+                            </form>
+                        </v-card>
+                    </v-dialog>
+                </v-card-actions>
+            </v-card>
+        </v-flex>
+        <v-flex xs12 sm12 md6 d-flex child-flex>
+            <v-card>
+                <v-layout row>
+                    <v-flex xs7>
+                        <v-card-title primary-title>
+                            <div>
+                                <div class="headline">Mantemos sua conta protegida</div>
+                                <div>A Verificação de segurança fornece recomendações personalizadas para proteger sua conta</div>
+                            </div>
+                        </v-card-title>
+                    </v-flex>
+                    <v-flex align-self-center>
+                        <v-img src="https://www.gstatic.com/identity/boq/accountsettingsmobile/securitycheckup_green_192x192_e145b25a9fc9355958e01c3b1357b7c2.png" height="125px" contain></v-img>
+                    </v-flex>
+                </v-layout>
+                <v-card-actions class="pa-3">
+                    <v-btn slot="activator" flat to="/settings/password">{{ $t('change_password') }}</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-flex>
+        </v-layout>
     </div>
 </template>
 
@@ -45,8 +97,6 @@
 
     export default {
         components: {
-            VclFacebook,
-            VclInstagram,
             VueContentLoading
         },
         scrollToTop: false,
@@ -59,7 +109,9 @@
             form: new Form({
                 name: '',
                 email: ''
-            })
+            }),
+
+            dialogUpdateInfo: false,
         }),
 
         computed:{

@@ -1,25 +1,27 @@
-const Welcome = () => import('~/pages/welcome').then(m => m.default || m)
-const Login = () => import('~/pages/auth/login').then(m => m.default || m)
-const Register = () => import('~/pages/auth/register').then(m => m.default || m)
-const PasswordEmail = () => import('~/pages/auth/password/email').then(m => m.default || m)
-const PasswordReset = () => import('~/pages/auth/password/reset').then(m => m.default || m)
-const NotFound = () => import('~/pages/errors/404').then(m => m.default || m)
-const NotPermision = () => import('~/pages/errors/notPermission').then(m => m.default || m)
+const Welcome = () => import('~/pages/welcome').then(m => m.default || m);
+const Login = () => import('~/pages/auth/login').then(m => m.default || m);
+const Register = () => import('~/pages/auth/register').then(m => m.default || m);
+const PasswordEmail = () => import('~/pages/auth/password/email').then(m => m.default || m);
+const PasswordReset = () => import('~/pages/auth/password/reset').then(m => m.default || m);
+const NotFound = () => import('~/pages/errors/404').then(m => m.default || m);
+const NotPermision = () => import('~/pages/errors/notPermission').then(m => m.default || m);
 
 //Membros
-const Members = () => import('~/pages/members/index').then(m => m.default || m)
-const MembersAll = () => import('~/pages/members/membersAll').then(m => m.default || m)
-const MembersDetail = () => import('~/pages/members/membersDetail').then(m => m.default || m)
+const Members = () => import('~/pages/members/index').then(m => m.default || m);
+const MembersAll = () => import('~/pages/members/membersAll').then(m => m.default || m);
+const MembersDetail = () => import('~/pages/members/membersDetail').then(m => m.default || m);
+const MembersCreated = () => import('~/pages/members/membersCreated').then(m => m.default || m);
 
 //Calendar
-const Calendar = () => import('~/pages/calendar/index').then(m => m.default || m)
+const Calendar = () => import('~/pages/calendar/index').then(m => m.default || m);
 
 
 
-const Home = () => import('~/pages/home').then(m => m.default || m)
-const Settings = () => import('~/pages/settings/index').then(m => m.default || m)
-const SettingsProfile = () => import('~/pages/settings/profile').then(m => m.default || m)
-const SettingsPassword = () => import('~/pages/settings/password').then(m => m.default || m)
+const Home = () => import('~/pages/home').then(m => m.default || m);
+const Settings = () => import('~/pages/settings/index').then(m => m.default || m);
+const SettingsProfile = () => import('~/pages/settings/profile').then(m => m.default || m);
+const SettingsChurch = () => import('~/pages/settings/church').then(m => m.default || m);
+const SettingsPassword = () => import('~/pages/settings/password').then(m => m.default || m);
 
 export default [
     { path: '/', name: 'welcome', component: Welcome },
@@ -35,6 +37,7 @@ export default [
             { path: '', redirect: { name: 'members.all' } },
             { path: 'all', name: 'members.all', component: MembersAll },
             { path: 'detail', name: 'members.detail', component: MembersDetail },
+            { path: 'created', name: 'members.created', component: MembersCreated },
         ]
     },
 
@@ -46,6 +49,7 @@ export default [
         children: [
             { path: '', redirect: { name: 'settings.profile' } },
             { path: 'profile', name: 'settings.profile', component: SettingsProfile },
+            { path: 'church', name: 'settings.church', component: SettingsChurch },
             { path: 'password', name: 'settings.password', component: SettingsPassword }
         ]
     },

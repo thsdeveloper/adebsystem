@@ -23,7 +23,7 @@
                 </v-flex>
 
                 <v-flex>
-                    <v-text-field v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" name="password_confirmation" :label="$t('password_confirmation')" type="password"></v-text-field>
+                    <v-text-field v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" name="password_confirmation" :label="$t('confirm_password')" type="password"></v-text-field>
                     <has-error :form="form" field="password_confirmation"/>
                 </v-flex>
 

@@ -17,5 +17,6 @@ class SchoolingsTableSeeder extends Seeder
             'description' => 'Uma descrição para o campo de superior',
             'status' => 1,
         ]);
+        $this->command->info('[Escolaridade] adicionado com sucesso ao banco!');
     }
 }
