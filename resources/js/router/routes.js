@@ -10,6 +10,7 @@ const NotPermision = () => import('~/pages/errors/notPermission').then(m => m.de
 const Members = () => import('~/pages/members/index').then(m => m.default || m);
 const MembersAll = () => import('~/pages/members/membersAll').then(m => m.default || m);
 const MembersDetail = () => import('~/pages/members/membersDetail').then(m => m.default || m);
+const MembersCreated = () => import('~/pages/members/membersCreated').then(m => m.default || m);
 
 //Calendar
 const Calendar = () => import('~/pages/calendar/index').then(m => m.default || m);
@@ -36,6 +37,7 @@ export default [
             { path: '', redirect: { name: 'members.all' } },
             { path: 'all', name: 'members.all', component: MembersAll },
             { path: 'detail', name: 'members.detail', component: MembersDetail },
+            { path: 'created', name: 'members.created', component: MembersCreated },
         ]
     },
 

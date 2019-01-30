@@ -21,7 +21,6 @@ class StatesTableSeeder extends Seeder
                     'code_uf'  => $item->CodigoUf,
                     'name'  => $item->Nome,
                     'uf'  => $item->Uf,
-                    'region_id' => $item->Regiao
                 ]
             ]);
         }

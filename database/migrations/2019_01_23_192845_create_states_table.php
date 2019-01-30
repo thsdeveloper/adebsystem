@@ -18,8 +18,6 @@ class CreateStatesTable extends Migration
             $table->integer('code_uf');
             $table->string('name', 100);
             $table->char('uf', 2);
-            $table->integer('region_id');
-            $table->foreign('region_id')->references('id')->on('regions');
         });
     }
 

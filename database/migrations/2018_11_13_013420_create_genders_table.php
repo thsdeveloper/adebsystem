@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNeighborhoodsTable extends Migration
+class CreateGendersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateNeighborhoodsTable extends Migration
      */
     public function up()
     {
-        Schema::create('neighborhoods', function (Blueprint $table) {
+        Schema::create('genders', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('code', 150);
-            $table->string('name', 200);
-            $table->char('uf', 2);
+            $table->string('name', 100);
+            $table->timestamps();
         });
     }
 
@@ -28,6 +27,6 @@ class CreateNeighborhoodsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('neighborhoods');
+        Schema::dropIfExists('genders');
     }
 }

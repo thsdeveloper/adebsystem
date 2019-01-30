@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-flex v-for="(post, index) in posts" :key="post.id" color="primary" small xs12 sm12 md12>
+        <v-flex v-for="(post, index) in posts" :key="post.id" color="primary">
             <v-card class="elevation-1">
                 <v-card-title class="title-card-posts">
                     <v-avatar size="32px">
@@ -25,8 +25,8 @@
                     </v-tooltip>
                 </v-card-actions>
             </v-card>
+            <create-post/>
         </v-flex>
-        <create-post/>
     </div>
 </template>
 

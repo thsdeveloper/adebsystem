@@ -8,8 +8,8 @@
                             Membros
                         </v-subheader>
 
-                        <div v-for="user in users.data">
-                            <v-list-tile avatar :to="{ name: 'members.detail', params: { userId: user.id }}">
+                        <div v-for="user in users">
+                            <v-list-tile avatar @click="buscaMember(user)">
                                 <v-list-tile-avatar>
                                     <img :src="user.photo_url">
                                 </v-list-tile-avatar>
@@ -48,22 +48,20 @@
             </v-flex>
         </v-layout>
         <v-layout row justify-center>
-            <create-member></create-member>
+            <v-btn dark fab fixed bottom right color="purple" to="created"><v-icon>add</v-icon></v-btn>
         </v-layout>
     </div>
 </template>
 
 <script>
     import {mapGetters} from 'vuex';
-    import CreateMember from "../../components/createMember";
     export default {
         name: 'MembersAll',
-        components: {CreateMember},
-        middleware: ['auth'],
+        middleware: ['auth', 'admin'],
         methods:{
-            clickUser(index, item){
-                console.log('Index:', index);
-                console.log('Item:', item)
+            buscaMember(user){
+                console.log('user:', user);
+                this.$store.dispatch('member/fetchMember', user.id)
             },
             fetchUsers(){
                 this.$store.dispatch('auth/fetchUsers');

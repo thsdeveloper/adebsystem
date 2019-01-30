@@ -19,11 +19,6 @@ class AddressController extends Controller
         return response()->json($states);
     }
 
-    public function getNeighborhoods($ufBairro){
-        $neighborhoods = Neighborhood::where('uf', $ufBairro)->get();
-        return response()->json($neighborhoods);
-    }
-
 
 
 

@@ -16,6 +16,12 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
 
+//    Route::prefix('user')->group(function () {
+//        Route::get('/', function () {
+//            // Matches The "/admin/users" URL
+//        });
+//    });
+
     //users
     Route::get('/user', 'UserController@getUser');
     Route::get('/get-permissions', 'UserController@getPermission');
@@ -37,11 +43,20 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     //Members
     Route::get('/professions', 'UserController@getProfessions');
+    Route::get('/member/detail/{id}', 'UserController@getMemberId');
+    Route::get('/member/marital-status', 'UserController@getMaritalStatus');
+    Route::get('/member/trusts', 'UserController@getTrusts');
+    Route::post('/member/store', 'UserController@store');
+    Route::get('/member/genders', 'UserController@getGenders');
+    Route::get('/member/schoolings', 'UserController@getSchoolings');
 
     //Address
     Route::get('/states', 'AddressController@getStates');
     Route::get('/states/{id}/cities', 'AddressController@getCities');
-    Route::get('/neighborhoods/{id}', 'AddressController@getNeighborhoods');
+
+    //Deppartments
+    Route::get('/departments', 'DepartmentsController@getAll');
+
 });
 
 Route::group(['middleware' => 'guest:api'], function () {

@@ -1,8 +1,5 @@
 <template>
     <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="blue accent-4" dark app fixed>
-        <v-tabs slot="extension" v-if="tabsVisible" color="blue accent-4" slider-color="yellow" centered>
-            <v-tab v-for="i in menusTabs" :key="i" :to="i">{{ i }}</v-tab>
-        </v-tabs>
         <v-toolbar-title style="width: 300px">
             <v-toolbar-side-icon @click.native.stop="toggleDrawer"></v-toolbar-side-icon>
             <span class="hidden-sm-and-down">AdebSystem</span>
@@ -65,7 +62,6 @@
         computed: {
             ...mapGetters({
                 user: 'auth/user',
-                tabsVisible: 'toolbar/tabsVisible',
                 menusTabs: 'toolbar/menusTabs'
             }),
         },
