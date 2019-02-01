@@ -54,7 +54,7 @@ class UsersTableSeeder extends Seeder
             'cpf' => $this->faker->cpf(false),
             'rg' => $this->faker->rg,
             'gender_id' => 1,
-            'profession' => "Analista de Sistemas",
+            'profession_id' => 35,
         ]);
         Role::create(['name' => 'member']);
         $this->command->info('[Usuário Admin] adicionado com sucesso ao banco!');
@@ -95,7 +95,7 @@ class UsersTableSeeder extends Seeder
                 'cpf' => $this->faker->cpf(false),
                 'rg' => $this->faker->rg,
                 'gender_id' => 1,
-                'profession' => "Empresario",
+                'profession_id' => 140,
             ]);
             $user->assignRole('member');
         endif;
