@@ -23,27 +23,48 @@
                         </v-flex>
                         <v-flex xs12 sm6 md4>
                             <v-menu ref="menuBirthday" :close-on-content-click="false" v-model="menuBirthday" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px">
-                                <v-text-field slot="activator" v-model="form.date_birth" label="Data de nascimento" readonly></v-text-field>
+                                <v-text-field slot="activator" v-model="form.date_birth" :rules="dateBirthRules" label="Data de nascimento" readonly></v-text-field>
                                 <v-date-picker ref="picker" locale="pt-br" v-model="form.date_birth" :max="new Date().toISOString().substr(0, 10)" min="1950-01-01" @change="saveBirthday"></v-date-picker>
                             </v-menu>
-                        </v-flex>
-                        <v-flex xs12 sm6 md6>
-                            <v-text-field v-model="form.mother_name" label="Nome da Mãe"></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm6 md6>
-                            <v-text-field v-model="form.dad_name" label="Nome do Pai"></v-text-field>
                         </v-flex>
                         <v-flex xs12 sm6 md4>
                             <v-select  v-model="form.gender" :rules="genderRules" :items="genders" label="Sexo*" item-text="name" item-value="id" required></v-select>
                         </v-flex>
                         <v-flex xs12 sm6 md4>
-                            <auto-complete-profession @click="professionSelected"/>
+                            <v-autocomplete v-model="form.profession" :items="professions" :rules="professionRules" label="Profissão" item-text="name"
+                                            item-value="id" deletable-chips hint="Selecione a profissão do membro"
+                                            no-data-text="Não encontramos esta profissão!"></v-autocomplete>
                         </v-flex>
                         <v-flex xs12 sm6 md4>
                             <v-text-field v-model="form.phone" :rules="telefoneRules" :mask="maskPhone" label="Telefone celular"></v-text-field>
                         </v-flex>
                     </v-layout>
-                    <session-enderecos @click="changeAddress"/>
+                    <v-layout row wrap>
+                        <v-flex xs6 sm6 md4>
+                            <v-text-field v-model="form.cep" :mask="maskCep" label="CEP" @change="buscaCEP"></v-text-field>
+                        </v-flex>
+                        <v-flex xs6 sm6 md4>
+                            <v-select v-model="form.uf" :items="states" :rules="stateRules" label="Estado" item-text="name"
+                                      item-value="uf" hint="Selecione o estado do usuário" @change="buscaUf"
+                                      no-data-text="Não encontramos este estado!">
+                            </v-select>
+                        </v-flex>
+                        <v-flex xs12 sm6 md4>
+                            <v-autocomplete v-model="form.cidade" :items="cities" :rules="cidadeRules" label="Cidade" item-text="name"
+                                            item-value="name" deletable-chips hint="Selecione a cidade do usuário"
+                                            no-data-text="Não encontramos a cidade!"></v-autocomplete>
+                        </v-flex>
+                        <v-flex xs12 sm6 md4>
+                            <v-text-field v-model="form.bairro" :rules="bairroRules" label="Bairro"></v-text-field>
+                        </v-flex>
+                        <v-flex xs12 sm6 md6>
+                            <v-text-field v-model="form.address" :rules="addressRules" label="Endereço"></v-text-field>
+                        </v-flex>
+                        <v-flex xs12 sm6 md2>
+                            <v-text-field v-model="form.numero" label="Número" :rules="numeroRules" mask="######" placeholder="Ex. 38"></v-text-field>
+                        </v-flex>
+                    </v-layout>
+                    <!--<session-enderecos @click="changeAddress"/>-->
                     <v-layout row wrap>
                         <v-flex xs12 sm6>
                             <v-select v-model="form.departments" :items="departments" :rules="departmentsRules" attach chips label="Departamentos do membro" multiple item-text="name" item-value="id"></v-select>
@@ -61,12 +82,12 @@
                             </v-menu>
                         </v-flex>
                         <v-flex xs12 sm6 md4>
-                            <v-select v-model="form.schooling" :items="schoolings" label="Escolaridade" item-text="name" item-value="id"></v-select>
+                            <v-select v-model="form.schooling" :items="schoolings" :rules="escolaridadeRules" label="Escolaridade" item-text="name" item-value="id"></v-select>
                         </v-flex>
                     </v-layout>
                     <v-layout>
                         <v-flex>
-                            <v-btn color="blue" @click="reset">Limpar</v-btn>
+                            <v-btn color="info" @click="reset">Limpar</v-btn>
                             <v-btn color="success" :disabled="!valid"  @click="salvaMembro">Salvar</v-btn>
                         </v-flex>
                     </v-layout>
@@ -84,7 +105,8 @@
     import moment from 'moment'
     import SessionEnderecos from "../../components/SessionEndereco";
     import AutoCompleteProfession from "../../components/AutoCompleteProfession";
-
+    import axios from 'axios'
+    import swal from 'sweetalert2'
     export default {
         name: "MemberCreated",
         components: {AutoCompleteProfession, SessionEnderecos},
@@ -94,6 +116,7 @@
             modalDateConversion: false,
             maskCPF: '###.###.###-##',
             maskPhone: '(##) # ####-####',
+            maskCep: '#####-###',
             valid: false,
             menuBirthday: false,
             menuConversion: false,
@@ -130,25 +153,48 @@
             maritalStatusRules:[
                 v => !!v || 'Estado Civil é obrigatório',
             ],
+            dateBirthRules:[
+                v => !!v || 'Data de nascimento é obrigatório',
+            ],
+            stateRules:[
+                v => !!v || 'Estado é obrigatório',
+            ],
+            cidadeRules:[
+                v => !!v || 'Cidade é obrigatório',
+            ],
+            bairroRules:[
+                v => !!v || 'Bairro é obrigatório',
+            ],
+            addressRules:[
+                v => !!v || 'Endereço é obrigatório',
+            ],
+            numeroRules:[
+                v => !!v || 'Número da casa/apartamento é obrigatório',
+            ],
+            escolaridadeRules:[
+                v => !!v || 'Escolaridade é obrigatório',
+            ],
+            professionRules:[
+                v => !!v || 'Profissão é obrigatório',
+            ],
 
             form:{
                 name: null,
                 email: null,
                 date_birth: null,
-                mother_name: null,
-                dad_name: null,
                 cpf: null,
                 rg: null,
                 gender: null,
                 profession: null,
                 phone: null,
+                uf: null,
+                cidade: null,
+                bairro: null,
                 cep: null,
-                state: null,
-                city: null,
                 address: null,
-                number: null,
-                neighborhood: null,
+                numero: null,
                 departments: null,
+                trusts: null,
                 marital_status: null,
                 date_conversion: null,
                 schooling: null,
@@ -163,26 +209,52 @@
             }
         },
         methods:{
+            fetchStates(){
+                this.$store.dispatch('member/fetchStates');
+            },
+            buscaUf(){
+                this.$store.dispatch('member/fetchCities', this.form.uf);
+            },
+            buscaCEP(){
+                var _this = this;
+                // Make a request for a user with a given ID
+                if(this.form.cep.length === 8){
+                    axios.get('https://viacep.com.br/ws/'+_this.form.cep+'/json/')
+                        .then(function (res) {
+                            if(res.data.erro === true){
+                                swal.fire(
+                                    'CEP inválido',
+                                    'Por favor, preencha o endereço completo ou insira um novo CEP.',
+                                    'question')
+                            }else {
+                                _this.form.bairro = res.data.bairro;
+                                _this.form.address = res.data.logradouro;
+                                _this.form.uf = res.data.uf;
+                                _this.form.cidade = res.data.localidade;
+                            }
+                        }).catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    });
+                }
+            },
             saveBirthday (date) {
                 this.$refs.menuBirthday.save(date)
             },
             saveConversion (date) {
                 this.$refs.menuConversion.save(date)
             },
-            professionSelected(id){
-                this.form.profession = id;
-            },
             computedDateFormattedMomentjs () {
                 return this.date ? moment(this.date).format('dddd, MMMM Do YYYY') : ''
             },
-            changeAddress(form){
-                this.form.cep = form.cep;
-                this.form.state = form.uf;
-                this.form.city = form.cidade;
-                this.form.address = form.address;
-                this.form.neighborhood = form.bairro;
-                this.form.number = form.numero;
-            },
+            // changeAddress(form){
+            //     this.form.cep = form.cep;
+            //     this.form.state = form.uf;
+            //     this.form.city = form.cidade;
+            //     this.form.address = form.address;
+            //     this.form.neighborhood = form.bairro;
+            //     this.form.number = form.numero;
+            // },
             salvaMembro () {
                 if (this.$refs.form.validate()) {
                     this.$store.dispatch('member/saveMember', this.form);
@@ -207,6 +279,9 @@
             fetchSchoolings(){
                 this.$store.dispatch('member/fetchSchoolings');
             },
+            fetchProfessions(){
+                this.$store.dispatch('member/fetchProfessions');
+            },
         },
         computed: {
             ...mapGetters({
@@ -215,6 +290,9 @@
                 trusts: 'member/trusts',
                 genders: 'member/genders',
                 schoolings: 'member/schoolings',
+                states: 'member/states',
+                cities: 'member/cities',
+                professions: 'member/professions'
             }),
         },
         mounted(){
@@ -223,10 +301,15 @@
             this.fetchTrusts();
             this.fetchGenders();
             this.fetchSchoolings();
+            this.fetchStates();
+            this.fetchProfessions();
         },
     }
 </script>
 
 <style scoped>
-
+    .v-btn--floating .v-icon {
+        height: auto!important;
+        width: auto!important;
+    }
 </style>

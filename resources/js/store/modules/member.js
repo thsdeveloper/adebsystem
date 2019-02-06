@@ -96,14 +96,14 @@ export const actions = {
         }
     },
 
-    async buscaMembroDetail({commit}, idUser) {
-        try {
-            const {data} = await axios.get('/api/member/detail/'+idUser);
-            commit(types.FETCH_MEMBER_DETAIL, { memberDetail: data })
-        }catch (e) {
-            alert('Ocorreu um erro na busca do membro')
-        }
-    },
+    // async buscaMembroDetail({commit}, idUser) {
+    //     try {
+    //         const {data} = await axios.get('/api/member/detail/'+idUser);
+    //         commit(types.FETCH_MEMBER_DETAIL, { memberDetail: data })
+    //     }catch (e) {
+    //         alert('Ocorreu um erro na busca do membro')
+    //     }
+    // },
 
     async fetchMaritalStatus({commit}) {
         try {
@@ -124,13 +124,12 @@ export const actions = {
     },
 
     async fetchMember({commit}, id) {
-        console.warn(id);
         try {
-            const {data} = await axios.get('/api/member/detail/', id);
-            console.log('o que temos?', data);
-            // commit(types.FETCH_TRUSTS, { trusts: data })
+            const {data} = await axios.get('/api/member/detail/'+id);
+            if(data){
+                commit(types.FETCH_MEMBER_DETAIL, { memberDetail: data })
+            }
         }catch (e) {
-            alert('Ocorreu um erro na busca do funções');
         }
     },
 

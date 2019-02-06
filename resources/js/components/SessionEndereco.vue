@@ -1,30 +1,6 @@
 <template>
     <div>
-        <v-layout row wrap>
-            <v-flex xs6 sm6 md4>
-                <v-text-field v-model="form.cep" :mask="maskCep" label="CEP" @change="buscaCEP"></v-text-field>
-            </v-flex>
-            <v-flex xs6 sm6 md4>
-                <v-select v-model="form.uf" :items="states" label="Estado" item-text="name"
-                          item-value="uf" hint="Selecione o estado do usuário" @change="buscaUf"
-                          no-data-text="Não encontramos este estado!">
-                </v-select>
-            </v-flex>
-            <v-flex xs12 sm6 md4>
-                <v-autocomplete v-model="form.cidade" :items="cities" label="Cidade" item-text="name"
-                                item-value="name" deletable-chips hint="Selecione a cidade do usuário"
-                                no-data-text="Não encontramos a cidade!"></v-autocomplete>
-            </v-flex>
-            <v-flex xs12 sm6 md4>
-                <v-text-field v-model="form.bairro" label="Bairro"></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm6 md6>
-                <v-text-field v-model="form.address" label="Endereço"></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm6 md2>
-                <v-text-field v-model="form.numero" label="Número" mask="######" placeholder="Ex. 38"></v-text-field>
-            </v-flex>
-        </v-layout>
+
     </div>
 </template>
 <script>
@@ -89,7 +65,7 @@
             this.fetchStates();
         },
         updated() {
-            this.$emit('click', this.form);
+            // this.$emit('click', this.form);
         },
 
     }

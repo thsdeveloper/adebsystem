@@ -20,4 +20,11 @@ class UserDetail extends Model
     public function spouse(){
         return $this->belongsTo(User::class);
     }
+
+    //Retorna a escolaridade do usuário
+    public function profession(){
+        return $this->belongsTo(Profession::class);
+    }
+
+
 }

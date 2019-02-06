@@ -27,14 +27,13 @@ class UsersTableSeeder extends Seeder
     private function createAdmins()
     {
 
-        $user = User::create([
+        $thiago = User::create([
             'email' => 'ths.pereira@gmail.com',
             'name'  => 'Thiago Pereira',
             'password' => bcrypt('qsesbs2006')
         ]);
-
         $role = Role::create(['name' => 'admin']);
-        $user->assignRole($role);
+        $thiago->assignRole($role);
 
         $bebel = User::create([
             'email' => 'joquebetedias@gmail.com',
@@ -44,18 +43,43 @@ class UsersTableSeeder extends Seeder
         $bebel->assignRole($role);
 
         DB::table('user_details')->insert([
-            'user_id' => $user->id,
-            'marital_status_id' => 1,
-            'spouse_id' => $bebel->id,
-            'schooling_id' => 1,
-            'date_birth' => $this->faker->date('Y-m-d'),
-            'mother_name' => $this->faker->firstNameFemale,
-            'dad_name' => $this->faker->firstNameMale,
-            'cpf' => $this->faker->cpf(false),
-            'rg' => $this->faker->rg,
-            'gender_id' => 1,
-            'profession_id' => 35,
+            [
+                'user_id' => $thiago->id,
+                'marital_status_id' => 2,
+                'spouse_id' => $bebel->id,
+                'schooling_id' => 1,
+                'date_birth' => $this->faker->date('Y-m-d'),
+                'cpf' => $this->faker->cpf(false),
+                'rg' => $this->faker->rg,
+                'gender_id' => 1,
+                'profession_id' => 451,
+            ],
+            [
+                'user_id' => $bebel->id,
+                'marital_status_id' => 2,
+                'spouse_id' => $thiago->id,
+                'schooling_id' => 1,
+                'date_birth' => $this->faker->date('Y-m-d'),
+                'cpf' => $this->faker->cpf(false),
+                'rg' => $this->faker->rg,
+                'gender_id' => 2,
+                'profession_id' => 120,
+            ]
         ]);
+//        DB::table('users_departments')->insert([
+//            [
+//                'user_id' => $thiago->id,
+//                'department_id' => 5,
+//                'created_at' => $this->faker->date('Y-m-d'),
+//                'updated_at' => $this->faker->date('Y-m-d'),
+//            ],
+//            [
+//                'user_id' => $bebel->id,
+//                'department_id' => 4,
+//                'created_at' => $this->faker->date('Y-m-d'),
+//                'updated_at' => $this->faker->date('Y-m-d'),
+//            ],
+//        ]);
         Role::create(['name' => 'member']);
         $this->command->info('[Usuário Admin] adicionado com sucesso ao banco!');
     }
@@ -63,7 +87,7 @@ class UsersTableSeeder extends Seeder
     private function createUsers()
     {
         $max = $this->faker->numberBetween(50, 50);
-//        $userDetailCount = $this->user_details->count();
+        //$userDetailCount = $this->user_details->count();
         for($i=0; $i < $max; $i++):
             $user = $this->createUser();
             // attach random roles to user
@@ -90,8 +114,6 @@ class UsersTableSeeder extends Seeder
                 'spouse_id' => null,
                 'schooling_id' => 1,
                 'date_birth' => $this->faker->date('Y-m-d'),
-                'mother_name' => $this->faker->firstNameFemale,
-                'dad_name' => $this->faker->firstNameMale,
                 'cpf' => $this->faker->cpf(false),
                 'rg' => $this->faker->rg,
                 'gender_id' => 1,
