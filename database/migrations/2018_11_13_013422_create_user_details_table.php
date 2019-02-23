@@ -30,8 +30,6 @@ class CreateUserDetailsTable extends Migration
             $table->foreign('gender_id')->references('id')->on('genders');
 
             $table->date('date_birth')->comment('Data de nascimento do usuário');
-            $table->string('mother_name', 200)->comment('Nome da mãe do usuário');
-            $table->string('dad_name', 200)->comment('Nome do pai do usuário');
             $table->string('cpf', 11)->comment('CPF do Usuário');
             $table->string('rg', 50)->comment('Registro Geral do Usuário - RG');
             $table->integer('profession_id')->comment('Profissão do usuário');

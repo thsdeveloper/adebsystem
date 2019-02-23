@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     //Members
     Route::get('/professions', 'UserController@getProfessions');
+
     Route::get('/member/detail/{id}', 'UserController@getMemberId');
     Route::get('/member/marital-status', 'UserController@getMaritalStatus');
     Route::get('/member/trusts', 'UserController@getTrusts');
