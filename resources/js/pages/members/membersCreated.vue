@@ -9,6 +9,7 @@
             <v-container grid-list-md>
                 <v-form ref="form" v-model="valid" lazy-validation>
                     <v-layout row wrap>
+                      <a :href="url"></a>
                         <v-flex xs12 sm6 md8>
                             <v-text-field v-model="form.name" label="Nome completo" :rules="nameRules" :counter="255" required></v-text-field>
                         </v-flex>
@@ -111,6 +112,7 @@
         name: "MemberCreated",
         components: {AutoCompleteProfession, SessionEnderecos},
         data: () => ({
+            url: 'google.com',
             modalCreateMember: false,
             modalDateBirth: false,
             modalDateConversion: false,

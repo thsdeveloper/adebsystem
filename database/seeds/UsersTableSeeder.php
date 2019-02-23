@@ -84,8 +84,7 @@ class UsersTableSeeder extends Seeder
         $this->command->info('[Usuário Admin] adicionado com sucesso ao banco!');
     }
 
-    private function createUsers()
-    {
+    private function createUsers(){
         $max = $this->faker->numberBetween(50, 50);
         //$userDetailCount = $this->user_details->count();
         for($i=0; $i < $max; $i++):
@@ -95,6 +94,7 @@ class UsersTableSeeder extends Seeder
         endfor;
         $this->command->info('[Usuários] adicionado com sucesso ao banco!');
     }
+
     private function createUser()
     {
         return User::create([
