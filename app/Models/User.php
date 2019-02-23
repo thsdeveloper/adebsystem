@@ -103,8 +103,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Post::class);
     }
 
+    //Retorna os posts daquele usuário
+    public function addresses(){
+        return $this->belongsTo(Address::class);
+    }
+
     public function isRoleAdmin(){
         return response()->json($this->hasRole('admin'));
     }
-    
+
 }

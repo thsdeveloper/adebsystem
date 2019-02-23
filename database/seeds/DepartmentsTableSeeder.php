@@ -11,7 +11,7 @@ class DepartmentsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('departments')->truncate();
+//        DB::table('departments')->truncate();
         DB::table('departments')->insert([
             ['name' => 'Vozes de Júbilo - UMADEB', 'leader_one_id' => 40, 'leader_two_id' => 23, 'leader_three_id' => null, 'description' => 'Departamento de jovens'],
             ['name' => 'Rio de Águas Vivas - UNAADEB', 'leader_one_id' => 35, 'leader_two_id' => 12, 'leader_three_id' => null, 'description' => 'Departamento de adolescentes'],

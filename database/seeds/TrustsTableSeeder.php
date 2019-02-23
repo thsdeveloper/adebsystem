@@ -11,7 +11,7 @@ class TrustsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('trusts')->truncate();
+//        DB::table('trusts')->truncate();
         DB::table('trusts')->insert([
             ['name' => 'Pastor(a)'],
             ['name' => 'Evangelísta'],

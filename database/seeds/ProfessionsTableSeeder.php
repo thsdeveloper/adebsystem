@@ -11,7 +11,7 @@ class ProfessionsTableSeeder extends Seeder
      * @return void
      */
     public function run(){
-        DB::table('professions')->truncate();
+//        DB::table('professions')->truncate();
         DB::table('professions')->insert([
             ['name' => 'Investigador particular'],
             ['name' => 'Gestor público'],
