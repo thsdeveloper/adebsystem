@@ -112,4 +112,11 @@ class User extends Authenticatable implements JWTSubject
         return response()->json($this->hasRole('admin'));
     }
 
+    public function departments(){
+        return $this->belongsToMany(Departments::class, 'users_departments', 'user_id', 'department_id')->withTimestamps();
+    }
+    public function trusts(){
+        return $this->belongsToMany(Trust::class, 'user_trusts', 'user_id', 'trust_id')->withTimestamps();
+    }
+
 }
