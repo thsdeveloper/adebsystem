@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Departments extends Model
 {
+    protected $table = 'departments';
+
     public function leaderOne(){
         return $this->hasOne(User::class, 'id', 'leader_one_id');
     }

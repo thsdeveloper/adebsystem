@@ -75,69 +75,68 @@ class UserController extends Controller
     }
 
     public function store(Request $request){
-
+//        dd($request->all());
         try {
             $validator = Validator::make($request->all(), [
-                'cpf' => 'required|unique:user_details|max:11',
-                'body' => 'required',
+                'cpf' => 'required|unique:user_details|cpf|max:11',
+                'email' => 'required|unique:users',
             ]);
 
+            if ($validator->passes()) {
+                $state = State::where('uf', $request->uf)->first();
+                $city = City::where('name', $request->cidade)->first();
 
-            $state = State::where('uf', $request->state)->first();
-            $city = City::where('name', $request->city)->first();
+                DB::beginTransaction();
 
-            DB::beginTransaction();
+                $user = new User();
+                $user->name = $request->name;
+                $user->email = $request->email;
 
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-
-            if ($user->save()) {
-                $user_detail = new UserDetail();
-                $user_detail->date_birth = $request->date_birth;
+                if ($user->save()) {
+                    $user_detail = new UserDetail();
+                    $user_detail->date_birth = $request->date_birth;
 //            $user_detail->mother_name =  $request->mother_name;
 //            $user_detail->dad_name =  $request->dad_name;
-                $user_detail->cpf = $request->cpf;
-                $user_detail->rg = $request->rg;
-                $user_detail->gender_id = $request->gender;
-                $user_detail->profession_id = $request->profession;
-                $user_detail->phone = $request->phone;
-                $user_detail->user_id = $user->id;
-                $user_detail->marital_status_id = $request->marital_status;
-                //$user_detail->spouse_id = 2;
-                $user_detail->schooling_id = $request->schooling;
-                $user_detail->date_conversion = $request->date_conversion;
+                    $user_detail->cpf = $request->cpf;
+                    $user_detail->rg = $request->rg;
+                    $user_detail->gender_id = $request->gender;
+                    $user_detail->profession_id = $request->profession;
+                    $user_detail->phone = $request->phone;
+                    $user_detail->user_id = $user->id;
+                    $user_detail->marital_status_id = $request->marital_status;
+                    //$user_detail->spouse_id = 2;
+                    $user_detail->schooling_id = $request->schooling;
+                    $user_detail->date_conversion = $request->date_conversion;
 
-                if ($user_detail->save()) {
-                    $address = new Address();
-                    $address->cep = $request->cep;
-                    $address->state_id = $state->id;
-                    $address->city_id = $city->id;
-                    $address->address = $request->address;
-                    $address->number = $request->number;
-                    $address->neighborhood = $request->neighborhood;
-                    $address->user_id = $user->id;
-                    if ($address->save()) {
-                        foreach ($request->departments as $departamento) {
-                            $userDepartment = new UserDepartment();
-                            $userDepartment->user_id = $user->id;
-                            $userDepartment->department_id = $departamento;
-                            $userDepartment->save();
+                    if ($user_detail->save()) {
+                        $address = new Address();
+                        $address->cep = $request->cep;
+                        $address->state_id = $state->id;
+                        $address->city_id = $city->id;
+                        $address->address = $request->address;
+                        $address->number = $request->numero;
+                        $address->neighborhood = $request->bairro;
+                        $address->user_id = $user->id;
+                        if ($address->save()) {
+                            $user->departments()->attach($request->departments);
+                            $user->trusts()->attach($request->trusts);
+                            DB::commit();
+                            return response()->json([
+                                'status' => true,
+                                'msg' => 'Membro cadastrado com sucesso!',
+                                'user' => $user
+                            ]);
+
                         }
-                        foreach ($request->trusts as $trust) {
-                            $UserTrust = new UserTrust();
-                            $UserTrust->user_id = $user->id;
-                            $UserTrust->trust_id = $trust;
-                            $UserTrust->save();
-                        }
-                        DB::commit();
-                        return response()->json([
-                            'status' => true,
-                            'msg' => 'Membro cadastrado com sucesso!',
-                            'user' => $user
-                        ]);
                     }
                 }
+            }else{
+                $response_json = [
+                    "code"  => "REG003",
+                    "msg"   => "Um erro ocorreu na validação dos campos.",
+                    "erros" => $validator->errors()->all()
+                ];
+                return response()->json($response_json, 422);
             }
         }catch (ValidationException $exception) {
             return response()->json([
@@ -146,6 +145,7 @@ class UserController extends Controller
                 'errors' => $exception->errors(),
             ], 422);
         }
+
     }
 
     public function getGenders(){

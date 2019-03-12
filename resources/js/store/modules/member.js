@@ -145,7 +145,13 @@ export const actions = {
             }
             // commit(types.SAVE_MEMBER, { newUser: data })
         }catch (e) {
-            alert('Ocorreu um erro para salvar o member');
+            console.log('O que recebo', e.response.data.msg);
+            swal({
+                type: 'error',
+                title: 'Erro de validação.',
+                text: e.response.data.erros[0],
+                confirmButtonText: 'Ok',
+            })
         }
     },
 

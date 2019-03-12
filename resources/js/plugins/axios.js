@@ -23,7 +23,7 @@ import i18n from '~/plugins/i18n'
 
 // Response interceptor
 axios.interceptors.response.use(response => response, error => {
-  const { status } = error.response
+  const { status } = error.response;
 
   if (status >= 500) {
     swal({
