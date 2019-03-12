@@ -2,10 +2,11 @@
     <div>
 
         <v-flex xs12 sm12 md12 align-center justify-center layout text-xs-center>
-            <v-avatar :size="96" color="grey lighten-4">
-                <img :src="user.photo_url" :alt="user.name">
-                <!--<img src="https://vuetifyjs.com/apple-touch-icon-180x180.png" alt="avatar">-->
-            </v-avatar>
+<!--            <v-avatar :size="96" color="grey lighten-4">-->
+<!--                <img :src="user.photo_url" :alt="user.name">-->
+<!--                &lt;!&ndash;<img src="https://vuetifyjs.com/apple-touch-icon-180x180.png" alt="avatar">&ndash;&gt;-->
+<!--            </v-avatar>-->
+            <avatar-upload-crop/>
         </v-flex>
         <v-flex xs12 sm12 md12 align-center justify-center layout text-xs-center>
             <p class="display-1">{{$t('hello')}}, {{form.name}}</p>
@@ -94,9 +95,11 @@
     import Form from 'vform'
     import { mapGetters } from 'vuex'
     import { VclFacebook, VclInstagram, VueContentLoading } from 'vue-content-loading';
+    import AvatarUploadCrop from "../../components/AvatarUploadCrop";
 
     export default {
         components: {
+            AvatarUploadCrop,
             VueContentLoading
         },
         scrollToTop: false,

@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pt-BR',
 
     'locales' => [
         'en' => 'Inglês',
@@ -154,6 +154,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        LaravelLegends\PtBrValidator\ValidatorProvider::class,
 
         /*
          * Package Service Providers...

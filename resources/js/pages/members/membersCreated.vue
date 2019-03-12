@@ -1,104 +1,109 @@
 <template>
-    <v-card>
-        <v-card-title class="headline indigo" primary-title>
-            <v-flex white--text>
-                Cadastro de membro
-            </v-flex>
-        </v-card-title>
-        <v-card-text>
-            <v-container grid-list-md>
-                <v-form ref="form" v-model="valid" lazy-validation>
-                    <v-layout row wrap>
-                      <a :href="url"></a>
-                        <v-flex xs12 sm6 md8>
-                            <v-text-field v-model="form.name" label="Nome completo" :rules="nameRules" :counter="255" required></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-text-field v-model="form.cpf" :mask="maskCPF" label="CPF*" :rules="cpfRules" :counter="11" required></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-text-field v-model="form.rg" label="RG*" :rules="rgRules" required></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-text-field v-model="form.email" label="Email" :rules="emailRules" hint="Email válido para verificação"></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-menu ref="menuBirthday" :close-on-content-click="false" v-model="menuBirthday" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px">
-                                <v-text-field slot="activator" v-model="form.date_birth" :rules="dateBirthRules" label="Data de nascimento" readonly></v-text-field>
-                                <v-date-picker ref="picker" locale="pt-br" v-model="form.date_birth" :max="new Date().toISOString().substr(0, 10)" min="1950-01-01" @change="saveBirthday"></v-date-picker>
-                            </v-menu>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-select  v-model="form.gender" :rules="genderRules" :items="genders" label="Sexo*" item-text="name" item-value="id" required></v-select>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-autocomplete v-model="form.profession" :items="professions" :rules="professionRules" label="Profissão" item-text="name"
-                                            item-value="id" deletable-chips hint="Selecione a profissão do membro"
-                                            no-data-text="Não encontramos esta profissão!"></v-autocomplete>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-text-field v-model="form.phone" :rules="telefoneRules" :mask="maskPhone" label="Telefone celular"></v-text-field>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout row wrap>
-                        <v-flex xs6 sm6 md4>
-                            <v-text-field v-model="form.cep" :mask="maskCep" label="CEP" @change="buscaCEP"></v-text-field>
-                        </v-flex>
-                        <v-flex xs6 sm6 md4>
-                            <v-select v-model="form.uf" :items="states" :rules="stateRules" label="Estado" item-text="name"
-                                      item-value="uf" hint="Selecione o estado do usuário" @change="buscaUf"
-                                      no-data-text="Não encontramos este estado!">
-                            </v-select>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-autocomplete v-model="form.cidade" :items="cities" :rules="cidadeRules" label="Cidade" item-text="name"
-                                            item-value="name" deletable-chips hint="Selecione a cidade do usuário"
-                                            no-data-text="Não encontramos a cidade!"></v-autocomplete>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-text-field v-model="form.bairro" :rules="bairroRules" label="Bairro"></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm6 md6>
-                            <v-text-field v-model="form.address" :rules="addressRules" label="Endereço"></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm6 md2>
-                            <v-text-field v-model="form.numero" label="Número" :rules="numeroRules" mask="######" placeholder="Ex. 38"></v-text-field>
-                        </v-flex>
-                    </v-layout>
-                    <!--<session-enderecos @click="changeAddress"/>-->
-                    <v-layout row wrap>
-                        <v-flex xs12 sm6>
-                            <v-select v-model="form.departments" :items="departments" :rules="departmentsRules" attach chips label="Departamentos do membro" multiple item-text="name" item-value="id"></v-select>
-                        </v-flex>
-                        <v-flex xs12 sm6>
-                            <v-select v-model="form.trusts" :items="trusts" :rules="trustsRules" attach chips label="Cargo/Função" multiple item-text="name" item-value="id"></v-select>
-                        </v-flex>
-                        <v-flex xs12 sm4>
-                            <v-select v-model="form.marital_status" :items="maritalStatus" :rules="maritalStatusRules" label="Estado Civil" item-text="name" item-value="id"></v-select>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-menu ref="menuConversion" :close-on-content-click="false" v-model="menuConversion" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px">
-                                <v-text-field slot="activator" v-model="form.date_conversion" label="Data de conversão" readonly></v-text-field>
-                                <v-date-picker ref="picker" locale="pt-br" v-model="form.date_conversion" :max="new Date().toISOString().substr(0, 10)" @change="saveConversion"></v-date-picker>
-                            </v-menu>
-                        </v-flex>
-                        <v-flex xs12 sm6 md4>
-                            <v-select v-model="form.schooling" :items="schoolings" :rules="escolaridadeRules" label="Escolaridade" item-text="name" item-value="id"></v-select>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout>
-                        <v-flex>
-                            <v-btn color="info" @click="reset">Limpar</v-btn>
-                            <v-btn color="success" :disabled="!valid"  @click="salvaMembro">Salvar</v-btn>
-                        </v-flex>
-                    </v-layout>
-                </v-form>
-            </v-container>
-        </v-card-text>
-        <v-card-actions>
+    <div>
+        <v-card>
+            <v-card-title class="headline indigo" primary-title>
+                <v-flex white--text>
+                    Cadastro de membro
+                </v-flex>
+            </v-card-title>
+            <v-card-text>
+                <v-container grid-list-md>
+                    <v-form ref="form" v-model="valid" lazy-validation>
+                        <v-layout row wrap>
+                            <a :href="url"></a>
+                            <v-flex xs12 sm6 md8>
+                                <v-text-field v-model="form.name" label="Nome completo" :rules="nameRules" :counter="255" required></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-text-field v-model="form.cpf" :mask="maskCPF" label="CPF*" :rules="cpfRules" :counter="11" required></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-text-field v-model="form.rg" label="RG*" :rules="rgRules" required></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-text-field v-model="form.email" label="Email" :rules="emailRules" hint="Email válido para verificação"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-menu ref="menuBirthday" :close-on-content-click="false" v-model="menuBirthday" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px">
+                                    <v-text-field slot="activator" v-model="form.date_birth" :rules="dateBirthRules" label="Data de nascimento" readonly></v-text-field>
+                                    <v-date-picker ref="picker" locale="pt-br" v-model="form.date_birth" :max="new Date().toISOString().substr(0, 10)" min="1950-01-01" @change="saveBirthday"></v-date-picker>
+                                </v-menu>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-select  v-model="form.gender" :rules="genderRules" :items="genders" label="Sexo*" item-text="name" item-value="id" required></v-select>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-autocomplete v-model="form.profession" :items="professions" :rules="professionRules" label="Profissão" item-text="name"
+                                                item-value="id" deletable-chips hint="Selecione a profissão do membro"
+                                                no-data-text="Não encontramos esta profissão!"></v-autocomplete>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-text-field v-model="form.phone" :rules="telefoneRules" :mask="maskPhone" label="Telefone celular"></v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout row wrap>
+                            <v-flex xs6 sm6 md4>
+                                <v-text-field v-model="form.cep" :mask="maskCep" label="CEP" @change="buscaCEP"></v-text-field>
+                            </v-flex>
+                            <v-flex xs6 sm6 md4>
+                                <v-select v-model="form.uf" :items="states" :rules="stateRules" label="Estado" item-text="name"
+                                          item-value="uf" hint="Selecione o estado do usuário" @change="buscaUf"
+                                          no-data-text="Não encontramos este estado!">
+                                </v-select>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-autocomplete v-model="form.cidade" :items="cities" :rules="cidadeRules" label="Cidade" item-text="name"
+                                                item-value="name" deletable-chips hint="Selecione a cidade do usuário"
+                                                no-data-text="Não encontramos a cidade!"></v-autocomplete>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-text-field v-model="form.bairro" :rules="bairroRules" label="Bairro"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md6>
+                                <v-text-field v-model="form.address" :rules="addressRules" label="Endereço"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md2>
+                                <v-text-field v-model="form.numero" label="Número" :rules="numeroRules" mask="######" placeholder="Ex. 38"></v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <!--<session-enderecos @click="changeAddress"/>-->
+                        <v-layout row wrap>
+                            <v-flex xs12 sm6>
+                                <v-select v-model="form.departments" :items="departments" :rules="departmentsRules" attach chips label="Departamentos do membro" multiple item-text="name" item-value="id"></v-select>
+                            </v-flex>
+                            <v-flex xs12 sm6>
+                                <v-select v-model="form.trusts" :items="trusts" :rules="trustsRules" attach chips label="Cargo/Função" multiple item-text="name" item-value="id"></v-select>
+                            </v-flex>
+                            <v-flex xs12 sm4>
+                                <v-select v-model="form.marital_status" :items="maritalStatus" :rules="maritalStatusRules" label="Estado Civil" item-text="name" item-value="id"></v-select>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-menu ref="menuConversion" :close-on-content-click="false" v-model="menuConversion" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px">
+                                    <v-text-field slot="activator" v-model="form.date_conversion" label="Data de conversão" readonly></v-text-field>
+                                    <v-date-picker ref="picker" locale="pt-br" v-model="form.date_conversion" :max="new Date().toISOString().substr(0, 10)" @change="saveConversion"></v-date-picker>
+                                </v-menu>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-select v-model="form.schooling" :items="schoolings" :rules="escolaridadeRules" label="Escolaridade" item-text="name" item-value="id"></v-select>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex>
+                                <v-btn color="error" @click="reset">Limpar formulário</v-btn>
+<!--                                <v-btn color="success" :disabled="!valid"  @click="salvaMembro">Salvar</v-btn>-->
+                            </v-flex>
+                        </v-layout>
+                    </v-form>
+                </v-container>
+            </v-card-text>
+            <v-card-actions>
 
-        </v-card-actions>
-    </v-card>
+            </v-card-actions>
+        </v-card>
+        <v-layout row justify-center>
+            <v-btn dark fab fixed bottom right color="success" @click="salvaMembro"><v-icon>save</v-icon></v-btn>
+        </v-layout>
+    </div>
 </template>
 
 <script>
@@ -179,28 +184,48 @@
             professionRules:[
                 v => !!v || 'Profissão é obrigatório',
             ],
-
             form:{
-                name: null,
-                email: null,
-                date_birth: null,
-                cpf: null,
-                rg: null,
-                gender: null,
-                profession: null,
-                phone: null,
-                uf: null,
-                cidade: null,
-                bairro: null,
-                cep: null,
-                address: null,
-                numero: null,
+                name: 'Thiago Oliveira Barros',
+                email: 'thiagohhshsh@gmail.com',
+                date_birth: '1971-02-13',
+                cpf: '04307651189',
+                rg: '2622896',
+                gender: 1,
+                profession: 22,
+                phone: '61996617935',
+                uf: 'DF',
+                cidade: 'Brasília',
+                bairro: 'Samambaia Sul',
+                cep: '72308006',
+                address: 'Qn 312 Conjunto 14 Lote 7',
+                numero: '07',
                 departments: null,
                 trusts: null,
-                marital_status: null,
-                date_conversion: null,
-                schooling: null,
+                marital_status: 2,
+                date_conversion: '2005-02-13',
+                schooling: 1,
             },
+            // form:{
+            //     name: null,
+            //     email: null,
+            //     date_birth: null,
+            //     cpf: null,
+            //     rg: null,
+            //     gender: null,
+            //     profession: null,
+            //     phone: null,
+            //     uf: null,
+            //     cidade: null,
+            //     bairro: null,
+            //     cep: null,
+            //     address: null,
+            //     numero: null,
+            //     departments: null,
+            //     trusts: null,
+            //     marital_status: null,
+            //     date_conversion: null,
+            //     schooling: null,
+            // },
         }),
         watch: {
             menuBirthday (val) {
