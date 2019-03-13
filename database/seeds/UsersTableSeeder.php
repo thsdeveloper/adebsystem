@@ -30,6 +30,7 @@ class UsersTableSeeder extends Seeder
         $thiago = User::create([
             'email' => 'ths.pereira@gmail.com',
             'name'  => 'Thiago Pereira',
+            'status'  => 1,
             'password' => bcrypt('qsesbs2006')
         ]);
         $role = Role::create(['name' => 'admin']);
@@ -38,6 +39,7 @@ class UsersTableSeeder extends Seeder
         $bebel = User::create([
             'email' => 'joquebetedias@gmail.com',
             'name'  => 'Joquebete Carvalho',
+            'status'  => 1,
             'password' => bcrypt('qsesbs2006')
         ]);
         $bebel->assignRole($role);
@@ -98,8 +100,9 @@ class UsersTableSeeder extends Seeder
     private function createUser()
     {
         return User::create([
-            'email' => $this->faker->email,
             'name'  => $this->faker->name,
+            'email' => $this->faker->email,
+            'status'  => 1,
             'password' => bcrypt(str_random(6))
         ]);
     }
