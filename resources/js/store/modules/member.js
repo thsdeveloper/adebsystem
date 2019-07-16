@@ -148,7 +148,7 @@ export const actions = {
             console.log('O que recebo', e.response.data.msg);
             swal({
                 type: 'error',
-                title: 'Erro de validação.',
+                title: e.response.data.erros[0],
                 text: e.response.data.erros[0],
                 confirmButtonText: 'Ok',
             })
