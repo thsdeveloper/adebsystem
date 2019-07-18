@@ -5,13 +5,10 @@
                 <v-card color="blue-grey darken-2" class="white--text">
                     <v-card-title primary-title>
                         <div>
-                            <div class="headline">5 Membros cadastrados</div>
-                            <span>Listen to your favorite artists and albums whenever and wherever, online and offline.</span>
+                            <div class="headline">Bem vindo ao AdebSystem 1.0</div>
+                            <span>Os recursos deste sistema está em fase de implementação. Somente o módulo de cadastro de membro está em funcionamento</span>
                         </div>
                     </v-card-title>
-                    <v-card-actions>
-                        <v-btn flat dark>Ver membros</v-btn>
-                    </v-card-actions>
                 </v-card>
             </v-flex>
         </v-layout>

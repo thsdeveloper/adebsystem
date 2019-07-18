@@ -6,7 +6,7 @@
         </v-toolbar-title>
         <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" :label="$t('what_are_you_looking_for')" class="hidden-sm-and-down" />
         <v-spacer />
-        <locale-dropdown/>
+<!--        <locale-dropdown/>-->
         <v-btn icon>
             <v-icon>apps</v-icon>
         </v-btn>
@@ -30,7 +30,7 @@
                 </v-list-tile>
                 <v-list-tile @click.prevent="logout">
                     <v-list-tile-action>
-                        <v-icon>exit_to_app</v-icon>
+                        <v-icon>power_settings_new</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>

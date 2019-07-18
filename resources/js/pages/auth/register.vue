@@ -61,6 +61,7 @@
                 name: '',
                 email: '',
                 type_user: 'admin',
+                status: 1,
                 password: '',
                 password_confirmation: ''
             })

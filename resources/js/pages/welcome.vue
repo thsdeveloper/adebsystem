@@ -31,7 +31,7 @@ export default {
   layout: 'welcomeApp',
 
   metaInfo () {
-    return { title: this.$t('home') }
+    return { title: 'dgdfgfd' }
   },
 
   data: () => ({

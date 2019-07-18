@@ -25,7 +25,7 @@
             </v-flex>
         </v-layout>
         <v-layout row justify-center>
-            <v-btn dark fab fixed bottom right color="purple" to="created">Adicionar</v-btn>
+            <v-btn dark fab fixed bottom right color="primary" to="created"><v-icon>add</v-icon></v-btn>
         </v-layout>
     </div>
 </template>
@@ -56,8 +56,9 @@
         }
     }
 </script>
-
-
 <style scoped>
-
+    .v-btn--floating .v-icon {
+        height: auto;
+        width: auto;
+    }
 </style>
