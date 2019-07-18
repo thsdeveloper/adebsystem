@@ -1,11 +1,12 @@
 <template>
   <div>
+    <div class="font-weight-thin display-1">
+      Cadastro de Membros
+    </div>
+    <div class="subheading">
+      Cadastro geral de membros por segmento de atuação gerencial
+    </div>
     <v-card>
-      <v-card-title class="headline indigo" primary-title>
-        <v-flex white--text>
-          Cadastro de membro
-        </v-flex>
-      </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
           <v-form ref="form" v-model="valid" lazy-validation>
