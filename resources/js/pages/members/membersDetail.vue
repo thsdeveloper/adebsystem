@@ -5,6 +5,11 @@
                 <v-img class="white--text" height="100px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
                     <v-container fill-height fluid>
                         <v-layout fill-height align-content-center>
+                            <v-flex md1>
+                                <v-avatar size="50" color="grey lighten-4">
+                                    <img :src="member.photo_url" :tile="true" :alt="member.name">
+                                </v-avatar>
+                            </v-flex>
                             <v-flex align-center flexbox>
                                 <span class="headline">{{member.name}}</span><br>
                                 <span class="body-1">{{member.email}}</span><br>
@@ -18,35 +23,13 @@
                 <v-card-title>
                     <v-container fill-height fluid>
                         <v-layout>
-                            <v-flex md3>
-                                <v-avatar size="150" color="grey lighten-4">
-                                    <img :src="member.photo_url" :tile="true" :alt="member.name">
-                                </v-avatar>
-                            </v-flex>
                             <v-flex md5>
                                 <div class="subheading"><v-icon>card_giftcard</v-icon> {{member.details.date_birth}}</div>
                                 <div class="subheading"><v-icon>account_balance_wallet</v-icon> CPF: {{member.details.cpf}}</div>
                                 <div class="subheading"><v-icon>assignment_ind</v-icon> {{member.details.profession.name}}</div>
                             </v-flex>
                             <v-flex md4>
-                                <v-card>
-                                    <v-img
-                                            src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                                            aspect-ratio="2.75"
-                                    ></v-img>
-
-                                    <v-card-title primary-title>
-                                        <div>
-                                            <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
-                                            <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
-                                        </div>
-                                    </v-card-title>
-
-                                    <v-card-actions>
-                                        <v-btn flat color="orange">Share</v-btn>
-                                        <v-btn flat color="orange">Explore</v-btn>
-                                    </v-card-actions>
-                                </v-card>
+                                sdsd
                             </v-flex>
                         </v-layout>
                     </v-container>
