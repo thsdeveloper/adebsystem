@@ -22,22 +22,24 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse', 'posts')->get();
         return $users;
     }
 
-    public function getUser(Request $request){
+    public function getUser(Request $request)
+    {
         $user = Auth::user();
 
         $usuario = array();
-        if($user->hasRole('admin')){
+        if ($user->hasRole('admin')) {
             $usuario['id'] = $user->id;
             $usuario['name'] = $user->name;
             $usuario['email'] = $user->email;
             $usuario['photo_url'] = $user->photo_url;
             $usuario['role'] = 'admin';
-        }else{
+        } else {
             $usuario['id'] = $user->id;
             $usuario['name'] = $user->name;
             $usuario['email'] = $user->email;
@@ -47,34 +49,42 @@ class UserController extends Controller
         return response()->json($usuario);
     }
 
-    public function getPermission(){
+    public function getPermission()
+    {
         return Auth::user()->getRoleNames();
     }
 
-    public function userFind(Request $request){
+    public function userFind(Request $request)
+    {
         $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse')->get();
     }
 
-    public function getProfessions(){
+    public function getProfessions()
+    {
         $professions = Profession::all();
         return response()->json($professions);
     }
 
-    public function getMemberId($id){
+    public function getMemberId($id)
+    {
         $member = User::where('id', $id)->with('addresses', 'details.profession')->first();
         return response()->json($member);
     }
 
-    public function getMaritalStatus(){
+    public function getMaritalStatus()
+    {
         $maritalStatus = MaritalStatu::all();
         return response()->json($maritalStatus);
     }
-    public function getTrusts(){
+
+    public function getTrusts()
+    {
         $trusts = Trust::all();
         return response()->json($trusts);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 //        dd($request->all());
         try {
             $validator = Validator::make($request->all(), [
@@ -96,7 +106,7 @@ class UserController extends Controller
                 if ($user->save()) {
                     $user_detail = new UserDetail();
                     $user_detail->date_birth = $request->date_birth;
-//            $user_detail->mother_name =  $request->mother_name;
+                    $user_detail->forma_ingresso = $request->forma_ingresso;
 //            $user_detail->dad_name =  $request->dad_name;
                     $user_detail->cpf = $request->cpf;
                     $user_detail->rg = $request->rg;
@@ -121,6 +131,7 @@ class UserController extends Controller
                         if ($address->save()) {
                             $user->departments()->attach($request->departments);
                             $user->trusts()->attach($request->trusts);
+                            $user->igreja()->attach($request->igreja_id);
                             DB::commit();
                             return response()->json([
                                 'status' => true,
@@ -131,30 +142,32 @@ class UserController extends Controller
                         }
                     }
                 }
-            }else{
+            } else {
                 $response_json = [
-                    "code"  => "REG003",
-                    "msg"   => "Um erro ocorreu na validação dos campos.",
+                    "code" => "REG003",
+                    "msg" => "Um erro ocorreu na validação dos campos.",
                     "erros" => $validator->errors()->all()
                 ];
                 return response()->json($response_json, 422);
             }
-        }catch (ValidationException $exception) {
+        } catch (ValidationException $exception) {
             return response()->json([
                 'status' => 'error',
-                'msg'    => 'Error',
+                'msg' => 'Error',
                 'errors' => $exception->errors(),
             ], 422);
         }
 
     }
 
-    public function getGenders(){
+    public function getGenders()
+    {
         $genders = Gender::all();
         return response()->json($genders);
     }
 
-    public function getSchoolings(){
+    public function getSchoolings()
+    {
         $schoolings = Schooling::all();
         return response()->json($schoolings);
     }

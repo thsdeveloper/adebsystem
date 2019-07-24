@@ -2,28 +2,32 @@
     <v-card class="elevation-12">
         <v-form @submit.prevent="register" @keydown="form.onKeydown($event)">
             <v-toolbar dark color="primary">
-                <v-toolbar-title>{{$t('register')}}</v-toolbar-title>
+                <v-toolbar-title>Registro de membro</v-toolbar-title>
                 <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
 
                 <v-flex>
-                    <v-text-field v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" name="name" :label="$t('name')" type="text" autofocus></v-text-field>
+                    <v-text-field v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" name="name"
+                                  label="Nome completo" type="text" autofocus></v-text-field>
                     <has-error :form="form" field="name"/>
                 </v-flex>
 
                 <v-flex>
-                    <v-text-field v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" name="email" :label="$t('email')" type="email"></v-text-field>
+                    <v-text-field v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }"
+                                  name="email" label="Email para acesso" type="email"></v-text-field>
                     <has-error :form="form" field="email"/>
                 </v-flex>
 
                 <v-flex>
-                    <v-text-field v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" name="password" :label="$t('password')" type="password"></v-text-field>
+                    <v-text-field v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }"
+                                  name="password" label="Sua senha" type="password"></v-text-field>
                     <has-error :form="form" field="password"/>
                 </v-flex>
 
                 <v-flex>
-                    <v-text-field v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" name="password_confirmation" :label="$t('confirm_password')" type="password"></v-text-field>
+                    <v-text-field v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }"
+                                  name="password_confirmation" label="Confirme sua senha" type="password"></v-text-field>
                     <has-error :form="form" field="password_confirmation"/>
                 </v-flex>
 

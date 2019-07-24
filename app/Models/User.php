@@ -115,6 +115,11 @@ class User extends Authenticatable implements JWTSubject
     public function departments(){
         return $this->belongsToMany(Departments::class, 'users_departments', 'user_id', 'department_id')->withTimestamps();
     }
+
+    public function igreja(){
+        return $this->belongsToMany(Igreja::class, 'users_igrejas', 'user_id', 'igreja_id')->withTimestamps();
+    }
+
     public function trusts(){
         return $this->belongsToMany(Trust::class, 'user_trusts', 'user_id', 'trust_id')->withTimestamps();
     }

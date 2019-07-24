@@ -41,6 +41,16 @@ export const FETCH_SCHOOLINGS = 'FETCH_SCHOOLINGS'
 export const FETCH_DEPARTMENTS = 'FETCH_DEPARTMENTS'
 export const PERMISSIONS = 'PERMISSIONS'
 
+//Setores
+export const FETCH_SETORES = 'FETCH_SETORES'
+
+//Igrejas
+export const BUSCAR_IGREJAS = 'BUSCAR_IGREJAS'
+
+
+
+
+
 
 
 
