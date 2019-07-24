@@ -8,6 +8,7 @@
             <div class="subheading">
                 Cadastro geral de membro ou congregado de acordo com o critério ministerial.
             </div>
+            <croppa v-model="myCroppa"></croppa>
         </div>
         <v-card>
             <v-card-text>
@@ -168,16 +169,19 @@
 
 <script>
     import {mapGetters} from 'vuex';
-    import moment from 'moment'
+    import moment from 'moment';
     import SessionEnderecos from "../../components/SessionEndereco";
     import AutoCompleteProfession from "../../components/AutoCompleteProfession";
-    import axios from 'axios'
-    import swal from 'sweetalert2'
+    import axios from 'axios';
+    import swal from 'sweetalert2';
+    import Croppa from 'vue-croppa';
+    import 'vue-croppa/dist/vue-croppa.css'
 
     export default {
         name: "MemberCreated",
-        components: {AutoCompleteProfession, SessionEnderecos},
+        components: {croppa: Croppa.component, AutoCompleteProfession, SessionEnderecos},
         data: () => ({
+            myCroppa: {},
             url: 'google.com',
             modalCreateMember: false,
             modalDateBirth: false,
