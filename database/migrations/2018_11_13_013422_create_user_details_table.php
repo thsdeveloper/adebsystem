@@ -22,6 +22,7 @@ class CreateUserDetailsTable extends Migration
             $table->integer('spouse_id')->nullable()->comment('Id do conjuge do usuário se tiver');
             $table->integer('schooling_id')->comment('Id da Escolaridade do usuário');
             $table->integer('gender_id')->comment('Id do Sexo do Usuário');
+            $table->integer('forma_ingresso')->nullable()->comment('Forma de ingresso na igreja');
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('marital_status_id')->references('id')->on('marital_status');

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="$store.state.auth.drawer" fixed app>
-            <v-img :aspect-ratio="16/9" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+            <v-img :aspect-ratio="16/9" src="/img/fachada_adeb.jpg" class="imagem-cover">
                 <v-layout pa-2 column fill-height class="lightbox white--text">
                     <v-spacer></v-spacer>
                     <v-flex shrink>
@@ -12,6 +12,7 @@
                         <div class="body-1">{{user.email}}</div>
                     </v-flex>
                 </v-layout>
+                <div class="fill-height repeating-gradient"></div>
             </v-img>
             <v-list dense>
                 <!--{{tabs}}-->
@@ -105,7 +106,7 @@
                         icon: 'keyboard_arrow_down', 'icon-alt': 'settings', text: 'Configurações', model: false,
                         children: [
                             { icon: 'person', text: 'Minha conta', route: '/settings/profile' },
-                            { icon: 'location_city', text: 'Igreja', route: '/settings/church' },
+                            { icon: 'location_city', text: 'Igreja', route: '/settings/igreja-sede' },
                             { icon: 'credit_card', text: 'Faturas / Cobranças', route: '/settings/invoice' },
                             { icon: 'verified_user', text: 'Segurança da conta', route: '/settings/password' },
                         ]
@@ -121,10 +122,10 @@
     .v-navigation-drawer {
         transition: none !important;
     }
-
-    .lightbox {
-        box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
-        background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 72px);
+    .lightbox{
+        -webkit-box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.24);
+        background-image: linear-gradient(to top, rgb(0, 0, 0) 0%, transparent 112px);
     }
     .v-avatar.avatar-img {
         float: left;

@@ -11,8 +11,6 @@
             <loading :active.sync="isLoading"
                      loader="bars"
                      color="#0094ff"
-                     :can-cancel="false"
-                     :on-cancel="false"
                      :is-full-page="true">
             </loading>
         </div>

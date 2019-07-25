@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
             $this->call(CitiesTableSeeder::class);
             $this->call(TrustsTableSeeder::class);
             $this->call(DepartmentsTableSeeder::class);
+            $this->call(SetoresTableSeeder::class);
+            $this->call(IgrejasTableSeeder::class);
         endif;
 
         if(app()->environment('production')):

@@ -3,7 +3,7 @@
         <v-card class="elevation-12">
             <v-form @submit.prevent="login" @keydown="form.onKeydown($event)">
                 <v-toolbar dark color="primary">
-                    <v-toolbar-title>{{$t('login')}}</v-toolbar-title>
+                    <v-toolbar-title>Entrar no sistema</v-toolbar-title>
                     <v-spacer></v-spacer>
                 </v-toolbar>
                 <v-card-text>
@@ -31,8 +31,8 @@
                     </v-flex>
 
                     <!-- Remember Me -->
-                    <v-switch v-model="remember" name="remember" :label="$t('remember_me')"
-                              messages="Texto de intrudução ao input">
+                    <v-switch v-model="remember" name="remember" label="Lembrar dados de acesso"
+                              messages="Marque este opção para lembrar os dados de acesso.">
                     </v-switch>
 
                     <!-- GitHub Login Button -->

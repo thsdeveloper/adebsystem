@@ -20,11 +20,11 @@ const Calendar = () => import('~/pages/calendar/index').then(m => m.default || m
 const Home = () => import('~/pages/home').then(m => m.default || m);
 const Settings = () => import('~/pages/settings/index').then(m => m.default || m);
 const SettingsProfile = () => import('~/pages/settings/profile').then(m => m.default || m);
-const SettingsChurch = () => import('~/pages/settings/church').then(m => m.default || m);
+const SettingsIgrejaSede = () => import('~/pages/settings/igreja-sede').then(m => m.default || m);
 const SettingsPassword = () => import('~/pages/settings/password').then(m => m.default || m);
 
 export default [
-    { path: '/', name: 'welcome', component: Welcome },
+    { path: '/', name: 'welcome', component: Login },
 
     { path: '/login', name: 'login', component: Login },
     { path: '/register', name: 'register', component: Register },
@@ -49,7 +49,7 @@ export default [
         children: [
             { path: '', redirect: { name: 'settings.profile' } },
             { path: 'profile', name: 'settings.profile', component: SettingsProfile },
-            { path: 'church', name: 'settings.church', component: SettingsChurch },
+            { path: 'igreja-sede', name: 'settings.igreja-sede', component: SettingsIgrejaSede },
             { path: 'password', name: 'settings.password', component: SettingsPassword }
         ]
     },
