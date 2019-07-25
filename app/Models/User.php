@@ -4,17 +4,20 @@ namespace App\Models;
 
 use App\Post;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
-use Spatie\Permission\Traits\HasRoles;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Laravel\Scout\Searchable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, HasMedia
 {
     use Notifiable;
     use HasRoles;
+    use HasMediaTrait;
 //    use Searchable;
 
     protected $guard_name = 'api';

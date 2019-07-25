@@ -8,7 +8,6 @@
             <div class="subheading">
                 Cadastro geral de membro ou congregado de acordo com o critério ministerial.
             </div>
-            <croppa v-model="myCroppa"></croppa>
         </div>
         <v-card>
             <v-card-text>
@@ -75,8 +74,9 @@
                             </v-flex>
                             <v-flex md4>
                                 <v-autocomplete v-model="form.igreja_id" :items="igrejas" :rules="rulesIgreja"
-                                          label="Escolha a Igreja" item-text="nome_igreja" item-value="id"
-                                          hint="Selecione a igreja do membro" no-data-text="Não encontramos esta igreja"></v-autocomplete>
+                                                label="Escolha a Igreja" item-text="nome_igreja" item-value="id"
+                                                hint="Selecione a igreja do membro"
+                                                no-data-text="Não encontramos esta igreja"></v-autocomplete>
                             </v-flex>
                         </v-layout>
                         <v-layout row wrap>
@@ -146,24 +146,35 @@
                                 ></v-select>
                             </v-flex>
                         </v-layout>
-                        <v-layout>
-                            <v-flex>
-                                <v-btn color="error" @click="reset">Limpar formulário</v-btn>
-                                <!--                                <v-btn color="success" :disabled="!valid"  @click="salvaMembro">Salvar</v-btn>-->
-                            </v-flex>
-                        </v-layout>
                     </v-form>
                 </v-container>
             </v-card-text>
-            <v-card-actions>
-
-            </v-card-actions>
         </v-card>
         <v-layout row justify-center>
             <v-btn dark fab fixed bottom right color="success" @click="salvaMembro">
                 <v-icon>save</v-icon>
             </v-btn>
         </v-layout>
+
+        <v-dialog v-model="dialogUpload" width="500">
+            <v-card>
+                <v-card-title class="headline grey lighten-2" primary-title>
+                    Cadastrar imagem do membro?
+                </v-card-title>
+                <v-card-text>
+                    <croppa :width="150" :height="150" v-model="myCroppa"></croppa>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <img :src="dataUrl">
+                    <div class="size">Output size: {{dataUrl.length}}</div>
+                    <v-btn color="primary" flat @click="dataUrl = myCroppa.generateDataUrl('image/jpeg', 0.8)">
+                        Salvar imagem
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -181,7 +192,13 @@
         name: "MemberCreated",
         components: {croppa: Croppa.component, AutoCompleteProfession, SessionEnderecos},
         data: () => ({
+
+            //Upload de Foto
             myCroppa: {},
+            dialogUpload: false,
+            dataUrl: '',
+
+
             url: 'google.com',
             modalCreateMember: false,
             modalDateBirth: false,
@@ -372,6 +389,7 @@
             //     this.form.number = form.numero;
             // },
             salvaMembro() {
+                this.dialogUpload = true;
                 if (this.$refs.form.validate()) {
                     this.$store.dispatch('member/saveMember', this.form);
                 }
