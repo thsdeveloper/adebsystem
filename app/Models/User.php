@@ -56,7 +56,11 @@ class User extends Authenticatable implements JWTSubject, HasMedia
      */
     public function getPhotoUrlAttribute()
     {
-        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=mm';
+        $mediaProfiles = $this->getMedia('profile');
+        if (count($mediaProfiles) > 0) {
+            return $mediaProfiles[0]->getUrl();
+        }
+        return url('img/avatar-default.png');
     }
 
     /**
@@ -72,7 +76,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     /**
      * Send the password reset notification.
      *
-     * @param  string  $token
+     * @param string $token
      * @return void
      */
     public function sendPasswordResetNotification($token)
@@ -97,33 +101,40 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     }
 
     //Retorna a tabela de detalhes daquele usuário
-    public function details(){
+    public function details()
+    {
         return $this->hasOne(UserDetail::class);
     }
 
     //Retorna os posts daquele usuário
-    public function posts(){
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 
     //Retorna os posts daquele usuário
-    public function addresses(){
+    public function addresses()
+    {
         return $this->belongsTo(Address::class);
     }
 
-    public function isRoleAdmin(){
+    public function isRoleAdmin()
+    {
         return response()->json($this->hasRole('admin'));
     }
 
-    public function departments(){
+    public function departments()
+    {
         return $this->belongsToMany(Departments::class, 'users_departments', 'user_id', 'department_id')->withTimestamps();
     }
 
-    public function igreja(){
+    public function igreja()
+    {
         return $this->belongsToMany(Igreja::class, 'users_igrejas', 'user_id', 'igreja_id')->withTimestamps();
     }
 
-    public function trusts(){
+    public function trusts()
+    {
         return $this->belongsToMany(Trust::class, 'user_trusts', 'user_id', 'trust_id')->withTimestamps();
     }
 

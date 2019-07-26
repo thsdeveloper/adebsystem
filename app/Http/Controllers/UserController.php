@@ -17,6 +17,8 @@ use App\Models\UserTrust;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -102,7 +104,26 @@ class UserController extends Controller
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->status = $request->status;
-                $user->password = 'mudar123';
+                $user->tipo_cadastro = $request->tipo_cadastro;
+                $user->password = Hash::make($request->cpf);
+
+                //Cadastro de Imagem no Perfil
+                if($request->fotoBase64 != null){
+                    //get the base-64 from data
+                    $base64_str = substr($request->fotoBase64, strpos($request->fotoBase64, ",") + 1);
+
+                    //decode base64 string
+                    $image = base64_decode($base64_str);
+
+                    //Nome do arquivo para salvar no temp
+                    $nomeArquivo = $request->cpf. '.png';
+
+                    if(Storage::disk('local')->put('/temp/' . $nomeArquivo, $image)){
+                        //Obtenho o path do arquivo
+                        $storagePath = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+                        $user->addMedia($storagePath.'/temp/'.$nomeArquivo)->toMediaCollection('profile');
+                    }
+                }
 
                 if ($user->save()) {
                     $user_detail = new UserDetail();
