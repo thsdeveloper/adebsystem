@@ -13,7 +13,6 @@ class TrustsTableSeeder extends Seeder
     {
 //        DB::table('trusts')->truncate();
         DB::table('trusts')->insert([
-            ['name' => 'Membro'],
             ['name' => 'Pastor'],
             ['name' => 'Co-Pastor'],
             ['name' => 'Evangelísta'],

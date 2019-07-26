@@ -31,6 +31,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'ths.pereira@gmail.com',
             'name'  => 'Thiago Pereira',
             'status'  => 1,
+            'tipo_cadastro'  => 1,
             'password' => bcrypt('qsesbs2006')
         ]);
         $role = Role::create(['name' => 'admin']);
@@ -40,6 +41,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'joquebetedias@gmail.com',
             'name'  => 'Joquebete Carvalho',
             'status'  => 1,
+            'tipo_cadastro'  => 1,
             'password' => bcrypt('qsesbs2006')
         ]);
         $bebel->assignRole($role);
@@ -55,6 +57,8 @@ class UsersTableSeeder extends Seeder
                 'rg' => $this->faker->rg,
                 'gender_id' => 1,
                 'profession_id' => 451,
+                'forma_ingresso' => 1,
+
             ],
             [
                 'user_id' => $bebel->id,
@@ -66,6 +70,7 @@ class UsersTableSeeder extends Seeder
                 'rg' => $this->faker->rg,
                 'gender_id' => 2,
                 'profession_id' => 120,
+                'forma_ingresso' => 1,
             ]
         ]);
 //        DB::table('users_departments')->insert([
@@ -103,6 +108,7 @@ class UsersTableSeeder extends Seeder
             'name'  => $this->faker->name,
             'email' => $this->faker->email,
             'status'  => 1,
+            'tipo_cadastro'  => 1,
             'password' => bcrypt(str_random(6))
         ]);
     }
@@ -121,6 +127,7 @@ class UsersTableSeeder extends Seeder
                 'rg' => $this->faker->rg,
                 'gender_id' => 1,
                 'profession_id' => 140,
+                'forma_ingresso' => 1,
             ]);
             $user->assignRole('member');
         endif;

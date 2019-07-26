@@ -8,13 +8,17 @@
             <div class="subheading">
                 Cadastro geral de membro ou congregado de acordo com o critério ministerial.
             </div>
-            <croppa v-model="myCroppa"></croppa>
         </div>
         <v-card>
             <v-card-text>
                 <v-container grid-list-md>
                     <v-form ref="form" v-model="valid" lazy-validation>
                         <v-layout row wrap>
+                            <v-flex v-if="imagePerfil == true">
+                                <v-avatar :size="50" color="grey lighten-4">
+                                    <img :src="form.fotoBase64" alt="Foto de Perfil">
+                                </v-avatar>
+                            </v-flex>
                             <v-flex md4>
                                 <v-switch v-model="form.status" :rules="rulesStatus" label="Cadastro ativo?"></v-switch>
                             </v-flex>
@@ -75,8 +79,9 @@
                             </v-flex>
                             <v-flex md4>
                                 <v-autocomplete v-model="form.igreja_id" :items="igrejas" :rules="rulesIgreja"
-                                          label="Escolha a Igreja" item-text="nome_igreja" item-value="id"
-                                          hint="Selecione a igreja do membro" no-data-text="Não encontramos esta igreja"></v-autocomplete>
+                                                label="Escolha a Igreja" item-text="nome_igreja" item-value="id"
+                                                hint="Selecione a igreja do membro"
+                                                no-data-text="Não encontramos esta igreja"></v-autocomplete>
                             </v-flex>
                         </v-layout>
                         <v-layout row wrap>
@@ -87,7 +92,7 @@
                             <v-flex xs6 sm6 md4>
                                 <v-select v-model="form.uf" :items="states" :rules="stateRules" label="Estado"
                                           item-text="name"
-                                          item-value="uf" hint="Selecione o estado do usuário" @change="buscaUf"
+                                          item-value="uf" hint="Selecione o estado do usuário" @change="buscarCidade"
                                           no-data-text="Não encontramos este estado!">
                                 </v-select>
                             </v-flex>
@@ -110,7 +115,7 @@
                             </v-flex>
                         </v-layout>
                         <!--<session-enderecos @click="changeAddress"/>-->
-                        <v-layout row wrap>
+                        <v-layout row wrap v-if="form.tipo_cadastro == 1">
                             <v-flex xs12 sm6>
                                 <v-select v-model="form.departments" :items="departments" :rules="departmentsRules"
                                           attach chips label="Departamentos do membro" multiple item-text="name"
@@ -120,12 +125,14 @@
                                 <v-select v-model="form.trusts" :items="trusts" :rules="trustsRules" attach chips
                                           label="Cargo/Função" multiple item-text="name" item-value="id"></v-select>
                             </v-flex>
+                        </v-layout>
+                        <v-layout row wrap>
                             <v-flex xs12 sm4>
                                 <v-select v-model="form.marital_status" :items="maritalStatus"
                                           :rules="maritalStatusRules" label="Estado Civil" item-text="name"
                                           item-value="id"></v-select>
                             </v-flex>
-                            <v-flex xs12 sm6 md4>
+                            <v-flex xs12 sm6 md4 v-if="form.tipo_cadastro == 1">
                                 <v-menu ref="menuConversion" :close-on-content-click="false" v-model="menuConversion"
                                         :nudge-right="40" lazy transition="scale-transition" offset-y full-width
                                         min-width="290px">
@@ -136,7 +143,7 @@
                                                    @change="saveConversion"></v-date-picker>
                                 </v-menu>
                             </v-flex>
-                            <v-flex xs12 sm6 md4>
+                            <v-flex xs12 sm6 md4 v-if="form.tipo_cadastro == 1">
                                 <v-select
                                         v-model="form.forma_ingresso"
                                         :items="formasIgresso"
@@ -146,24 +153,40 @@
                                 ></v-select>
                             </v-flex>
                         </v-layout>
-                        <v-layout>
-                            <v-flex>
-                                <v-btn color="error" @click="reset">Limpar formulário</v-btn>
-                                <!--                                <v-btn color="success" :disabled="!valid"  @click="salvaMembro">Salvar</v-btn>-->
-                            </v-flex>
-                        </v-layout>
                     </v-form>
+                    <v-fab-transition>
+                        <v-btn color="primary" fab dark absolute top right @click="dialogUpload = true">
+                            <v-icon>add_a_photo</v-icon>
+                        </v-btn>
+                    </v-fab-transition>
                 </v-container>
             </v-card-text>
-            <v-card-actions>
-
-            </v-card-actions>
         </v-card>
         <v-layout row justify-center>
             <v-btn dark fab fixed bottom right color="success" @click="salvaMembro">
                 <v-icon>save</v-icon>
             </v-btn>
         </v-layout>
+
+
+        <!--Modal de cadastro da Imagem de Perfil-->
+        <v-dialog v-model="dialogUpload" width="500">
+            <v-card>
+                <v-card-title class="headline grey lighten-2" primary-title>
+                    Cadastrar imagem do membro?
+                </v-card-title>
+                <v-card-text>
+                    <croppa :width="150" :height="150" v-model="myCroppa" :zoom-speed="10"></croppa>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" flat @click="salvarImagemPerfil">
+                        Salvar imagem
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -180,8 +203,17 @@
     export default {
         name: "MemberCreated",
         components: {croppa: Croppa.component, AutoCompleteProfession, SessionEnderecos},
+        metaInfo () {
+            return { title: 'Cadastro de Membro/Congregado'}
+        },
         data: () => ({
+
+            //Upload de Foto
             myCroppa: {},
+            dialogUpload: false,
+            imagePerfil: false,
+
+
             url: 'google.com',
             modalCreateMember: false,
             modalDateBirth: false,
@@ -197,6 +229,7 @@
                 {id: 1, nome: 'Aclamação - Aceito sem carta'},
                 {id: 2, nome: 'Novo Convertido - Por meio do batismo'},
                 {id: 3, nome: 'Transferência - Aceito com carta de recomendação'},
+                {id: 4, nome: 'Nacido na Igreja'},
             ],
 
             nameRules: [
@@ -311,6 +344,7 @@
                 schooling: null,
                 forma_ingresso: null,
                 tipo_cadastro: 1,
+                fotoBase64: null,
             },
         }),
         watch: {
@@ -322,10 +356,15 @@
             }
         },
         methods: {
+            salvarImagemPerfil(){
+                this.form.fotoBase64 = this.myCroppa.generateDataUrl('image/jpeg', 0.8);
+                this.dialogUpload = false;
+                this.imagePerfil = true;
+            },
             fetchStates() {
                 this.$store.dispatch('member/fetchStates');
             },
-            buscaUf() {
+            buscarCidade() {
                 this.$store.dispatch('member/fetchCities', this.form.uf);
             },
             buscaIgreja() {

@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +18,11 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
 
-//    Route::prefix('user')->group(function () {
-//        Route::get('/', function () {
-//            // Matches The "/admin/users" URL
-//        });
-//    });
+    Route::prefix('profile')->group(function () {
+        // usage inside a laravel route
+        Route::get('/thiago', function () {
+        });
+    });
 
     //users
     Route::get('/user', 'UserController@getUser');
@@ -61,7 +63,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     //Setores
     Route::get('/setores', 'SetoresController@getAll');
     Route::get('/igrejas/{id}', 'IgrejasController@buscarIgrejasPorSetor');
-
 
 
 });
