@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->boolean('status')->nullable();
             $table->string('password')->nullable();
+            $table->integer('tipo_cadastro')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

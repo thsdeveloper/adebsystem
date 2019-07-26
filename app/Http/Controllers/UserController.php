@@ -102,6 +102,7 @@ class UserController extends Controller
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->status = $request->status;
+                $user->password = 'mudar123';
 
                 if ($user->save()) {
                     $user_detail = new UserDetail();
