@@ -25,9 +25,9 @@ Vue.use(InstantSearch);
 import '~/plugins'
 import '~/components'
 
-Vue.config.productionTip = false;
-Vue.config.devtools = true;
-Vue.config.performance = true;
+Vue.config.productionTip = true;
+// Vue.config.devtools = true;
+// Vue.config.performance = true;
 
 /* eslint-disable no-new */
 new Vue({

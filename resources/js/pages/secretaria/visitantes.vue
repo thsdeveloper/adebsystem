@@ -52,14 +52,6 @@
         <template slot="items" slot-scope="props">
           <td>{{ props.item.nome }}</td>
           <td>{{ props.item.email | verificaNull }}</td>
-          <td >{{ props.item.telefone | verificaNull}}</td>
-          <td>
-            <v-tooltip left v-if="props.item.telefone != null">
-              <v-icon slot="activator" dark color="primary">announcement</v-icon>
-              <span>{{ props.item.observacao }}</span>
-            </v-tooltip>
-            <span v-else>Sem observações</span>
-            </td>
           <td>{{ props.item.created_at | moment("DD/MM/YYYY")}}</td>
           <td>
             <v-chip>
@@ -70,14 +62,47 @@
             </v-chip>
           </td>
           <td>
-            <v-chip v-if="props.item.apresentado" color="primary" text-color="white">{{ props.item.apresentado | apresentado }}</v-chip>
+            <v-chip v-if="props.item.apresentado" color="primary" text-color="white">{{ props.item.apresentado |
+              apresentado }}
+            </v-chip>
             <v-chip v-else color="red" text-color="white">{{ props.item.apresentado | apresentado }}</v-chip>
           </td>
         </template>
       </v-data-table>
     </div>
-    <div v-if="bottomNav === 'apresentar'">
-      apresentar
+    <div v-if="bottomNav === 'apresentar'" class="mold-slider-visitantes">
+      <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+          <vue-glide :perView="1" :rewind="false">
+            <vue-glide-slide v-for="vi in visitantes" :key="vi.id">
+              <div>
+                <h1 class="display-1">{{vi.nome}}</h1>
+                <div class="headline">{{vi.observacao}}</div>
+
+                <div v-if="vi.evangelico">
+                  <v-chip color="green" text-color="white">Já convertido</v-chip>
+                </div>
+                <div v-else>
+                  <v-chip color="red" text-color="white">Não convertido</v-chip>
+                </div>
+
+                <div v-if="vi.procurando_igreja">
+                  <v-chip color="orange" text-color="white">Está procurando uma igreja</v-chip>
+                </div>
+
+                <h1 class="body-2">Email: <b>{{vi.email | verificaNull}}</b></h1>
+                <h1 class="body-2">Telefone <b>{{vi.telefone | verificaNull}}</b></h1>
+
+              </div>
+
+            </vue-glide-slide>
+            <template slot="control">
+              <v-btn color="success" data-glide-dir="<">Anterior</v-btn>
+              <v-btn color="success" data-glide-dir=">">Próximo</v-btn>
+            </template>
+          </vue-glide>
+        </v-layout>
+      </v-container>
     </div>
 
 
@@ -100,8 +125,15 @@
   </div>
 </template>
 <script>
-    import { mapGetters } from "vuex";
+    import {mapGetters} from "vuex";
+    import {Glide, GlideSlide} from 'vue-glide-js';
+    import 'vue-glide-js/dist/vue-glide.css';
+
     export default {
+        components: {
+            [Glide.name]: Glide,
+            [GlideSlide.name]: GlideSlide
+        },
         middleware: ["auth"],
         data() {
             return {
@@ -115,12 +147,12 @@
                         align: 'left',
                         value: 'nome',
                     },
-                    { text: 'Email',  align: 'left', value: 'email' },
-                    { text: 'Telefone',  align: 'left', value: 'telefone' },
-                    { text: 'Observações',  align: 'left', value: 'observacao' },
-                    { text: 'Data de Visita',  align: 'left', value: 'created_at' },
-                    { text: 'Cadastrado por',  align: 'left', value: 'user.name' },
-                    { text: 'Apresentado?',  align: 'left', value: 'apresentado' }
+                    {text: 'Email', align: 'left', value: 'email'},
+                    // { text: 'Telefone',  align: 'left', value: 'telefone' },
+                    // { text: 'Observações',  align: 'left', value: 'observacao' },
+                    {text: 'Data de Visita', align: 'left', value: 'created_at'},
+                    {text: 'Cadastrado por', align: 'left', value: 'user.name'},
+                    {text: 'Apresentado?', align: 'left', value: 'apresentado'}
                 ],
 
                 form: {
@@ -152,7 +184,7 @@
             }
         },
         computed: {
-            ...mapGetters({ visitantes: "secretaria/visitantes" })
+            ...mapGetters({visitantes: "secretaria/visitantes"})
         },
         mounted() {
             this.buscarVisitantes();
@@ -160,13 +192,13 @@
         filters: {
             // Filter definitions
             verificaNull(value) {
-                if(value === null){
+                if (value === null) {
                     return 'Nenhuma informação'
                 }
                 return value
             },
-            apresentado(value){
-                if(value){
+            apresentado(value) {
+                if (value) {
                     return 'Apresentado!'
                 }
                 return 'Não apresentado!'
@@ -175,5 +207,7 @@
     }
 </script>
 <style scoped>
-
+  .mold-slider-visitantes {
+    text-align: center;
+  }
 </style>
