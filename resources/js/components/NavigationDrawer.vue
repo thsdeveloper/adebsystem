@@ -78,6 +78,7 @@
                 return [
                     { icon: 'dashboard', text: this.$t('dashboard'), route: '/home' },
                     { icon: 'people', text: this.$t('members'), route: '/members' },
+                    { icon: 'assignment_ind', text: 'Secretaria', route: '/secretaria/visitantes' },
                     { icon: 'date_range', text: this.$t('general_agenda'), route: '/calendar' },
                     {
                         icon: 'keyboard_arrow_down', 'icon-alt': 'group_work', text: this.$t('departments'), model: false,

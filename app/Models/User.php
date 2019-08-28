@@ -58,7 +58,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     {
         $mediaProfiles = $this->getMedia('profile');
         if (count($mediaProfiles) > 0) {
-            return $mediaProfiles[0]->getUrl();
+            return $mediaProfiles[0]->getFullUrl();
         }
         return url('img/avatar-default.png');
     }

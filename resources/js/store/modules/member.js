@@ -63,7 +63,6 @@ export const mutations = {
     [types.SAVE_MEMBER] (state, { newUser }) {
         state.newUser = newUser
     },
-
 };
 
 // actions

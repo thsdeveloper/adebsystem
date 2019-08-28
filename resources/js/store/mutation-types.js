@@ -12,6 +12,8 @@ export const TOGGLE_DRAWER = 'TOGGLE_DRAWER'
 export const FETCH_POSTS = 'FETCH_POSTS'
 export const CREATE_POST = 'CREATE_POST'
 
+export const BUSCAR_VISITANTES = 'BUSCAR_VISITANTES'
+
 //Snack Bar
 export const SHOW_SNACK_BAR = 'SHOW_SNACK_BAR'
 export const CLOSE_SNACK_BAR = 'CLOSE_SNACK_BAR'
