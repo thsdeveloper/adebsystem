@@ -53,6 +53,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/member/genders', 'UserController@getGenders');
     Route::get('/member/schoolings', 'UserController@getSchoolings');
 
+    //Secretária
+    Route::post('/secretaria/salvar-visitante', 'SecretariaController@salvarVisitante');
+    Route::get('/secretaria/listar-visitante', 'SecretariaController@listarVisitantes');
+
+
+
     //Address
     Route::get('/states', 'AddressController@getStates');
     Route::get('/states/{id}/cities', 'AddressController@getCities');

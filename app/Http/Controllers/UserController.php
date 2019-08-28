@@ -26,7 +26,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse', 'posts')->get();
+        $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse', 'posts')->paginate();
         return $users;
     }
 
