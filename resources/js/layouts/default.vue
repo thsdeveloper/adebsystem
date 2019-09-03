@@ -7,7 +7,7 @@
             <navigation-drawer/>
         </div>
         <v-content>
-            <v-container fluid grid-list-md>
+            <v-container>
                 <snackbar></snackbar>
                 <child animate-in="fadeIn"></child>
             </v-container>

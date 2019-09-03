@@ -53,7 +53,7 @@
 import { mapGetters } from "vuex";
 export default {
   name: "MembersAll",
-  middleware: ["auth", "admin"],
+  middleware: ['auth', 'permission'],
   data() {
     return {
       search: "",

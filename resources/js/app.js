@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+Vue.use(Vuetify);
 
 import store from '~/store'
 import router from '~/router'
@@ -19,7 +20,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 // Init plugin
 Vue.use(Loading);
 
-Vue.use(Vuetify);
+
 Vue.use(InstantSearch);
 
 import '~/plugins'
@@ -31,8 +32,8 @@ Vue.config.productionTip = true;
 
 /* eslint-disable no-new */
 new Vue({
-    i18n,
-    store,
-    router,
-    ...App
+  i18n,
+  store,
+  router,
+  ...App
 });

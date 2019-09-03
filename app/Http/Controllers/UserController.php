@@ -33,21 +33,14 @@ class UserController extends Controller
     public function getUser(Request $request)
     {
         $user = Auth::user();
-
         $usuario = array();
-        if ($user->hasRole('admin')) {
-            $usuario['id'] = $user->id;
-            $usuario['name'] = $user->name;
-            $usuario['email'] = $user->email;
-            $usuario['photo_url'] = $user->photo_url;
-            $usuario['role'] = 'admin';
-        } else {
-            $usuario['id'] = $user->id;
-            $usuario['name'] = $user->name;
-            $usuario['email'] = $user->email;
-            $usuario['photo_url'] = $user->photo_url;
-            $usuario['role'] = 'member';
-        }
+
+        $usuario['id'] = $user->id;
+        $usuario['name'] = $user->name;
+        $usuario['email'] = $user->email;
+        $usuario['photo_url'] = $user->photo_url;
+        $usuario['permissions'] = $user->getAllPermissionsAttribute();
+
         return response()->json($usuario);
     }
 
@@ -61,9 +54,9 @@ class UserController extends Controller
         $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse')->get();
     }
 
-    public function getProfessions()
+    public function getProfessions(Profession $profession)
     {
-        $professions = Profession::all();
+        $professions = $profession->orderBy('name', 'asc')->get();
         return response()->json($professions);
     }
 
@@ -87,7 +80,6 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-//        dd($request->all());
         try {
             $validator = Validator::make($request->all(), [
                 'cpf' => 'required|unique:user_details|cpf|max:11',
@@ -103,12 +95,11 @@ class UserController extends Controller
                 $user = new User();
                 $user->name = $request->name;
                 $user->email = $request->email;
-                $user->status = $request->status;
-                $user->tipo_cadastro = $request->tipo_cadastro;
+                $user->status_id = $request->status_id;
                 $user->password = Hash::make($request->cpf);
 
                 //Cadastro de Imagem no Perfil
-                if($request->fotoBase64 != null){
+                if ($request->fotoBase64 != null) {
                     //get the base-64 from data
                     $base64_str = substr($request->fotoBase64, strpos($request->fotoBase64, ",") + 1);
 
@@ -116,17 +107,19 @@ class UserController extends Controller
                     $image = base64_decode($base64_str);
 
                     //Nome do arquivo para salvar no temp
-                    $nomeArquivo = $request->cpf. '.png';
+                    $nomeArquivo = $request->cpf . '.png';
 
-                    if(Storage::disk('local')->put('/temp/' . $nomeArquivo, $image)){
+                    if (Storage::disk('local')->put('/temp/' . $nomeArquivo, $image)) {
                         //Obtenho o path do arquivo
                         $storagePath = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
-                        $user->addMedia($storagePath.'/temp/'.$nomeArquivo)->toMediaCollection('profile');
+                        $user->addMedia($storagePath . '/temp/' . $nomeArquivo)->toMediaCollection('profile');
                     }
                 }
 
                 if ($user->save()) {
                     $user_detail = new UserDetail();
+                    $user_detail->tipo_cadastro_id = $request->tipo_cadastro_id;
+                    $user_detail->cargo_ministerial_id = $request->cargo_ministerial_id;
                     $user_detail->date_birth = $request->date_birth;
                     $user_detail->forma_ingresso = $request->forma_ingresso;
 //            $user_detail->dad_name =  $request->dad_name;

@@ -1,17 +1,22 @@
 <template>
-  <card class="text-center">
-      <h1><v-icon>warning</v-icon> Você não pode está aqui! </h1>
-
-    <div class="links">
-      <router-link :to="{ name: 'home' }">
-        {{ $t('go_home') }}
-      </router-link>
-    </div>
-  </card>
+    <v-layout align-center justify-center column fill-height>
+      <v-flex md6>
+        <v-card>
+          <v-card-title>
+            <div>
+              <h1>
+                Ops! Acesso não permitido.
+              </h1>
+              <p>Este módulo não esta habilitado para a sua conta, verifique junto ao administrador do sistema para conceder acesso.</p>
+            </div>
+          </v-card-title>
+        </v-card>
+      </v-flex>
+    </v-layout>
 </template>
 
 <script>
-export default {
-  name: 'NotPermission'
-}
+    export default {
+        name: 'NotPermission'
+    }
 </script>

@@ -14,7 +14,11 @@
 </template>
 
 <script>
+    // import LottieAnimation from 'lottie-vuejs' // import lottie-vuejs
 export default {
+    components: {
+        // LottieAnimation
+    },
   name: 'NotFound'
 }
 </script>

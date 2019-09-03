@@ -107,6 +107,7 @@
                         icon: 'keyboard_arrow_down', 'icon-alt': 'settings', text: 'Configurações', model: false,
                         children: [
                             { icon: 'person', text: 'Minha conta', route: '/settings/profile' },
+                            { icon: 'lock', text: 'Acesso a conta', route: '/settings/acessos' },
                             { icon: 'location_city', text: 'Igreja', route: '/settings/igreja-sede' },
                             { icon: 'credit_card', text: 'Faturas / Cobranças', route: '/settings/invoice' },
                             { icon: 'verified_user', text: 'Segurança da conta', route: '/settings/password' },

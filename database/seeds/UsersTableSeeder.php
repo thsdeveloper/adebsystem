@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Database\Seeder;
@@ -16,6 +17,7 @@ class UsersTableSeeder extends Seeder
      * @var \Faker\Generator
      */
     private $faker;
+
     public function run()
     {
         $this->user_details = UserDetail::all();
@@ -24,33 +26,91 @@ class UsersTableSeeder extends Seeder
         $this->createAdmins();
         $this->createUsers();
     }
+
     private function createAdmins()
     {
-
-        $thiago = User::create([
-            'email' => 'ths.pereira@gmail.com',
-            'name'  => 'Thiago Pereira',
-            'status'  => 1,
-            'tipo_cadastro'  => 1,
-            'password' => bcrypt('qsesbs2006')
+        $admin = User::create([
+            'email' => 'admin@gmail.com',
+            'name' => 'Admin Geral do Sistema',
+            'status' => 1,
+            'password' => bcrypt('admin123456')
         ]);
-        $role = Role::create(['name' => 'admin']);
-        $thiago->assignRole($role);
-
-        $bebel = User::create([
-            'email' => 'joquebetedias@gmail.com',
-            'name'  => 'Joquebete Carvalho',
-            'status'  => 1,
-            'tipo_cadastro'  => 1,
-            'password' => bcrypt('qsesbs2006')
+        $admin->assignRole('admin');
+        //########################################################
+        $orcival = User::create([
+            'email' => 'presidente@gmail.com',
+            'name' => 'Presidente do Ministério',
+            'status' => 1,
+            'password' => bcrypt('presidente123456')
         ]);
-        $bebel->assignRole($role);
-
+//        $orcival->assignRole($role);
+        //########################################################
+        $coordenador_setorial = User::create([
+            'email' => 'coordenador_setorial@gmail.com',
+            'name' => 'Pr. Coordenador Setorial',
+            'status' => 1,
+            'password' => bcrypt('coordenador123456')
+        ]);
+//        $coordenador_setorial->assignRole($role);
+        //########################################################
+        $coordenador_dep_geral = User::create([
+            'email' => 'coordenador_dep_geral@gmail.com',
+            'name' => 'Coordenador de Departamento Geral',
+            'status' => 1,
+            'password' => bcrypt('coordenador123456')
+        ]);
+//        $coordenador_setorial->assignRole($role);
+        //########################################################
+        $coordenador_dep_setorial = User::create([
+            'email' => 'coordenador_dep_setorial@gmail.com',
+            'name' => 'Coordenador de Departamento Setorial',
+            'status' => 1,
+            'password' => bcrypt('coordenador123456')
+        ]);
+//        $role = Role::create(['name' => 'coordenador_dep_setorial']);
+//        $coordenador_dep_setorial->assignRole($role);
+        //########################################################
+        $secretario_geral = User::create([
+            'email' => 'secretario_geral@gmail.com',
+            'name' => 'Secretário Geral',
+            'status' => 1,
+            'password' => bcrypt('secretario123456')
+        ]);
+//        $role = Role::create(['name' => 'secretario_geral']);
+//        $secretario_geral->assignRole($role);
+        //########################################################
+        $secretario_setorial = User::create([
+            'email' => 'secretario_setorial@gmail.com',
+            'name' => 'Secretário Setorial',
+            'status' => 1,
+            'password' => bcrypt('secretario123456')
+        ]);
+//        $role = Role::create(['name' => 'secretario_setorial']);
+//        $secretario_setorial->assignRole($role);
+        //########################################################
+        $secretario_local = User::create([
+            'email' => 'secretario_local@gmail.com',
+            'name' => 'Secretário Local',
+            'status' => 1,
+            'password' => bcrypt('secretario123456')
+        ]);
+//        $role = Role::create(['name' => 'secretario_local']);
+//        $secretario_local->assignRole($role);
+        //########################################################
+        $membro = User::create([
+            'email' => 'membro@gmail.com',
+            'name' => 'Membro da ADEB',
+            'status' => 1,
+            'password' => bcrypt('membro123456')
+        ]);
+//        $role = Role::create(['name' => 'membro']);
+        $membro->assignRole('membro');
+        //########################################################
         DB::table('user_details')->insert([
             [
-                'user_id' => $thiago->id,
+                'user_id' => $admin->id,
                 'marital_status_id' => 2,
-                'spouse_id' => $bebel->id,
+                'spouse_id' => null,
                 'schooling_id' => 1,
                 'date_birth' => $this->faker->date('Y-m-d'),
                 'cpf' => $this->faker->cpf(false),
@@ -58,43 +118,130 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 1,
                 'profession_id' => 451,
                 'forma_ingresso' => 1,
-
+                'tipo_cadastro' => 2,
+                'cargo_ministerial' => null,
             ],
             [
-                'user_id' => $bebel->id,
+                'user_id' => $orcival->id,
                 'marital_status_id' => 2,
-                'spouse_id' => $thiago->id,
+                'spouse_id' => null,
                 'schooling_id' => 1,
                 'date_birth' => $this->faker->date('Y-m-d'),
                 'cpf' => $this->faker->cpf(false),
                 'rg' => $this->faker->rg,
                 'gender_id' => 2,
-                'profession_id' => 120,
+                'profession_id' => 200,
                 'forma_ingresso' => 1,
+                'tipo_cadastro' => 1,
+                'cargo_ministerial' => 1,
+            ],
+            [
+                'user_id' => $coordenador_setorial->id,
+                'marital_status_id' => 2,
+                'spouse_id' => null,
+                'schooling_id' => 1,
+                'date_birth' => $this->faker->date('Y-m-d'),
+                'cpf' => $this->faker->cpf(false),
+                'rg' => $this->faker->rg,
+                'gender_id' => 2,
+                'profession_id' => 208,
+                'forma_ingresso' => 1,
+                'tipo_cadastro' => 1,
+                'cargo_ministerial' => 1,
+            ],
+            [
+                'user_id' => $coordenador_dep_geral->id,
+                'marital_status_id' => 2,
+                'spouse_id' => null,
+                'schooling_id' => 1,
+                'date_birth' => $this->faker->date('Y-m-d'),
+                'cpf' => $this->faker->cpf(false),
+                'rg' => $this->faker->rg,
+                'gender_id' => 2,
+                'profession_id' => 208,
+                'forma_ingresso' => 1,
+                'tipo_cadastro' => 1,
+                'cargo_ministerial' => 1,
+            ],
+            [
+                'user_id' => $coordenador_dep_setorial->id,
+                'marital_status_id' => 2,
+                'spouse_id' => null,
+                'schooling_id' => 1,
+                'date_birth' => $this->faker->date('Y-m-d'),
+                'cpf' => $this->faker->cpf(false),
+                'rg' => $this->faker->rg,
+                'gender_id' => 2,
+                'profession_id' => 208,
+                'forma_ingresso' => 1,
+                'tipo_cadastro' => 1,
+                'cargo_ministerial' => 1,
+            ],
+            [
+                'user_id' => $secretario_geral->id,
+                'marital_status_id' => 2,
+                'spouse_id' => null,
+                'schooling_id' => 1,
+                'date_birth' => $this->faker->date('Y-m-d'),
+                'cpf' => $this->faker->cpf(false),
+                'rg' => $this->faker->rg,
+                'gender_id' => 2,
+                'profession_id' => 208,
+                'forma_ingresso' => 1,
+                'tipo_cadastro' => 1,
+                'cargo_ministerial' => 1,
+            ],
+            [
+                'user_id' => $secretario_setorial->id,
+                'marital_status_id' => 2,
+                'spouse_id' => null,
+                'schooling_id' => 1,
+                'date_birth' => $this->faker->date('Y-m-d'),
+                'cpf' => $this->faker->cpf(false),
+                'rg' => $this->faker->rg,
+                'gender_id' => 2,
+                'profession_id' => 208,
+                'forma_ingresso' => 1,
+                'tipo_cadastro' => 1,
+                'cargo_ministerial' => 1,
+            ],
+            [
+                'user_id' => $secretario_local->id,
+                'marital_status_id' => 2,
+                'spouse_id' => null,
+                'schooling_id' => 1,
+                'date_birth' => $this->faker->date('Y-m-d'),
+                'cpf' => $this->faker->cpf(false),
+                'rg' => $this->faker->rg,
+                'gender_id' => 2,
+                'profession_id' => 208,
+                'forma_ingresso' => 1,
+                'tipo_cadastro' => 1,
+                'cargo_ministerial' => 1,
+            ],
+            [
+                'user_id' => $membro->id,
+                'marital_status_id' => 2,
+                'spouse_id' => null,
+                'schooling_id' => 1,
+                'date_birth' => $this->faker->date('Y-m-d'),
+                'cpf' => $this->faker->cpf(false),
+                'rg' => $this->faker->rg,
+                'gender_id' => 2,
+                'profession_id' => 208,
+                'forma_ingresso' => 1,
+                'tipo_cadastro' => 1,
+                'cargo_ministerial' => 1,
             ]
         ]);
-//        DB::table('users_departments')->insert([
-//            [
-//                'user_id' => $thiago->id,
-//                'department_id' => 5,
-//                'created_at' => $this->faker->date('Y-m-d'),
-//                'updated_at' => $this->faker->date('Y-m-d'),
-//            ],
-//            [
-//                'user_id' => $bebel->id,
-//                'department_id' => 4,
-//                'created_at' => $this->faker->date('Y-m-d'),
-//                'updated_at' => $this->faker->date('Y-m-d'),
-//            ],
-//        ]);
-        Role::create(['name' => 'member']);
-        $this->command->info('[Usuário Admin] adicionado com sucesso ao banco!');
+        $this->command->info('[Usuários Administrativos] adicionado com sucesso ao banco!');
     }
 
-    private function createUsers(){
+    private function createUsers()
+    {
         $max = $this->faker->numberBetween(50, 50);
         //$userDetailCount = $this->user_details->count();
-        for($i=0; $i < $max; $i++):
+        for ($i = 0; $i < $max; $i++):
             $user = $this->createUser();
             // attach random roles to user
             $this->attachRoles($user);
@@ -105,18 +252,18 @@ class UsersTableSeeder extends Seeder
     private function createUser()
     {
         return User::create([
-            'name'  => $this->faker->name,
+            'name' => $this->faker->name,
             'email' => $this->faker->email,
-            'status'  => 1,
-            'tipo_cadastro'  => 1,
+            'status' => 1,
             'password' => bcrypt(str_random(6))
         ]);
     }
+
     private function attachRoles(User $user)
     {
         $number = $this->faker->numberBetween(0, 50);
 
-        if($number > 0):
+        if ($number > 0):
             DB::table('user_details')->insert([
                 'user_id' => $user->id,
                 'marital_status_id' => 1,
@@ -128,8 +275,10 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 1,
                 'profession_id' => 140,
                 'forma_ingresso' => 1,
+                'tipo_cadastro' => 2,
+                'cargo_ministerial' => null,
             ]);
-            $user->assignRole('member');
+            $user->assignRole('membro');
         endif;
     }
 }

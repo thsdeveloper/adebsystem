@@ -71,38 +71,42 @@
       </v-data-table>
     </div>
     <div v-if="bottomNav === 'apresentar'" class="mold-slider-visitantes">
-      <v-container fluid fill-height>
-        <v-layout align-center justify-center>
+      <v-layout column>
+        <v-flex xs12 sm6>
           <vue-glide :perView="1" :rewind="false">
             <vue-glide-slide v-for="vi in visitantes" :key="vi.id">
-              <div>
-                <h1 class="display-1">{{vi.nome}}</h1>
-                <div class="headline">{{vi.observacao}}</div>
+              <v-card>
+                <v-card-title primary-title>
+                  <div>
+                    <h1 class="display-1">{{vi.nome}}</h1>
+                    <div class="headline">{{vi.observacao}}</div>
 
-                <div v-if="vi.evangelico">
-                  <v-chip color="green" text-color="white">Já convertido</v-chip>
-                </div>
-                <div v-else>
-                  <v-chip color="red" text-color="white">Não convertido</v-chip>
-                </div>
+                    <div v-if="vi.evangelico">
+                      <v-chip color="green" text-color="white">Já convertido</v-chip>
+                    </div>
+                    <div v-else>
+                      <v-chip color="red" text-color="white">Não convertido</v-chip>
+                    </div>
 
-                <div v-if="vi.procurando_igreja">
-                  <v-chip color="orange" text-color="white">Está procurando uma igreja</v-chip>
-                </div>
+                    <div v-if="vi.procurando_igreja">
+                      <v-chip color="orange" text-color="white">Está procurando uma igreja</v-chip>
+                    </div>
 
-                <h1 class="body-2">Email: <b>{{vi.email | verificaNull}}</b></h1>
-                <h1 class="body-2">Telefone <b>{{vi.telefone | verificaNull}}</b></h1>
+                    <h1 class="body-2">Email: <b>{{vi.email | verificaNull}}</b></h1>
+                    <h1 class="body-2">Telefone <b>{{vi.telefone | verificaNull}}</b></h1>
 
-              </div>
-
+                  </div>
+                </v-card-title>
+              </v-card>
             </vue-glide-slide>
             <template slot="control">
               <v-btn color="success" data-glide-dir="<">Anterior</v-btn>
               <v-btn color="success" data-glide-dir=">">Próximo</v-btn>
             </template>
           </vue-glide>
-        </v-layout>
-      </v-container>
+
+        </v-flex>
+      </v-layout>
     </div>
 
 
@@ -134,7 +138,7 @@
             [Glide.name]: Glide,
             [GlideSlide.name]: GlideSlide
         },
-        middleware: ["auth"],
+        middleware: ["auth", 'permission'],
         data() {
             return {
                 valid: false,
