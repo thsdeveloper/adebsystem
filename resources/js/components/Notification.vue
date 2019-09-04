@@ -1,77 +1,86 @@
 <template>
-    <v-menu offset-y left :close-on-content-click="false" max-width="380px" min-width="380px">
-        <v-btn icon slot="activator">
-            <v-badge color="red darken-4" v-if="notifications.length > 0">
-                <span slot="badge" class="badge-criativa">{{notifications.length}}</span>
-                <v-icon>notifications</v-icon>
-            </v-badge>
-            <v-icon v-else>notifications</v-icon>
+  <v-menu offset-y left :close-on-content-click="false" max-width="380px" min-width="380px">
+    <template v-slot:activator="{ on }">
+      <v-btn icon v-on="on">
+        <v-badge color="red darken-4" v-if="notifications.length > 0">
+          <span slot="badge" class="badge-criativa">{{notifications.length}}</span>
+          <v-icon>notifications</v-icon>
+        </v-badge>
+        <v-icon v-else>notifications</v-icon>
+      </v-btn>
+    </template>
+    <v-list three-line subheader avatar>
+      <v-subheader>
+        <v-icon>notifications</v-icon>
+        NOTIFICAÇÕES
+        <v-btn icon right absolute @click.prevent="markAllAsRead" v-if="notifications.length > 0">
+          <v-icon color="grey lighten-1">done_all</v-icon>
         </v-btn>
-        <v-list two-line subheader>
-            <v-subheader>
-                <v-icon>notifications</v-icon> Notificações
-                <v-btn icon right absolute @click.prevent="markAllAsRead" v-if="notifications.length > 0">
-                    <v-icon  color="grey lighten-1">done_all</v-icon>
-                </v-btn>
-            </v-subheader>
-            <transition-group enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
-                <v-list-tile v-for="(item, index) in notifications" v-bind:key="index" avatar @click.prevent="clickNotification">
-
-                    <v-list-tile-avatar>
-                        <v-avatar size="32px">
-                            <img :src="item.data.image" :alt="item.data.user">
-                        </v-avatar>
-                    </v-list-tile-avatar>
-
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{item.data.user}}</v-list-tile-title>
-                        <v-list-tile-sub-title>{{item.data.message}} {{item.data.description}}</v-list-tile-sub-title>
-                    </v-list-tile-content>
-
-                    <v-list-tile-action>
-                        <v-tooltip left>
-                            <v-btn icon ripple slot="activator" @click.prevent="markAsRead(item.id)">
-                                <v-icon  color="grey lighten-1">done</v-icon>
-                            </v-btn>
-                            <span>Marcar a notificação como lida</span>
-                        </v-tooltip>
-                    </v-list-tile-action>
-
-                </v-list-tile>
-            </transition-group>
-            <v-list-tile v-if="notifications.length === 0">
-
-                <v-list-tile-content>
-                    <v-list-tile-title>Suas notificações são exibidas aqui</v-list-tile-title>
-                    <v-list-tile-sub-title>Sem noficações neste momento</v-list-tile-sub-title>
-                </v-list-tile-content>
-
-            </v-list-tile>
-        </v-list>
-    </v-menu>
+      </v-subheader>
+      <v-list-item-group v-model="item" color="primary">
+        <v-list-item v-for="(item, i) in items" :key="i">
+          <v-list-item-avatar>
+            <v-img :src="item.avatar"></v-img>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title v-html="item.title"></v-list-item-title>
+            <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-menu>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
+
     export default {
         name: "Notification",
-        data(){
-            return{
-
+        data() {
+            return {
+                item: 5,
+                items: [
+                    {
+                        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
+                        title: 'Solicitação de amizade!',
+                        subtitle: "<span class='text--primary'>Bruno Alves</span> &mdash; solicitou sua amizade dentro do AdebSystem?",
+                    },
+                    {
+                        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
+                        title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
+                        subtitle: "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
+                    },
+                    {
+                        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+                        title: 'Oui oui',
+                        subtitle: "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
+                    },
+                    {
+                        avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
+                        title: 'Birthday gift',
+                        subtitle: "<span class='text--primary'>Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?",
+                    },
+                    {
+                        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
+                        title: 'Recipe to try',
+                        subtitle: "<span class='text--primary'>Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.",
+                    },
+                ],
             }
         },
-        methods:{
-            markAsRead(id){
+        methods: {
+            markAsRead(id) {
                 this.$store.dispatch('notification/markAsRead', {id: id});
             },
-            markAllAsRead(){
+            markAllAsRead() {
                 this.$store.dispatch('notification/markAllAsRead');
             },
-            clickNotification(){
+            clickNotification() {
                 // alert('Você clicou na notificação')
             },
-            listenForChanges(){
-                Echo.private('App.Models.User.'+this.user.id).notification(notification => {
+            listenForChanges() {
+                Echo.private('App.Models.User.' + this.user.id).notification(notification => {
                     this.$store.dispatch('notification/addNotification', notification);
                     this.$store.dispatch('snackbar/showSnackbar', 'Acabamos de receber um post');
                     // if(! ('Notification' in window)) {
@@ -91,13 +100,13 @@
                 })
             }
         },
-        computed:{
+        computed: {
             ...mapGetters({
                 notifications: 'notification/notifications',
                 user: 'auth/user'
             }),
         },
-        created(){
+        created() {
             this.listenForChanges();
 
             this.$store.dispatch('notification/fetchNotifications');

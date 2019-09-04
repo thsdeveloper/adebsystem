@@ -8,6 +8,7 @@ use App\Models\Gender;
 use App\Models\MaritalStatu;
 use App\Models\Profession;
 use App\Models\Schooling;
+use App\Models\SituacoesMembro;
 use App\Models\State;
 use App\Models\Trust;
 use App\Models\User;
@@ -22,107 +23,119 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-class UserController extends Controller
+class usercontroller extends controller
 {
-    public function index()
+    public function index(request $request)
     {
-        $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse', 'posts')->paginate();
-        return $users;
+//        dd($request->all());
+        $users = user::with('details.maritalstatus',
+            'details.schooling',
+            'details.spouse',
+            'posts',
+            'situacaomembro',
+            'details.igreja.setor',
+            'details.tipocadastro')->paginate($request->itemsperpage);
+        return response()->json($users, 200);
     }
 
-    public function getUser(Request $request)
+    public function getuser(request $request)
     {
-        $user = Auth::user();
+        $user = auth::user();
         $usuario = array();
 
         $usuario['id'] = $user->id;
         $usuario['name'] = $user->name;
         $usuario['email'] = $user->email;
         $usuario['photo_url'] = $user->photo_url;
-        $usuario['permissions'] = $user->getAllPermissionsAttribute();
+        $usuario['permissions'] = $user->getallpermissionsattribute();
 
         return response()->json($usuario);
     }
 
-    public function getPermission()
+    public function getpermission()
     {
-        return Auth::user()->getRoleNames();
+        return auth::user()->getrolenames();
     }
 
-    public function userFind(Request $request)
+    public function userfind(request $request)
     {
-        $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse')->get();
+        $users = user::with('details.maritalstatus', 'details.schooling', 'details.spouse')->get();
     }
 
-    public function getProfessions(Profession $profession)
+    public function getprofessions(profession $profession)
     {
-        $professions = $profession->orderBy('name', 'asc')->get();
+        $professions = $profession->orderby('name', 'asc')->get();
         return response()->json($professions);
     }
 
-    public function getMemberId($id)
+    public function getmemberid($id)
     {
-        $member = User::where('id', $id)->with('addresses', 'details.profession')->first();
+        $member = user::where('id', $id)->with('addresses', 'details.profession')->first();
         return response()->json($member);
     }
 
-    public function getMaritalStatus()
+    public function getmaritalstatus()
     {
-        $maritalStatus = MaritalStatu::all();
-        return response()->json($maritalStatus);
+        $maritalstatus = maritalstatu::all();
+        return response()->json($maritalstatus);
     }
 
-    public function getTrusts()
+    public function gettrusts()
     {
-        $trusts = Trust::all();
+        $trusts = trust::all();
         return response()->json($trusts);
     }
 
-    public function store(Request $request)
+    public function cadastraruser(request $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
+            $validator = validator::make($request->all(), [
                 'cpf' => 'required|unique:user_details|cpf|max:11',
                 'email' => 'required|unique:users',
             ]);
 
             if ($validator->passes()) {
-                $state = State::where('uf', $request->uf)->first();
-                $city = City::where('name', $request->cidade)->first();
+                $state = state::where('uf', $request->uf)->first();
+                $city = city::where('name', $request->cidade)->first();
 
-                DB::beginTransaction();
+                db::begintransaction();
 
-                $user = new User();
+                $user = new user();
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->status_id = $request->status_id;
-                $user->password = Hash::make($request->cpf);
+                $user->password = hash::make($request->cpf);
+                $user->matricula = $user->getMatriculaMembro();
 
-                //Cadastro de Imagem no Perfil
-                if ($request->fotoBase64 != null) {
+                //cadastro de imagem no perfil
+                if ($request->fotobase64 != null) {
                     //get the base-64 from data
-                    $base64_str = substr($request->fotoBase64, strpos($request->fotoBase64, ",") + 1);
+                    $base64_str = substr($request->fotobase64, strpos($request->fotobase64, ",") + 1);
 
                     //decode base64 string
                     $image = base64_decode($base64_str);
 
-                    //Nome do arquivo para salvar no temp
-                    $nomeArquivo = $request->cpf . '.png';
+                    //nome do arquivo para salvar no temp
+                    $nomearquivo = $request->cpf . '.png';
 
-                    if (Storage::disk('local')->put('/temp/' . $nomeArquivo, $image)) {
-                        //Obtenho o path do arquivo
-                        $storagePath = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
-                        $user->addMedia($storagePath . '/temp/' . $nomeArquivo)->toMediaCollection('profile');
+                    if (storage::disk('local')->put('/temp/' . $nomearquivo, $image)) {
+                        //obtenho o path do arquivo
+                        $storagepath = storage::disk('local')->getdriver()->getadapter()->getpathprefix();
+                        $user->addmedia($storagepath . '/temp/' . $nomearquivo)->tomediacollection('profile');
                     }
                 }
 
                 if ($user->save()) {
-                    $user_detail = new UserDetail();
+                    $user_detail = new userdetail();
                     $user_detail->tipo_cadastro_id = $request->tipo_cadastro_id;
                     $user_detail->cargo_ministerial_id = $request->cargo_ministerial_id;
                     $user_detail->date_birth = $request->date_birth;
                     $user_detail->forma_ingresso = $request->forma_ingresso;
-//            $user_detail->dad_name =  $request->dad_name;
+                    $user_detail->nome_conjuge = $request->nome_conjuge;
+                    $user_detail->nome_pai = $request->nome_pai;
+                    $user_detail->nome_mae = $request->nome_mae;
+                    $user_detail->data_batismo = $request->data_batismo;
+                    $user_detail->observacoes = $request->observacoes;
                     $user_detail->cpf = $request->cpf;
                     $user_detail->rg = $request->rg;
                     $user_detail->gender_id = $request->gender;
@@ -130,12 +143,12 @@ class UserController extends Controller
                     $user_detail->phone = $request->phone;
                     $user_detail->user_id = $user->id;
                     $user_detail->marital_status_id = $request->marital_status;
-                    //$user_detail->spouse_id = 2;
                     $user_detail->schooling_id = $request->schooling;
                     $user_detail->date_conversion = $request->date_conversion;
+                    $user_detail->igreja()->attach($request->igreja_id);
 
                     if ($user_detail->save()) {
-                        $address = new Address();
+                        $address = new address();
                         $address->cep = $request->cep;
                         $address->state_id = $state->id;
                         $address->city_id = $city->id;
@@ -147,10 +160,10 @@ class UserController extends Controller
                             $user->departments()->attach($request->departments);
                             $user->trusts()->attach($request->trusts);
                             $user->igreja()->attach($request->igreja_id);
-                            DB::commit();
+                            db::commit();
                             return response()->json([
                                 'status' => true,
-                                'msg' => 'Membro cadastrado com sucesso!',
+                                'msg' => 'membro cadastrado com sucesso!',
                                 'user' => $user
                             ]);
 
@@ -159,32 +172,38 @@ class UserController extends Controller
                 }
             } else {
                 $response_json = [
-                    "code" => "REG003",
-                    "msg" => "Um erro ocorreu na validação dos campos.",
+                    "code" => "reg003",
+                    "msg" => "um erro ocorreu na validação dos campos.",
                     "erros" => $validator->errors()->all()
                 ];
                 return response()->json($response_json, 422);
             }
-        } catch (ValidationException $exception) {
+        } catch (validationexception $exception) {
             return response()->json([
                 'status' => 'error',
-                'msg' => 'Error',
+                'msg' => 'error',
                 'errors' => $exception->errors(),
             ], 422);
         }
 
     }
 
-    public function getGenders()
+    public function getgenders()
     {
-        $genders = Gender::all();
+        $genders = gender::all();
         return response()->json($genders);
     }
 
-    public function getSchoolings()
+    public function getschoolings()
     {
-        $schoolings = Schooling::all();
+        $schoolings = schooling::all();
         return response()->json($schoolings);
+    }
+
+    public function getsituacoesmembros()
+    {
+        $situacoesmembro = situacoesmembro::all();
+        return response()->json($situacoesmembro);
     }
 
 }

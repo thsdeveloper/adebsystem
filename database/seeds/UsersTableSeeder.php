@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Database\Seeder;
 use Faker\Factory as FactoryFaker;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Spatie\Permission\Models\Role;
 
@@ -32,7 +33,7 @@ class UsersTableSeeder extends Seeder
         $admin = User::create([
             'email' => 'admin@gmail.com',
             'name' => 'Admin Geral do Sistema',
-            'status' => 1,
+            'status_id' => 1,
             'password' => bcrypt('admin123456')
         ]);
         $admin->assignRole('admin');
@@ -40,7 +41,7 @@ class UsersTableSeeder extends Seeder
         $orcival = User::create([
             'email' => 'presidente@gmail.com',
             'name' => 'Presidente do Ministério',
-            'status' => 1,
+            'status_id' => 1,
             'password' => bcrypt('presidente123456')
         ]);
 //        $orcival->assignRole($role);
@@ -48,7 +49,7 @@ class UsersTableSeeder extends Seeder
         $coordenador_setorial = User::create([
             'email' => 'coordenador_setorial@gmail.com',
             'name' => 'Pr. Coordenador Setorial',
-            'status' => 1,
+            'status_id' => 1,
             'password' => bcrypt('coordenador123456')
         ]);
 //        $coordenador_setorial->assignRole($role);
@@ -56,7 +57,7 @@ class UsersTableSeeder extends Seeder
         $coordenador_dep_geral = User::create([
             'email' => 'coordenador_dep_geral@gmail.com',
             'name' => 'Coordenador de Departamento Geral',
-            'status' => 1,
+            'status_id' => 1,
             'password' => bcrypt('coordenador123456')
         ]);
 //        $coordenador_setorial->assignRole($role);
@@ -64,7 +65,7 @@ class UsersTableSeeder extends Seeder
         $coordenador_dep_setorial = User::create([
             'email' => 'coordenador_dep_setorial@gmail.com',
             'name' => 'Coordenador de Departamento Setorial',
-            'status' => 1,
+            'status_id' => 1,
             'password' => bcrypt('coordenador123456')
         ]);
 //        $role = Role::create(['name' => 'coordenador_dep_setorial']);
@@ -73,7 +74,7 @@ class UsersTableSeeder extends Seeder
         $secretario_geral = User::create([
             'email' => 'secretario_geral@gmail.com',
             'name' => 'Secretário Geral',
-            'status' => 1,
+            'status_id' => 1,
             'password' => bcrypt('secretario123456')
         ]);
 //        $role = Role::create(['name' => 'secretario_geral']);
@@ -82,7 +83,7 @@ class UsersTableSeeder extends Seeder
         $secretario_setorial = User::create([
             'email' => 'secretario_setorial@gmail.com',
             'name' => 'Secretário Setorial',
-            'status' => 1,
+            'status_id' => 1,
             'password' => bcrypt('secretario123456')
         ]);
 //        $role = Role::create(['name' => 'secretario_setorial']);
@@ -91,7 +92,7 @@ class UsersTableSeeder extends Seeder
         $secretario_local = User::create([
             'email' => 'secretario_local@gmail.com',
             'name' => 'Secretário Local',
-            'status' => 1,
+            'status_id' => 1,
             'password' => bcrypt('secretario123456')
         ]);
 //        $role = Role::create(['name' => 'secretario_local']);
@@ -100,7 +101,7 @@ class UsersTableSeeder extends Seeder
         $membro = User::create([
             'email' => 'membro@gmail.com',
             'name' => 'Membro da ADEB',
-            'status' => 1,
+            'status_id' => 1,
             'password' => bcrypt('membro123456')
         ]);
 //        $role = Role::create(['name' => 'membro']);
@@ -118,8 +119,9 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 1,
                 'profession_id' => 451,
                 'forma_ingresso' => 1,
-                'tipo_cadastro' => 2,
-                'cargo_ministerial' => null,
+                'tipo_cadastro_id' => 2,
+                'cargo_ministerial_id' => null,
+                'igreja_id' => null,
             ],
             [
                 'user_id' => $orcival->id,
@@ -132,8 +134,9 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 2,
                 'profession_id' => 200,
                 'forma_ingresso' => 1,
-                'tipo_cadastro' => 1,
-                'cargo_ministerial' => 1,
+                'tipo_cadastro_id' => 1,
+                'cargo_ministerial_id' => 1,
+                'igreja_id' => null,
             ],
             [
                 'user_id' => $coordenador_setorial->id,
@@ -146,8 +149,9 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 2,
                 'profession_id' => 208,
                 'forma_ingresso' => 1,
-                'tipo_cadastro' => 1,
-                'cargo_ministerial' => 1,
+                'tipo_cadastro_id' => 1,
+                'cargo_ministerial_id' => 1,
+                'igreja_id' => null,
             ],
             [
                 'user_id' => $coordenador_dep_geral->id,
@@ -160,8 +164,9 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 2,
                 'profession_id' => 208,
                 'forma_ingresso' => 1,
-                'tipo_cadastro' => 1,
-                'cargo_ministerial' => 1,
+                'tipo_cadastro_id' => 1,
+                'cargo_ministerial_id' => 1,
+                'igreja_id' => null,
             ],
             [
                 'user_id' => $coordenador_dep_setorial->id,
@@ -174,8 +179,9 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 2,
                 'profession_id' => 208,
                 'forma_ingresso' => 1,
-                'tipo_cadastro' => 1,
-                'cargo_ministerial' => 1,
+                'tipo_cadastro_id' => 1,
+                'cargo_ministerial_id' => 1,
+                'igreja_id' => null,
             ],
             [
                 'user_id' => $secretario_geral->id,
@@ -188,8 +194,9 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 2,
                 'profession_id' => 208,
                 'forma_ingresso' => 1,
-                'tipo_cadastro' => 1,
-                'cargo_ministerial' => 1,
+                'tipo_cadastro_id' => 1,
+                'cargo_ministerial_id' => 1,
+                'igreja_id' => null,
             ],
             [
                 'user_id' => $secretario_setorial->id,
@@ -202,8 +209,9 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 2,
                 'profession_id' => 208,
                 'forma_ingresso' => 1,
-                'tipo_cadastro' => 1,
-                'cargo_ministerial' => 1,
+                'tipo_cadastro_id' => 1,
+                'cargo_ministerial_id' => 1,
+                'igreja_id' => null,
             ],
             [
                 'user_id' => $secretario_local->id,
@@ -216,8 +224,9 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 2,
                 'profession_id' => 208,
                 'forma_ingresso' => 1,
-                'tipo_cadastro' => 1,
-                'cargo_ministerial' => 1,
+                'tipo_cadastro_id' => 1,
+                'cargo_ministerial_id' => 1,
+                'igreja_id' => null,
             ],
             [
                 'user_id' => $membro->id,
@@ -230,8 +239,9 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 2,
                 'profession_id' => 208,
                 'forma_ingresso' => 1,
-                'tipo_cadastro' => 1,
-                'cargo_ministerial' => 1,
+                'tipo_cadastro_id' => 1,
+                'cargo_ministerial_id' => 1,
+                'igreja_id' => null,
             ]
         ]);
         $this->command->info('[Usuários Administrativos] adicionado com sucesso ao banco!');
@@ -254,7 +264,7 @@ class UsersTableSeeder extends Seeder
         return User::create([
             'name' => $this->faker->name,
             'email' => $this->faker->email,
-            'status' => 1,
+            'status_id' => 1,
             'password' => bcrypt(str_random(6))
         ]);
     }
@@ -275,8 +285,9 @@ class UsersTableSeeder extends Seeder
                 'gender_id' => 1,
                 'profession_id' => 140,
                 'forma_ingresso' => 1,
-                'tipo_cadastro' => 2,
-                'cargo_ministerial' => null,
+                'tipo_cadastro_id' => 2,
+                'cargo_ministerial_id' => null,
+                'igreja_id' => null,
             ]);
             $user->assignRole('membro');
         endif;

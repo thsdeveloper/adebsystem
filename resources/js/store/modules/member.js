@@ -14,6 +14,7 @@ export const state = {
   tiposCadastros: null,
   cargosMinisteriais: null,
   newUser: null,
+  situacoesmembros: null,
 };
 
 // getters
@@ -28,6 +29,7 @@ export const getters = {
   schoolings: state => state.schoolings,
   tiposCadastros: state => state.tiposCadastros,
   cargosMinisteriais: state => state.cargosMinisteriais,
+  situacoesmembros: state => state.situacoesmembros,
 };
 
 // mutations
@@ -76,6 +78,10 @@ export const mutations = {
   [types.SAVE_MEMBER](state, {newUser}) {
     state.newUser = newUser
   },
+
+  [types.BUSCAR_SITUACOES_MEMBROS](state, data) {
+    state.situacoesmembros = data
+  },
 };
 
 // actions
@@ -87,6 +93,16 @@ export const actions = {
 
     } catch (e) {
       alert('Ocorreu um erro no fetchProfessions')
+    }
+  },
+
+  async buscarSituacoesMembro({commit}) {
+    try {
+      const {data} = await axios.get('/api/situacoes-membros');
+      commit(types.BUSCAR_SITUACOES_MEMBROS, data)
+
+    } catch (e) {
+      alert('Ocorreu um erro no buscar situacoes membro')
     }
   },
 

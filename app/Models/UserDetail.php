@@ -27,4 +27,15 @@ class UserDetail extends Model
     }
 
 
+    public function igreja()
+    {
+        return $this->hasOne(Igreja::class, 'id', 'igreja_id');
+    }
+
+    public function tipoCadastro()
+    {
+        return $this->hasOne(TiposCadastros::class, 'id', 'tipo_cadastro_id');
+    }
+
+
 }

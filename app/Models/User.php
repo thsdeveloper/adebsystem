@@ -151,4 +151,27 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $permissions;
     }
 
+    //Retorna os posts daquele usuário
+    public function situacaoMembro()
+    {
+        return $this->hasOne(SituacoesMembro::class, 'id', 'status_id');
+    }
+
+    public function getMatriculaMembro(){
+        do{
+            $rand = $this->generateRandomString(8);
+        }while(!empty($this->where('matricula', $rand)->first()));
+        return $rand;
+    }
+
+    public function generateRandomString($length) {
+        $characters = '0123456789';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
 }

@@ -30,6 +30,11 @@ class CreateUserDetailsTable extends Migration
         $table->integer('user_id');
         $table->integer('marital_status_id')->nullable()->comment('Estado civil do usuário');
         $table->integer('spouse_id')->nullable()->comment('Id do conjuge do usuário se tiver');
+        $table->string('nome_conjuge')->nullable()->comment('Nome do Conjuge');
+        $table->string('nome_pai')->nullable()->comment('Nome do Pai');
+        $table->string('nome_mae')->nullable()->comment('Nome da Mâe');
+        $table->date('data_batismo')->nullable()->comment('Data do batismo');
+        $table->text('observacoes')->nullable()->comment('Observações sobre o membro');
         $table->integer('schooling_id')->comment('Id da Escolaridade do usuário');
         $table->integer('gender_id')->comment('Id do Sexo do Usuário');
         $table->integer('forma_ingresso')->nullable()->comment('Forma de ingresso na igreja');
