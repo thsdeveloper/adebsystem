@@ -8,13 +8,15 @@
           <p class="subheading">O URL solicitado não foi encontrado neste servidor. Isso é tudo que sabemos.</p>
       </v-flex>
       <v-flex xs12 sm12 md12 align-center justify-center layout text-xs-center>
-          <v-btn round color="primary" :to="{ name: 'home' }" dark>{{ $t('go_home') }}</v-btn>
+          <v-btn rounded color="primary" :to="{ name: 'home' }" dark>{{ $t('go_home') }}</v-btn>
       </v-flex>
   </div>
 </template>
 
 <script>
 export default {
+    components: {
+    },
   name: 'NotFound'
 }
 </script>

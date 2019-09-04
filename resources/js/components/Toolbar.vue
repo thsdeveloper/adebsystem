@@ -1,57 +1,43 @@
 <template>
-    <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="blue accent-4" dark app fixed>
-        <v-toolbar-title style="width: 300px">
-            <v-toolbar-side-icon @click.native.stop="toggleDrawer"></v-toolbar-side-icon>
-            <span class="hidden-sm-and-down">AdebSystem</span>
-        </v-toolbar-title>
-        <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" :label="$t('what_are_you_looking_for')" class="hidden-sm-and-down" />
-        <v-spacer />
-<!--        <locale-dropdown/>-->
-        <v-btn icon>
-            <v-icon>apps</v-icon>
+  <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" color="blue accent-4" dark app fixed>
+    <v-toolbar-title style="width: 300px">
+      <v-app-bar-nav-icon @click.native.stop="toggleDrawer"></v-app-bar-nav-icon>
+      <span class="hidden-sm-and-down">AdebSystem</span>
+    </v-toolbar-title>
+    <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" :label="$t('what_are_you_looking_for')"
+                  class="hidden-sm-and-down"/>
+    <v-spacer/>
+    <v-btn icon>
+      <v-icon>apps</v-icon>
+    </v-btn>
+    <notification/>
+    <v-menu offset-y left>
+      <template v-slot:activator="{ on }">
+        <v-btn icon large v-on="on">
+          <v-avatar size="32px">
+            <img :src="user.photo_url" :alt="user.name">
+          </v-avatar>
         </v-btn>
-       <notification/>
-        <v-menu offset-y left>
-            <v-btn icon large slot="activator">
-                <v-avatar size="32px">
-                    <img :src="user.photo_url" :alt="user.name">
-                </v-avatar>
-            </v-btn>
-            <v-list dense>
-                <v-list-tile to="/settings">
-                    <v-list-tile-action>
-                        <v-icon>account_circle</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>
-                            {{$t('my_account')}}
-                        </v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile @click.prevent="logout">
-                    <v-list-tile-action>
-                        <v-icon>power_settings_new</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>
-                           {{$t('logout')}}
-                        </v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
-        </v-menu>
-    </v-toolbar>
+      </template>
+      <v-list dense>
+        <v-list-item to="/settings">
+          <v-list-item-title>Minha conta</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click.prevent="logout">
+          <v-list-item-title>Sair</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </v-app-bar>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import LocaleDropdown from './LocaleDropdown'
+    import {mapGetters} from 'vuex'
     import Notification from "./Notification";
 
     export default {
         components: {
             Notification,
-            LocaleDropdown
         },
 
         data: () => ({
@@ -66,24 +52,24 @@
             }),
         },
         methods: {
-            async toggleDrawer(){
+            async toggleDrawer() {
                 await this.$store.dispatch('auth/toggleDrawer');
             },
-            async logout () {
+            async logout() {
                 // Log out the user.
                 await this.$store.dispatch('auth/logout');
 
                 // Redirect to login.
-                this.$router.push({ name: 'login' })
+                this.$router.push({name: 'login'})
             },
         }
     }
 </script>
 
 <style scoped>
-    .profile-photo {
-        width: 2rem;
-        height: 2rem;
-        margin: -.375rem 0;
-    }
+  .profile-photo {
+    width: 2rem;
+    height: 2rem;
+    margin: -.375rem 0;
+  }
 </style>

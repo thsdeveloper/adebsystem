@@ -1,18 +1,16 @@
 <template>
-    <v-app>
-        <div>
-            <toolbar/>
-        </div>
-        <div>
-            <navigation-drawer/>
-        </div>
-        <v-content>
-            <v-container fluid grid-list-md>
-                <snackbar></snackbar>
-                <child animate-in="fadeIn"></child>
-            </v-container>
-        </v-content>
-    </v-app>
+  <v-app>
+    <div>
+      <toolbar/>
+    </div>
+    <navigation-drawer/>
+    <v-content>
+      <v-container>
+        <snackbar></snackbar>
+        <child animate-in="fadeIn"></child>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
@@ -32,8 +30,6 @@
         props: {
             source: String
         },
-        methods: {
-
-        }
+        methods: {}
     }
 </script>

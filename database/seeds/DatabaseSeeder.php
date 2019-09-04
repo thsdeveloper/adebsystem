@@ -21,18 +21,19 @@ class DatabaseSeeder extends Seeder
 
         // Impede que seed seja executado em ambiente de produção
         if(!app()->environment('production')):
+            $this->call(RolesPermissionTableSeeder::class);
             $this->call(MaritalStatusTableSeeder::class);
             $this->call(SchoolingsTableSeeder::class);
             $this->call(GendersTableSeeder::class);
             $this->call(ProfessionsTableSeeder::class);
             $this->call(UsersTableSeeder::class);
+            $this->call(SetoresTableSeeder::class);
+            $this->call(IgrejasTableSeeder::class);
 //            $this->call(PostsTableSeeder::class);
             $this->call(StatesTableSeeder::class);
             $this->call(CitiesTableSeeder::class);
             $this->call(TrustsTableSeeder::class);
             $this->call(DepartmentsTableSeeder::class);
-            $this->call(SetoresTableSeeder::class);
-            $this->call(IgrejasTableSeeder::class);
         endif;
 
         if(app()->environment('production')):

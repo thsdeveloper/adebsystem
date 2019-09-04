@@ -25,7 +25,7 @@
 <script>
 export default {
   name: "AgendarGeral",
-  middleware: ["auth", "admin"],
+  middleware: ["auth", "permission"],
   components: {},
   data: () => ({
     type: "month",

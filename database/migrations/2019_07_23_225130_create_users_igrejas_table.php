@@ -22,6 +22,11 @@ class CreateUsersIgrejasTable extends Migration
             $table->foreign('igreja_id')->references('id')->on('igrejas');
             $table->timestamps();
         });
+
+        Schema::table('user_details', function (Blueprint $table) {
+            $table->integer('igreja_id')->nullable()->comment('Igreja do membro');
+            $table->foreign('igreja_id')->references('id')->on('igrejas');
+        });
     }
 
     /**
@@ -32,5 +37,6 @@ class CreateUsersIgrejasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users_igrejas');
+        Schema::dropIfExists('user_details');
     }
 }

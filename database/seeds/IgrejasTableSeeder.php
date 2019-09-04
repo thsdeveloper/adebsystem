@@ -21,5 +21,8 @@ class IgrejasTableSeeder extends Seeder
             ],
         ]);
         $this->command->info('[Igrejas] adicionada com sucesso ao banco!');
+
+        DB::table('user_details')->update(['igreja_id' => 1]);
+        $this->command->info('[Igrejas inseridas no membro] adicionada com sucesso ao banco!');
     }
 }

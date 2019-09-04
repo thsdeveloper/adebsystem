@@ -1,14 +1,14 @@
 import Vue from 'vue'
 
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
-
 import store from '~/store'
 import router from '~/router'
 import i18n from '~/plugins/i18n'
+import vuetify  from '~/plugins/vuetify'
 import App from '~/components/App'
+
 import InstantSearch from 'vue-instantsearch';
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
+Vue.use(InstantSearch);
+
 import 'dayspan-vuetify/dist/lib/dayspan-vuetify.min.css'
 
 Vue.use(require('vue-moment'));
@@ -19,8 +19,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 // Init plugin
 Vue.use(Loading);
 
-Vue.use(Vuetify);
-Vue.use(InstantSearch);
+
 
 import '~/plugins'
 import '~/components'
@@ -31,8 +30,9 @@ Vue.config.productionTip = true;
 
 /* eslint-disable no-new */
 new Vue({
-    i18n,
-    store,
-    router,
-    ...App
+  vuetify,
+  i18n,
+  store,
+  router,
+  ...App
 });

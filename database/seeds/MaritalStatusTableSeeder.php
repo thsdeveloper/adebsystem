@@ -20,5 +20,15 @@ class MaritalStatusTableSeeder extends Seeder
             ['name' => 'Divorciado', 'description' => 'Será conseguido se o casal já estiver separado judicialmente há um ano', 'status' => 1]
         ]);
         $this->command->info('[Estado Civil] adicionado com sucesso ao banco!');
+
+        DB::table('situacoes_membros')->insert([
+            ['nome' => 'Ativo'],
+            ['nome' => 'Desligado por pedido'],
+            ['nome' => 'Desligado por Ausência'],
+            ['nome' => 'Desligado por Óbito'],
+            ['nome' => 'Jubilado'],
+            ['nome' => 'Disciplina Temporária'],
+        ]);
+        $this->command->info('[Situações dos membros] adicionado com sucesso ao banco!');
     }
 }

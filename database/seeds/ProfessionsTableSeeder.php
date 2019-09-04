@@ -783,5 +783,19 @@ class ProfessionsTableSeeder extends Seeder
             ['name' => 'Gestor de tecnologia da informação']
         ]);
         $this->command->info('[Profissões] adicionado com sucesso ao banco!');
+        DB::table('tipo_cadastros')->insert([
+            ['nome' => 'Obreiro'],
+            ['nome' => 'Membro'],
+            ['nome' => 'Discipulado'],
+            ['nome' => 'Congregado'],
+        ]);
+        $this->command->info('[tipo_cadastros] adicionado com sucesso ao banco!');
+        DB::table('cargos_ministeriais')->insert([
+            ['nome' => 'Pastor'],
+            ['nome' => 'Evangelista'],
+            ['nome' => 'Presbítero'],
+            ['nome' => 'Diácono'],
+        ]);
+        $this->command->info('[cargos_ministeriais] adicionado com sucesso ao banco!');
     }
 }

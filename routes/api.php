@@ -21,7 +21,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::prefix('profile')->group(function () {
         // usage inside a laravel route
         Route::get('/thiago', function () {
+            return Auth::user()->getAllPermissionsAttribute();
         });
+    });
+
+    Route::group(['middleware' => ['role:presidente']], function () {
+
     });
 
     //users
@@ -43,23 +48,26 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::patch('settings/profile', 'Settings\ProfileController@update');
     Route::patch('settings/password', 'Settings\PasswordController@update');
 
-    //Members
+    //Profissões
     Route::get('/professions', 'UserController@getProfessions');
 
+    //Members
     Route::get('/member/detail/{id}', 'UserController@getMemberId');
     Route::get('/member/marital-status', 'UserController@getMaritalStatus');
     Route::get('/member/trusts', 'UserController@getTrusts');
-    Route::post('/member/store', 'UserController@store');
+    Route::post('/member/store', 'UserController@cadastrarUser');
     Route::get('/member/genders', 'UserController@getGenders');
     Route::get('/member/schoolings', 'UserController@getSchoolings');
+    Route::get('/situacoes-membros', 'UserController@getSituacoesMembros');
+
+    Route::get('/tipos-cadastros', 'MembroController@getTiposCadastros');
+    Route::get('/cargos-ministeriais', 'MembroController@getCargosMinisteriais');
 
     //Secretária
     Route::post('/secretaria/salvar-visitante', 'SecretariaController@salvarVisitante');
     Route::get('/secretaria/listar-visitante', 'SecretariaController@listarVisitantes');
 
-
-
-    //Address
+    //Endereços
     Route::get('/states', 'AddressController@getStates');
     Route::get('/states/{id}/cities', 'AddressController@getCities');
 

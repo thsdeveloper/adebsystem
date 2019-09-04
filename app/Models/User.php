@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Post;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +13,8 @@ use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Laravel\Scout\Searchable;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements JWTSubject, HasMedia
 {
@@ -136,6 +139,39 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     public function trusts()
     {
         return $this->belongsToMany(Trust::class, 'user_trusts', 'user_id', 'trust_id')->withTimestamps();
+    }
+
+    public function getAllPermissionsAttribute() {
+        $permissions = [];
+        foreach (Permission::all() as $permission) {
+            if (Auth::user()->can($permission->name)) {
+                $permissions[] = $permission->name;
+            }
+        }
+        return $permissions;
+    }
+
+    //Retorna os posts daquele usuário
+    public function situacaoMembro()
+    {
+        return $this->hasOne(SituacoesMembro::class, 'id', 'status_id');
+    }
+
+    public function getMatriculaMembro(){
+        do{
+            $rand = $this->generateRandomString(8);
+        }while(!empty($this->where('matricula', $rand)->first()));
+        return $rand;
+    }
+
+    public function generateRandomString($length) {
+        $characters = '0123456789';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
 }
