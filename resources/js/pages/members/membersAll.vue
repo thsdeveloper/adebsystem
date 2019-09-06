@@ -41,12 +41,12 @@
                         sortable: false,
                         value: 'photo_url',
                     },
-                    {text: 'Matrícula', value: 'id'},
+                    {text: 'Matrícula', value: 'matricula'},
                     {text: 'Nome', value: 'name'},
                     {text: 'Setor', value: 'details.igreja.setor.nome_setor'},
                     {text: 'Congregação', value: 'details.igreja.nome_igreja'},
-                    {text: 'Status do Cadastro', value: 'situacao_membro.nome'},
-                    {text: 'Tipo de Cadastro', value: 'details.tipo_cadastro.nome'},
+                    {text: 'Status do Cadastro', value: 'situacaomembro.nome'},
+                    {text: 'Tipo de Cadastro', value: 'details.tipocadastro.nome'},
                 ],
             }
         },
@@ -69,7 +69,6 @@
                 this.totalDesserts = data.total;
             })
         },
-        computed: {},
         methods: {
             getDataFromApi() {
                 this.loading = true;

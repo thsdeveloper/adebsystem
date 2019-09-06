@@ -18,9 +18,11 @@ class UsersTableSeeder extends Seeder
      * @var \Faker\Generator
      */
     private $faker;
+    public $user;
 
     public function run()
     {
+        $user = new User();
         $this->user_details = UserDetail::all();
         $this->faker = FactoryFaker::create('pt_BR');
 
@@ -34,6 +36,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'name' => 'Admin Geral do Sistema',
             'status_id' => 1,
+            'matricula' => rand(1, 1000000),
             'password' => bcrypt('admin123456')
         ]);
         $admin->assignRole('admin');
@@ -42,6 +45,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'presidente@gmail.com',
             'name' => 'Presidente do Ministério',
             'status_id' => 1,
+            'matricula' => rand(1, 1000000),
             'password' => bcrypt('presidente123456')
         ]);
 //        $orcival->assignRole($role);
@@ -50,6 +54,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'coordenador_setorial@gmail.com',
             'name' => 'Pr. Coordenador Setorial',
             'status_id' => 1,
+            'matricula' => rand(1, 1000000),
             'password' => bcrypt('coordenador123456')
         ]);
 //        $coordenador_setorial->assignRole($role);
@@ -58,6 +63,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'coordenador_dep_geral@gmail.com',
             'name' => 'Coordenador de Departamento Geral',
             'status_id' => 1,
+            'matricula' => rand(1, 1000000),
             'password' => bcrypt('coordenador123456')
         ]);
 //        $coordenador_setorial->assignRole($role);
@@ -66,6 +72,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'coordenador_dep_setorial@gmail.com',
             'name' => 'Coordenador de Departamento Setorial',
             'status_id' => 1,
+            'matricula' => rand(1, 1000000),
             'password' => bcrypt('coordenador123456')
         ]);
 //        $role = Role::create(['name' => 'coordenador_dep_setorial']);
@@ -75,6 +82,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'secretario_geral@gmail.com',
             'name' => 'Secretário Geral',
             'status_id' => 1,
+            'matricula' => rand(1, 1000000),
             'password' => bcrypt('secretario123456')
         ]);
 //        $role = Role::create(['name' => 'secretario_geral']);
@@ -84,6 +92,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'secretario_setorial@gmail.com',
             'name' => 'Secretário Setorial',
             'status_id' => 1,
+            'matricula' => rand(1, 1000000),
             'password' => bcrypt('secretario123456')
         ]);
 //        $role = Role::create(['name' => 'secretario_setorial']);
@@ -93,6 +102,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'secretario_local@gmail.com',
             'name' => 'Secretário Local',
             'status_id' => 1,
+            'matricula' => rand(1, 1000000),
             'password' => bcrypt('secretario123456')
         ]);
 //        $role = Role::create(['name' => 'secretario_local']);
@@ -102,6 +112,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'membro@gmail.com',
             'name' => 'Membro da ADEB',
             'status_id' => 1,
+            'matricula' => rand(1, 1000000),
             'password' => bcrypt('membro123456')
         ]);
 //        $role = Role::create(['name' => 'membro']);
@@ -265,6 +276,7 @@ class UsersTableSeeder extends Seeder
             'name' => $this->faker->name,
             'email' => $this->faker->email,
             'status_id' => 1,
+            'matricula' => rand(1, 1000000),
             'password' => bcrypt(str_random(6))
         ]);
     }

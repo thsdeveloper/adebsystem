@@ -19,6 +19,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 // Init plugin
 Vue.use(Loading);
 
+import VueMask from 'v-mask'
+Vue.use(VueMask);
+
 
 
 import '~/plugins'

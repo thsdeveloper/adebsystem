@@ -34,7 +34,7 @@ class usercontroller extends controller
             'posts',
             'situacaomembro',
             'details.igreja.setor',
-            'details.tipocadastro')->paginate($request->itemsperpage);
+            'details.tipocadastro')->paginate($request->itemsPerPage);
         return response()->json($users, 200);
     }
 

@@ -308,13 +308,8 @@
     import swal from 'sweetalert2';
     import Croppa from 'vue-croppa';
     import 'vue-croppa/dist/vue-croppa.css'
-    import { mask } from 'vue-the-mask'
-
     export default {
         name: "MemberCreated",
-        directives: {
-            mask,
-        },
         components: {
             croppa: Croppa.component,
             AutoCompleteProfession,
@@ -333,7 +328,7 @@
 
             url: 'google.com',
             modalCreateMember: false,
-            maskCPF: '###.###.###-##',
+            maskCPF: '###-###-###-##',
             maskPhone: '(##) # ####-####',
             maskCep: '#####-###',
             dateMask: '##/##/####',
