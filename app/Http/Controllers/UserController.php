@@ -25,108 +25,106 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    public function index(request $request)
+    public function index(Request $request)
     {
-//        dd($request->all());
         $users = user::with('details.maritalstatus',
             'details.schooling',
             'details.spouse',
             'posts',
             'situacaomembro',
             'details.igreja.setor',
-            'details.tipocadastro')->paginate($request->itemsPerPage);
+            'details.tipoCadastro')->paginate($request->itemsPerPage);
         return response()->json($users, 200);
     }
 
-    public function getuser(request $request)
+    public function getUser(Request $request)
     {
-        $user = auth::user();
+        $user = Auth::user();
         $usuario = array();
 
         $usuario['id'] = $user->id;
         $usuario['name'] = $user->name;
         $usuario['email'] = $user->email;
         $usuario['photo_url'] = $user->photo_url;
-        $usuario['permissions'] = $user->getallpermissionsattribute();
+        $usuario['permissions'] = $user->getAllPermissionsAttribute();
 
         return response()->json($usuario);
     }
 
-    public function getpermission()
+    public function getPermission()
     {
-        return auth::user()->getrolenames();
+        return Auth::user()->getRoleNames();
     }
 
-    public function userfind(request $request)
+    public function userFind(Request $request)
     {
-        $users = user::with('details.maritalstatus', 'details.schooling', 'details.spouse')->get();
+        $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse')->get();
     }
 
-    public function getprofessions(profession $profession)
+    public function getProfessions(Profession $profession)
     {
-        $professions = $profession->orderby('name', 'asc')->get();
+        $professions = $profession->orderBy('name', 'asc')->get();
         return response()->json($professions);
     }
 
-    public function getmemberid($id)
+    public function getMemberId($id)
     {
-        $member = user::where('id', $id)->with('addresses', 'details.profession')->first();
+        $member = User::where('id', $id)->with('addresses', 'details.profession')->first();
         return response()->json($member);
     }
 
-    public function getmaritalstatus()
+    public function getMaritalStatus()
     {
-        $maritalstatus = maritalstatu::all();
-        return response()->json($maritalstatus);
+        $maritalStatus = MaritalStatu::all();
+        return response()->json($maritalStatus);
     }
 
-    public function gettrusts()
+    public function getTrusts()
     {
-        $trusts = trust::all();
+        $trusts = Trust::all();
         return response()->json($trusts);
     }
 
-    public function cadastraruser(request $request)
+    public function store(Request $request)
     {
         try {
-            $validator = validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
                 'cpf' => 'required|unique:user_details|cpf|max:11',
                 'email' => 'required|unique:users',
             ]);
 
             if ($validator->passes()) {
-                $state = state::where('uf', $request->uf)->first();
-                $city = city::where('name', $request->cidade)->first();
+                $state = State::where('uf', $request->uf)->first();
+                $city = City::where('name', $request->cidade)->first();
 
-                db::begintransaction();
+                DB::beginTransaction();
 
-                $user = new user();
+                $user = new User();
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->status_id = $request->status_id;
-                $user->password = hash::make($request->cpf);
-                $user->matricula = $user->getMatriculaMembro();
+                $user->password = Hash::make($request->cpf);
 
-                //cadastro de imagem no perfil
-                if ($request->fotobase64 != null) {
+                //Cadastro de Imagem no Perfil
+                if ($request->fotoBase64 != null) {
                     //get the base-64 from data
-                    $base64_str = substr($request->fotobase64, strpos($request->fotobase64, ",") + 1);
+                    $base64_str = substr($request->fotoBase64, strpos($request->fotoBase64, ",") + 1);
 
                     //decode base64 string
                     $image = base64_decode($base64_str);
 
-                    //nome do arquivo para salvar no temp
-                    $nomearquivo = $request->cpf . '.png';
+                    //Nome do arquivo para salvar no temp
+                    $nomeArquivo = $request->cpf . '.png';
 
-                    if (storage::disk('local')->put('/temp/' . $nomearquivo, $image)) {
-                        //obtenho o path do arquivo
-                        $storagepath = storage::disk('local')->getdriver()->getadapter()->getpathprefix();
-                        $user->addmedia($storagepath . '/temp/' . $nomearquivo)->tomediacollection('profile');
+                    if (Storage::disk('local')->put('/temp/' . $nomeArquivo, $image)) {
+                        //Obtenho o path do arquivo
+                        $storagePath = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+                        $user->addMedia($storagePath . '/temp/' . $nomeArquivo)->toMediaCollection('profile');
                     }
                 }
 
                 if ($user->save()) {
-                    $user_detail = new userdetail();
+                    $user_detail = new UserDetail();
                     $user_detail->tipo_cadastro_id = $request->tipo_cadastro_id;
                     $user_detail->cargo_ministerial_id = $request->cargo_ministerial_id;
                     $user_detail->date_birth = $request->date_birth;
@@ -148,7 +146,7 @@ class UserController extends Controller
                     $user_detail->igreja()->attach($request->igreja_id);
 
                     if ($user_detail->save()) {
-                        $address = new address();
+                        $address = new Address();
                         $address->cep = $request->cep;
                         $address->state_id = $state->id;
                         $address->city_id = $city->id;
@@ -160,10 +158,10 @@ class UserController extends Controller
                             $user->departments()->attach($request->departments);
                             $user->trusts()->attach($request->trusts);
                             $user->igreja()->attach($request->igreja_id);
-                            db::commit();
+                            DB::commit();
                             return response()->json([
                                 'status' => true,
-                                'msg' => 'membro cadastrado com sucesso!',
+                                'msg' => 'Membro cadastrado com sucesso!',
                                 'user' => $user
                             ]);
 
@@ -172,38 +170,38 @@ class UserController extends Controller
                 }
             } else {
                 $response_json = [
-                    "code" => "reg003",
-                    "msg" => "um erro ocorreu na validação dos campos.",
+                    "code" => "REG003",
+                    "msg" => "Um erro ocorreu na validação dos campos.",
                     "erros" => $validator->errors()->all()
                 ];
                 return response()->json($response_json, 422);
             }
-        } catch (validationexception $exception) {
+        } catch (ValidationException $exception) {
             return response()->json([
                 'status' => 'error',
-                'msg' => 'error',
+                'msg' => 'Error',
                 'errors' => $exception->errors(),
             ], 422);
         }
 
     }
 
-    public function getgenders()
+    public function getGenders()
     {
-        $genders = gender::all();
+        $genders = Gender::all();
         return response()->json($genders);
     }
 
-    public function getschoolings()
+    public function getSchoolings()
     {
-        $schoolings = schooling::all();
+        $schoolings = Schooling::all();
         return response()->json($schoolings);
     }
 
-    public function getsituacoesmembros()
+    public function getSituacoesMembros()
     {
-        $situacoesmembro = situacoesmembro::all();
-        return response()->json($situacoesmembro);
+        $situacoesMembro = SituacoesMembro::all();
+        return response()->json($situacoesMembro);
     }
 
 }

@@ -328,7 +328,7 @@
 
             url: 'google.com',
             modalCreateMember: false,
-            maskCPF: '###-###-###-##',
+            maskCPF: '###.###.###-##',
             maskPhone: '(##) # ####-####',
             maskCep: '#####-###',
             dateMask: '##/##/####',
