@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-class usercontroller extends controller
+class UserController extends Controller
 {
     public function index(request $request)
     {
