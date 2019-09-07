@@ -6,7 +6,6 @@ use App\Models\Address;
 use App\Models\City;
 use App\Models\Gender;
 use App\Models\MaritalStatu;
-use App\Models\Profession;
 use App\Models\Schooling;
 use App\Models\SituacoesMembro;
 use App\Models\State;
@@ -27,11 +26,11 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $users = user::with('details.maritalstatus',
+        $users = user::with('details.maritalStatus',
             'details.schooling',
             'details.spouse',
             'posts',
-            'situacaomembro',
+            'situacaoMembro',
             'details.igreja.setor',
             'details.tipoCadastro')->paginate($request->itemsPerPage);
         return response()->json($users, 200);
@@ -61,12 +60,6 @@ class UserController extends Controller
         $users = User::with('details.maritalStatus', 'details.schooling', 'details.spouse')->get();
     }
 
-    public function getProfessions(Profession $profession)
-    {
-        $professions = $profession->orderBy('name', 'asc')->get();
-        return response()->json($professions);
-    }
-
     public function getMemberId($id)
     {
         $member = User::where('id', $id)->with('addresses', 'details.profession')->first();
@@ -79,14 +72,14 @@ class UserController extends Controller
         return response()->json($maritalStatus);
     }
 
-    public function getTrusts()
+    public function cadastrarUser(Request $request)
     {
-        $trusts = Trust::all();
-        return response()->json($trusts);
-    }
+        dd($request->all());
+        $chars = array(".","/","-");
+        $cpf = str_replace($chars,"", $request->cpf);
 
-    public function store(Request $request)
-    {
+        dd($cpf);
+
         try {
             $validator = Validator::make($request->all(), [
                 'cpf' => 'required|unique:user_details|cpf|max:11',
@@ -103,7 +96,7 @@ class UserController extends Controller
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->status_id = $request->status_id;
-                $user->password = Hash::make($request->cpf);
+                $user->password = Hash::make($cpf);
 
                 //Cadastro de Imagem no Perfil
                 if ($request->fotoBase64 != null) {
@@ -114,7 +107,7 @@ class UserController extends Controller
                     $image = base64_decode($base64_str);
 
                     //Nome do arquivo para salvar no temp
-                    $nomeArquivo = $request->cpf . '.png';
+                    $nomeArquivo = $cpf . '.png';
 
                     if (Storage::disk('local')->put('/temp/' . $nomeArquivo, $image)) {
                         //Obtenho o path do arquivo
@@ -134,7 +127,7 @@ class UserController extends Controller
                     $user_detail->nome_mae = $request->nome_mae;
                     $user_detail->data_batismo = $request->data_batismo;
                     $user_detail->observacoes = $request->observacoes;
-                    $user_detail->cpf = $request->cpf;
+                    $user_detail->cpf = $cpf;
                     $user_detail->rg = $request->rg;
                     $user_detail->gender_id = $request->gender;
                     $user_detail->profession_id = $request->profession;

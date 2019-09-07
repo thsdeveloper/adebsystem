@@ -28,7 +28,7 @@ import '~/plugins'
 import '~/components'
 
 Vue.config.productionTip = true;
-// Vue.config.devtools = true;
+// Vue.config.devtools = false;
 // Vue.config.performance = true;
 
 /* eslint-disable no-new */

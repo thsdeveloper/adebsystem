@@ -45,8 +45,8 @@
                     {text: 'Nome', value: 'name'},
                     {text: 'Setor', value: 'details.igreja.setor.nome_setor'},
                     {text: 'Congregação', value: 'details.igreja.nome_igreja'},
-                    {text: 'Status do Cadastro', value: 'situacaomembro.nome'},
-                    {text: 'Tipo de Cadastro', value: 'details.tipocadastro.nome'},
+                    {text: 'Status do Cadastro', value: 'situacao_membro.nome'},
+                    {text: 'Tipo de Cadastro', value: 'details.tipo_cadastro.nome'},
                 ],
             }
         },

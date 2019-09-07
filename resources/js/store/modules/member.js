@@ -163,7 +163,7 @@ export const actions = {
 
   async fetchTrusts({commit}) {
     try {
-      const {data} = await axios.get('/api/member/trusts');
+      const {data} = await axios.get('/api/cargos-funcoes');
       commit(types.FETCH_TRUSTS, {trusts: data})
     } catch (e) {
       alert('Ocorreu um erro na busca do funções');

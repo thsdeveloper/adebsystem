@@ -49,12 +49,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::patch('settings/password', 'Settings\PasswordController@update');
 
     //Profissões
-    Route::get('/professions', 'UserController@getProfessions');
+    Route::get('/professions', 'ProficoesController@getProficoes');
+
+    //Cargo Funções
+    Route::get('/cargos-funcoes', 'CargoFuncoesController@getCargosFuncoes');
 
     //Members
     Route::get('/member/detail/{id}', 'UserController@getMemberId');
     Route::get('/member/marital-status', 'UserController@getMaritalStatus');
-    Route::get('/member/trusts', 'UserController@getTrusts');
     Route::post('/member/store', 'UserController@cadastrarUser');
     Route::get('/member/genders', 'UserController@getGenders');
     Route::get('/member/schoolings', 'UserController@getSchoolings');
@@ -77,6 +79,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     //Setores
     Route::get('/setores', 'SetoresController@getAll');
     Route::get('/igrejas/{id}', 'IgrejasController@buscarIgrejasPorSetor');
+
+    Route::post('/upload/files', 'UploadController@setFiles');
 
 
 });

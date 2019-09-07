@@ -49,6 +49,8 @@ export const PERMISSIONS = 'PERMISSIONS'
 //Setores
 export const FETCH_SETORES = 'FETCH_SETORES'
 
+export const UPDATE_FILES = 'UPDATE_FILES'
+
 //Igrejas
 export const BUSCAR_IGREJAS = 'BUSCAR_IGREJAS'
 
