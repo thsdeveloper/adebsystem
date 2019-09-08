@@ -196,7 +196,7 @@ export const actions = {
       swal({
         type: 'error',
         title: e.response.data.erros[0],
-        text: e.response.data.erros[0],
+        text: e.response.data.code + ' | ' +e.response.data.msg,
         confirmButtonText: 'Ok',
       })
     }

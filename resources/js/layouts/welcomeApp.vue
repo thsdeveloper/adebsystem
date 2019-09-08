@@ -1,7 +1,7 @@
 <template>
   <v-app id="back">
     <v-content>
-      <v-container fluid>
+      <v-container fluid class="fill-height">
         <v-row justify="center" align="center">
           <v-col md="4">
             <child animate-in="bounceInRight"></child>

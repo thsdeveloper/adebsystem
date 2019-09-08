@@ -45,12 +45,12 @@
                 <v-text-field v-model="form.rg" label="RG*" :rules="rules.campoObrigatorio" required></v-text-field>
               </v-flex>
               <v-flex xs12 sm4>
-                <v-select v-model="form.marital_status" :items="maritalStatus"
+                <v-select v-model="form.marital_status_id" :items="maritalStatus"
                           :rules="rules.campoObrigatorio" label="Estado Civil" item-text="name"
                           item-value="id"></v-select>
               </v-flex>
               <v-flex xs12 sm6 md4>
-                <v-select v-model="form.gender" :rules="rules.campoObrigatorio" :items="genders" label="Sexo*"
+                <v-select v-model="form.gender_id" :rules="rules.campoObrigatorio" :items="genders" label="Sexo*"
                           item-text="name" item-value="id" required></v-select>
               </v-flex>
               <v-flex xs12 sm6 md4>
@@ -58,16 +58,16 @@
                               v-mask="dateMask" :rules="rules.campoObrigatorio" required></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md4>
-                <v-select v-model="form.schooling" :items="schoolings" :rules="rules.campoObrigatorio"
+                <v-select v-model="form.schooling_id" :items="schoolings" :rules="rules.campoObrigatorio"
                           label="Escolaridade" item-text="name" item-value="id"></v-select>
               </v-flex>
               <v-flex xs12 sm6 md4>
-                <v-autocomplete v-model="form.profession" :items="professions" :rules="rules.campoObrigatorio"
+                <v-autocomplete v-model="form.profession_id" :items="professions" :rules="rules.campoObrigatorio"
                                 label="Profissão" item-text="name"
                                 item-value="id" deletable-chips hint="Selecione a profissão do membro"
                                 no-data-text="Não encontramos esta profissão!"></v-autocomplete>
               </v-flex>
-              <v-flex xs12 sm6 md4 v-if="form.marital_status === 2">
+              <v-flex xs12 sm6 md4 v-if="form.marital_status_id === 2">
                 <v-text-field v-model="form.nome_conjuge" label="Nome do Conjuge" :rules="rules.campoObrigatorio"
                               required></v-text-field>
               </v-flex>
@@ -123,7 +123,7 @@
               </v-flex>
               <v-flex xs12 sm4>
                 <v-select
-                  v-model="form.forma_ingresso"
+                  v-model="form.forma_ingresso_id"
                   :items="formasIgresso"
                   :rules="rules.campoObrigatorio"
                   item-value="id"
@@ -192,7 +192,7 @@
                 </v-select>
               </v-flex>
               <v-flex xs12 sm4>
-                <v-select v-model="form.uf_naturalidade_id" :items="states" :rules="rules.campoObrigatorio"
+                <v-select v-model="form.uf_naturalidade" :items="states" :rules="rules.campoObrigatorio"
                           label="Estado de Naturalidade"
                           item-text="name"
                           item-value="uf" hint="Selecione a naturalidade" @change="buscarCidade"
@@ -200,7 +200,7 @@
                 </v-select>
               </v-flex>
               <v-flex xs12 sm4>
-                <v-autocomplete v-model="form.cidade_naturalidade_id" :items="cities" :rules="rules.campoObrigatorio"
+                <v-autocomplete v-model="form.cidade_naturalidade" :items="cities" :rules="rules.campoObrigatorio"
                                 label="Cidade da Naturalidade" item-text="name"
                                 item-value="name" deletable-chips hint="Selecione a cidade"
                                 no-data-text="Não encontramos a cidade!">
@@ -368,8 +368,8 @@
                 data_nascimento: null,
                 cpf: null,
                 rg: null,
-                gender: null,
-                profession: null,
+                gender_id: null,
+                profession_id: null,
                 phone: null,
                 uf: null,
                 cidade: null,
@@ -379,19 +379,19 @@
                 numero: null,
                 departments: null,
                 trusts: null,
-                marital_status: null,
+                marital_status_id: null,
                 nome_conjuge: null,
                 nome_mae: null,
                 nome_pai: null,
                 data_conversao: null,
                 data_batismo: null,
-                schooling: null,
-                forma_ingresso: null,
+                schooling_id: null,
+                forma_ingresso_id: null,
                 tipo_cadastro_id: 2,
                 fotoBase64: null,
                 cargo_ministerial_id: null,
-                uf_naturalidade_id: null,
-                cidade_naturalidade_id: null,
+                uf_naturalidade: null,
+                cidade_naturalidade: null,
                 data_consagracao: null,
                 curso_teologico_id: null,
                 convencao_igreja: null,

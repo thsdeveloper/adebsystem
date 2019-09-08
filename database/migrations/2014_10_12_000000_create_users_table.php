@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->integer('matricula')->unique()->comment('Número da Matrícula do user');
             $table->integer('status_id');
             $table->foreign('status_id')->references('id')->on('situacoes_membros');
-            $table->string('password')->nullable();
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -15,6 +15,31 @@
             <img :src="item.photo_url" alt="Imagem de Perfil">
           </v-avatar>
         </template>
+
+        <template v-slot:item.acoes="{ item }">
+          <v-menu bottom left>
+            <template v-slot:activator="{ on }">
+              <v-btn icon v-on="on">
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list dense>
+              <v-list-item @click="">
+                <v-list-item-title>Visualizar perfil</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="">
+                <v-list-item-title>Emitir carta de recomendação</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="">
+                <v-list-item-title>Editar</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="">
+                <v-list-item-title>Excluir</v-list-item-title>
+              </v-list-item>
+
+            </v-list>
+          </v-menu>
+        </template>
       </v-data-table>
 
       <v-btn dark fab fixed bottom right color="primary" to="created">
@@ -47,6 +72,7 @@
                     {text: 'Congregação', value: 'details.igreja.nome_igreja'},
                     {text: 'Status do Cadastro', value: 'situacao_membro.nome'},
                     {text: 'Tipo de Cadastro', value: 'details.tipo_cadastro.nome'},
+                    {text: 'Ações', value: 'acoes', sortable: false},
                 ],
             }
         },
