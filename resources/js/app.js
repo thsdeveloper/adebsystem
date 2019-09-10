@@ -22,6 +22,12 @@ Vue.use(Loading);
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask);
 
+import Toasted from 'vue-toasted';
+Vue.use(Toasted);
+
+import ApexCharts from 'apexcharts'
+import VueApexCharts from 'vue-apexcharts'
+Vue.component('apexchart', VueApexCharts);
 
 
 import '~/plugins'

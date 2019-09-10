@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/member/genders', 'UserController@getGenders');
     Route::get('/member/schoolings', 'UserController@getSchoolings');
     Route::get('/situacoes-membros', 'UserController@getSituacoesMembros');
+    Route::post('/member/desativar', 'UserController@setDesativarMembro');
 
     Route::get('/tipos-cadastros', 'MembroController@getTiposCadastros');
     Route::get('/cargos-ministeriais', 'MembroController@getCargosMinisteriais');

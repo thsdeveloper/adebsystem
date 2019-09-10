@@ -5,10 +5,8 @@
     </div>
     <navigation-drawer/>
     <v-content>
-      <v-container>
         <snackbar></snackbar>
         <child animate-in="fadeIn"></child>
-      </v-container>
     </v-content>
   </v-app>
 </template>

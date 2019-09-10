@@ -17,6 +17,7 @@ use App\Models\UserTrust;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -33,7 +34,8 @@ class UserController extends Controller
             'posts',
             'situacaoMembro',
             'details.igreja.setor',
-            'details.tipoCadastro')->paginate($request->itemsPerPage);
+            'details.tipoCadastro')
+            ->where('status_id', '!=', Config::get('constants.USER.MEMBRO_INATIVO'))->orderBy('created_at', 'DESC')->paginate($request->itemsPerPage); //2 - Inativo
         return response()->json($users, 200);
     }
 
@@ -211,6 +213,11 @@ class UserController extends Controller
     {
         $situacoesMembro = SituacoesMembro::all();
         return response()->json($situacoesMembro);
+    }
+
+    public function setDesativarMembro(Request $request){
+        $inativo = DB::table('users')->where('id', $request->id_membro)->update(['status_id' => Config::get('constants.USER.MEMBRO_INATIVO')]);
+        return response()->json($inativo);
     }
 
 }

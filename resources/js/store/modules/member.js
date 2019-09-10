@@ -220,5 +220,14 @@ export const actions = {
     }
   },
 
+  async desativarMembro({commit}, id) {
+    try {
+      const {data} = await axios.post('/api/member/desativar', {id_membro: id});
+      return data;
+      // commit(types.DESATIVAR_MEMBRO, data)
+    } catch (e) {
+      alert('Ocorreu um erro na DESATIVAÇÃO DO MEMBRO');
+    }
+  },
 
 };
