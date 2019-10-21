@@ -1,14 +1,109 @@
-image: google/cloud-sdk:latest # docker image
+stages:
+  - build
+  - container
+  - deploy
+  - publish
 
-deploy_staging:
-    stage: deploy
-    environment: Dev # change to your environment
-    only:
-        - development # change with your branch name
-    script:
-        - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
-        - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
-        - gcloud --project $PROJECT_ID app deploy app-dev.yaml
+Building:
+  stage: build
+  variables:
+    COMPOSER_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/composer"
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - ${COMPOSER_CACHE_DIR}
+  image:  composer:1.8
+  script:
+    - composer install -o --no-dev
+    - php artisan laroute:generate
+  artifacts:
+    paths:
+     - $ARTIFACT_PATH
+  only: ['development', 'tags']
 
-after_script:
-    - rm /tmp/$CI_PIPELINE_ID.json
+Containerizing:
+  stage: container
+  image: docker:stable
+  variables:
+    DOCKER_DRIVER: overlay
+    DOCKER_HOST: tcp://localhost:2375/
+  services:
+  - docker:dind
+  script:
+  - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}
+  - docker build -t ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME} .
+  - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
+  only: ['development', 'tags']
+
+Deploy em Desenvolvimento:
+  stage: deploy
+  image: dockerimages.mctic.gov.br/arquitetura/devops/kubectl:v1.11.2
+  script:
+    - echo $KUBECONFIG_DSV | base64 -d > ../${CI_PROJECT_NAME}.tmp/KUBECONFIG
+    - envsubst < .docker/k8s-preprod.yml > .docker/k8s.yml
+    - kubectl delete deployment ${CI_PROJECT_NAME} -n ${CI_ENVIRONMENT_NAME} || true
+    - kubectl apply -f .docker/k8s.yml
+  environment:
+    name: dsv
+    url: https://snct.dsv.app.mctic.gov.br
+  only: ['development', 'tags']
+    
+Deploy em Stage:
+  stage: deploy
+  image: dockerimages.mctic.gov.br/arquitetura/devops/kubectl:v1.11.2
+  script:
+    - echo $KUBECONFIG_DSV | base64 -d > ../${CI_PROJECT_NAME}.tmp/KUBECONFIG
+    - envsubst < .docker/k8s-preprod.yml > .docker/k8s.yml
+    - kubectl apply -f .docker/k8s.yml
+  environment:
+    name: stg
+    url: https://snct.stg.app.mctic.gov.br
+  when: manual
+  dependencies: []
+  only:
+    - tags
+
+Deploy em Teste:
+  stage: deploy
+  image: dockerimages.mctic.gov.br/arquitetura/devops/kubectl:v1.11.2
+  script:
+    - echo $KUBECONFIG_DSV | base64 -d > ../${CI_PROJECT_NAME}.tmp/KUBECONFIG
+    - envsubst < .docker/k8s-preprod.yml > .docker/k8s.yml
+    - kubectl apply -f .docker/k8s.yml
+  environment:
+    name: tst
+    url: https://snct.tst.app.mctic.gov.br
+  when: manual
+  dependencies: []
+  only:
+    - tags
+
+Deploy em Homologação:
+  stage: deploy
+  image: dockerimages.mctic.gov.br/arquitetura/devops/kubectl:v1.11.2
+  script:
+    - echo $KUBECONFIG_DSV | base64 -d > ../${CI_PROJECT_NAME}.tmp/KUBECONFIG
+    - envsubst < .docker/k8s-preprod.yml > .docker/k8s.yml
+    - kubectl apply -f .docker/k8s.yml
+  environment:
+    name: hml
+    url: https://snct.hml.app.mctic.gov.br
+  when: manual
+  dependencies: []
+  only:
+    - tags
+
+Deploy em Produção:
+  stage: publish
+  image: dockerimages.mctic.gov.br/arquitetura/devops/kubectl:v1.11.2
+  script:
+    - envsubst < .docker/k8s-prod.yml > .docker/k8s.yml
+    - echo $KUBECONFIG_PRD | base64 -d > ../${CI_PROJECT_NAME}.tmp/KUBECONFIG
+    - kubectl apply -f .docker/k8s.yml
+  environment:
+    name: aplicacoes
+    url: https://snct.mctic.gov.br
+  when: manual
+  dependencies: []
+  only:
+    - tags
