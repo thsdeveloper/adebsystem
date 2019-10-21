@@ -3,7 +3,7 @@
         <v-card class="elevation-12">
             <v-form @submit.prevent="login" @keydown="form.onKeydown($event)">
                 <v-toolbar dark color="primary">
-                    <v-toolbar-title>Entrar no sistema</v-toolbar-title>
+                    <v-toolbar-title>AdebSystem 1.0</v-toolbar-title>
                     <v-spacer></v-spacer>
                 </v-toolbar>
                 <v-card-text>
@@ -40,7 +40,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" flat :to="{ name: 'password.request' }">{{ $t('forgot_password') }}</v-btn>
+                    <v-btn color="primary" text :to="{ name: 'password.request' }">{{ $t('forgot_password') }}</v-btn>
                     <v-btn color="primary" type="submit" :loading="form.busy">{{ $t('login') }}</v-btn>
                 </v-card-actions>
             </v-form>

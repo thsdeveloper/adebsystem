@@ -163,7 +163,7 @@ export const actions = {
 
   async fetchTrusts({commit}) {
     try {
-      const {data} = await axios.get('/api/member/trusts');
+      const {data} = await axios.get('/api/cargos-funcoes');
       commit(types.FETCH_TRUSTS, {trusts: data})
     } catch (e) {
       alert('Ocorreu um erro na busca do funções');
@@ -196,7 +196,7 @@ export const actions = {
       swal({
         type: 'error',
         title: e.response.data.erros[0],
-        text: e.response.data.erros[0],
+        text: e.response.data.code + ' | ' +e.response.data.msg,
         confirmButtonText: 'Ok',
       })
     }
@@ -220,5 +220,14 @@ export const actions = {
     }
   },
 
+  async desativarMembro({commit}, id) {
+    try {
+      const {data} = await axios.post('/api/member/desativar', {id_membro: id});
+      return data;
+      // commit(types.DESATIVAR_MEMBRO, data)
+    } catch (e) {
+      alert('Ocorreu um erro na DESATIVAÇÃO DO MEMBRO');
+    }
+  },
 
 };

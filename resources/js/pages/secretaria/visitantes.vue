@@ -75,7 +75,7 @@
         <v-flex xs12 sm6>
           <vue-glide :perView="1" :rewind="false">
             <vue-glide-slide v-for="vi in visitantes" :key="vi.id">
-              <v-card>
+              <v-card v-if="vi.apresentado">
                 <v-card-title primary-title>
                   <div>
                     <h1 class="display-1">{{vi.nome}}</h1>

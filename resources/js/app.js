@@ -19,16 +19,22 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 // Init plugin
 Vue.use(Loading);
 
-import VueMask from 'v-mask'
-Vue.use(VueMask);
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask);
 
+import Toasted from 'vue-toasted';
+Vue.use(Toasted);
+
+import ApexCharts from 'apexcharts'
+import VueApexCharts from 'vue-apexcharts'
+Vue.component('apexchart', VueApexCharts);
 
 
 import '~/plugins'
 import '~/components'
 
 Vue.config.productionTip = true;
-// Vue.config.devtools = true;
+// Vue.config.devtools = false;
 // Vue.config.performance = true;
 
 /* eslint-disable no-new */

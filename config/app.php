@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'pt-BR',
+    'locale' => 'pt',
 
     'locales' => [
         'en' => 'Inglês',
@@ -160,6 +160,7 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class,
+//        OwenIt\Auditing\AuditingServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -1,0 +1,14 @@
+image: google/cloud-sdk:latest # docker image
+
+deploy_staging:
+    stage: deploy
+    environment: Dev # change to your environment
+    only:
+        - development # change with your branch name
+    script:
+        - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
+        - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
+        - gcloud --project $PROJECT_ID app deploy app-dev.yaml
+
+after_script:
+    - rm /tmp/$CI_PIPELINE_ID.json

@@ -1,25 +1,41 @@
 <template>
-  <div>
-    <v-layout row wrap>
-      <v-flex xs12 ms12 md12>
-        <v-card color="blue-grey darken-2" class="white--text">
-          <v-card-title primary-title>
-            <div>
-              <div class="headline">Bem vindo ao AdebSystem 1.0</div>
-              <span>Os recursos deste sistema está em fase de implementação. Somente o módulo de cadastro de membro está em funcionamento</span>
-            </div>
-          </v-card-title>
-        </v-card>
-      </v-flex>
-    </v-layout>
-    <v-layout>
-      <v-flex>
-        <v-layout>
-          <post-time-line/>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-  </div>
+ <v-container>
+   <v-row>
+     <v-col>
+       <v-card>
+         <v-card-title>Crescimento nos últimos anos</v-card-title>
+         <v-card-text>
+           <apexchart type="bar" :options="options" :series="series"></apexchart>
+         </v-card-text>
+       </v-card>
+     </v-col>
+     <v-col>
+       <v-card>
+         <v-card-title>Crescimento nos últimos anos</v-card-title>
+         <v-card-text>
+           <apexchart width="380" type="donut" :options="options" :series="series"></apexchart>
+         </v-card-text>
+       </v-card>
+     </v-col>
+   </v-row>
+   <v-row>
+     <v-col>
+       <v-card color="#385F73" dark>
+         <v-card-text class="white--text">
+           <div class="headline mb-2">AdebSystem 1.0</div>
+           Sistema Integrado de Gerenciamento da ADEB
+         </v-card-text>
+
+         <v-card-actions>
+           <v-btn text>Contato</v-btn>
+         </v-card-actions>
+       </v-card>
+     </v-col>
+     <v-col>
+       <post-time-line/>
+     </v-col>
+   </v-row>
+ </v-container>
 </template>
 
 <script>
@@ -34,7 +50,18 @@
         },
         data() {
             return {
-
+                options: {
+                    chart: {
+                        id: 'vuechart-example'
+                    },
+                    xaxis: {
+                        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+                    }
+                },
+                series: [{
+                    name: 'series-1',
+                    data: [30, 40, 45, 50, 49, 60, 70, 91]
+                }]
             }
         },
     }

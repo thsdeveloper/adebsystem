@@ -44,7 +44,7 @@ export default [
     children: [
       {path: '', redirect: {name: 'members.all'}},
       {path: 'all', name: 'members.all', component: MembersAll},
-      {path: 'detail', name: 'members.detail', component: MembersDetail},
+      {path: 'detail/:id', name: 'members.detail', component: MembersDetail, props: true},
       {path: 'created', name: 'members.created', component: MembersCreated},
     ]
   },

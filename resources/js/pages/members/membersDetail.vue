@@ -49,9 +49,8 @@
         name: "DetalheDoMebro",
         methods: {
             fetchUser(){
-                var id = this.$route.params.userId;
-                console.log(this.$route.params.userId);
-                this.$store.dispatch('member/fetchMember', id)
+                var id = this.$route.params.id;
+                this.$store.dispatch('member/fetchMember', id);
             }
         },
         mounted(){
