@@ -1,0 +1,111 @@
+# PV e PVC Removidos, pois utilizará o mesmo do portalsnct-arquivos
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+    name: ${CI_PROJECT_NAME}
+    namespace: ${CI_ENVIRONMENT_NAME}
+    labels:
+        app: ${CI_PROJECT_NAME}
+spec:
+    replicas: 4
+    strategy:
+        rollingUpdate:
+            maxSurge: 1
+            maxUnavailable: 0
+        type: RollingUpdate
+    selector:
+        matchLabels:
+            app: ${CI_PROJECT_NAME}
+    template:
+        metadata:
+            labels:
+                app: ${CI_PROJECT_NAME}
+        spec:
+            affinity:
+                nodeAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                        nodeSelectorTerms:
+                            -   matchExpressions:
+                                    -   key: name
+                                        operator: In
+                                        values:
+                                            - ${NODE_SELECTOR_NAME_PROD}
+                    podAntiAffinity:
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                            -   labelSelector:
+                                    matchExpressions:
+                                        -   key: app
+                                            operator: In
+                                            values:
+                                                - ${CI_PROJECT_NAME}
+                                topologyKey: "kubernetes.io/hostname"
+        spec:
+            containers:
+                -   name: ${CI_PROJECT_NAME}
+                    image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
+                    imagePullPolicy: Always
+                    ports:
+                        -   containerPort: 80
+                    envFrom:
+                        -   secretRef:
+                                name: ${CI_PROJECT_NAME}
+                    resources:
+                        limits:
+                            memory: 1.0Gi
+                            cpu: "1"
+                    volumeMounts:
+                        -   name: ${CI_PROJECT_NAME}-arquivos
+                            mountPath: /var/www/html/storage/app/blobs
+            volumes:
+                -   name: ${CI_PROJECT_NAME}-arquivos
+                    persistentVolumeClaim:
+                        claimName: portalsnct-arquivos
+            nodeSelector:
+                name: ${NODE_SELECTOR_NAME_PROD}
+            imagePullSecrets:
+                -   name: dockerimages
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: ${CI_PROJECT_NAME}
+    namespace: ${CI_ENVIRONMENT_NAME}
+    labels:
+        app: ${CI_PROJECT_NAME}
+spec:
+    ports:
+        -   port: 80
+            targetPort: 80
+            protocol: TCP
+            name: ${CI_PROJECT_NAME}
+    selector:
+        app: ${CI_PROJECT_NAME}
+
+---
+
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+    name: ${CI_PROJECT_NAME}
+    namespace: ${CI_ENVIRONMENT_NAME}
+    annotations:
+        nginx.ingress.kubernetes.io/affinity: cookie
+        nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+        nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+        nginx.ingress.kubernetes.io/session-cookie-name: route
+spec:
+    rules:
+        -   host: semanact.mctic.gov.br
+            http:
+                paths:
+                    -   path: "/"
+                        backend:
+                            serviceName: ${CI_PROJECT_NAME}
+                            servicePort: 80
+    tls:
+        -   secretName: mctic-gov-br
+status:
+    loadBalancer: {}
