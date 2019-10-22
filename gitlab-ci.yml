@@ -8,7 +8,7 @@ image: lorisleiva/laravel-docker:latest
   [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
 # Replace the last line with the following lines if you'd rather
-# leave StrictHostKeyChecking enabled (replace yourdomain.com):
+# leave StrictHostKeyChecking enabled (replace yourdomain.com): jhj
 #
 #  ssh-keyscan yourdomain.com >> ~/.ssh/known_hosts
 #  chmod 644 ~/.ssh/known_hosts
