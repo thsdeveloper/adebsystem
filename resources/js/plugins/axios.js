@@ -21,22 +21,20 @@ import i18n from '~/plugins/i18n'
 //   return request
 // });
 
-
-
-  axios.interceptors.request.use(config => {
+axios.interceptors.request.use(config => {
   // console.log('inicio o request', config);
   return config
-});
+})
 
 // before a response is returned stop nprogress
 axios.interceptors.response.use(response => {
   // console.log('terminou o request');
   return response
-});
+})
 
 // Response interceptor
 axios.interceptors.response.use(response => response, error => {
-  const { status } = error.response;
+  const { status } = error.response
 
   if (status >= 500) {
     swal({

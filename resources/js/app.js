@@ -27,8 +27,7 @@ Vue.use(Toasted);
 
 import ApexCharts from 'apexcharts'
 import VueApexCharts from 'vue-apexcharts'
-Vue.component('apexchart', VueApexCharts);
-
+Vue.component('apexchart', VueApexCharts)
 
 import '~/plugins'
 import '~/components'
