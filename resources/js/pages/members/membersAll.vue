@@ -1,39 +1,44 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
-        <v-select v-model="form.setor_id" :items="setores" solo
-                  label="Escolha o Setor" item-text="codigo_setor"
-                  @change="buscaIgreja" item-value="id">
-
-        </v-select>
-      </v-col>
-      <v-col>
-        <v-autocomplete v-model="form.igreja_id" :items="igrejas" solo
-                        label="Escolha a Igreja" item-text="nome_igreja" item-value="id"
-                        hint="Selecione a igreja do membro"
-                        no-data-text="Não encontramos esta igreja">
-        </v-autocomplete>
-      </v-col>
-      <v-col>
-        <v-select v-model="form.status_id" :items="situacoesmembros" solo label="Situação do membro"
-                  item-text="nome" item-value="id" required></v-select>
-      </v-col>
-      <v-col>
-        <v-btn text small>Pesquisar</v-btn>
-      </v-col>
-    </v-row>
+<!--    <v-row>-->
+<!--      <v-col>-->
+<!--        <v-text-field v-model="form.nomeMembro" label="Nome membro" placeholder="Pesquisar por nome" outlined></v-text-field>-->
+<!--      </v-col>-->
+<!--      <v-col>-->
+<!--        <v-select dense v-model="form.setor_id" :items="setores" outlined-->
+<!--                  label="Escolha o Setor" item-text="codigo_setor"-->
+<!--                  @change="buscaIgreja" item-value="id">-->
+<!--        </v-select>-->
+<!--      </v-col>-->
+<!--      <v-col>-->
+<!--        <v-autocomplete dense v-model="form.igreja_id" :items="igrejas" outlined-->
+<!--                        label="Escolha a Igreja" item-text="nome_igreja" item-value="id"-->
+<!--                        hint="Selecione a igreja do membro"-->
+<!--                        no-data-text="Não encontramos esta igreja">-->
+<!--        </v-autocomplete>-->
+<!--      </v-col>-->
+<!--      <v-col>-->
+<!--        <v-select dense v-model="form.situacao_id" :items="situacoesmembros" label="Situação do membro" outlined-->
+<!--                  item-text="nome" item-value="id" required></v-select>-->
+<!--      </v-col>-->
+<!--      <v-col>-->
+<!--        <v-btn text outlined color="primary" block @click="getUsersApi()">Buscar membros</v-btn>-->
+<!--      </v-col>-->
+<!--    </v-row>-->
     <v-row>
       <v-col>
 
         <v-data-table
           :headers="headers"
-          :items="desserts"
+          :items="membros"
           :search="search"
           :options.sync="options"
-          :server-items-length="totalDesserts"
+          :server-items-length="totalMembros"
           :loading="loading"
+          loading-text="Loading... Please wait"
           class="elevation-1">
+
+
           <template v-slot:item.photo_url="{ item }">
             <v-avatar size="30px">
               <img :src="item.photo_url" alt="Imagem de Perfil">
@@ -84,13 +89,10 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-
-
-wwwww        <v-btn dark fab fixed bottom right color="primary" to="created">
+        <v-btn dark fab fixed bottom right color="primary" to="created">
           <v-icon>add</v-icon>
         </v-btn>
       </v-col>
-
     </v-row>
   </v-container>
 </template>
@@ -99,13 +101,14 @@ wwwww        <v-btn dark fab fixed bottom right color="primary" to="created">
   import { mapGetters } from 'vuex'
 
   export default {
+    middleware: ['auth', 'permission'],
     data () {
       return {
         dialog: false,
         membroSelecionado: null,
-        totalDesserts: 0,
-        desserts: [],
-        loading: true,
+        totalMembros: 0,
+        membros: [],
+        loading: false,
         search: '',
         options: {},
         headers: [
@@ -124,36 +127,42 @@ wwwww        <v-btn dark fab fixed bottom right color="primary" to="created">
           { text: 'Ações', value: 'acoes', sortable: false },
         ],
         form: {
+          nomeMembro: null,
           setor_id: null,
           igreja_id: null,
+          situacao_id: null,
         }
       }
     },
+
     watch: {
       options: {
         handler () {
-          this.getDataFromApi().then(data => {
-            console.log('Recebido no handler', data)
-            this.desserts = data.items
-            this.totalDesserts = data.total
+          this.getUsersApi().then(data => {
+            console.log('Obj Options: Recebido no handler', data)
+            this.membros = data.items
+            this.totalMembros = data.total
           })
         },
         deep: true,
       },
     },
+
     mounted () {
-      this.getDataFromApi().then(data => {
-        console.log('Recebido no mounted', data)
-        this.desserts = data.items
-        this.totalDesserts = data.total
+      //Assim que o componente estiver montado, busca todos os membros com paginação do laravel
+      this.getUsersApi().then(data => {
+        console.log('Recebido no mounted do getUsersApi', data)
+        this.membros = data.items
+        this.totalMembros = data.total
       })
+
+      this.buscaRecursos()
     },
     methods: {
-      getDataFromApi () {
+      getUsersApi () {
         this.loading = true
         return new Promise((resolve, reject) => {
           const { sortBy, descending, page, itemsPerPage } = this.options
-          console.log('Options:', this.options)
 
           this.$store.dispatch('auth/fetchUsers', { page: page, itemsPerPage: itemsPerPage }).then(data => {
             console.log('auth/fetchUsers', data)
@@ -173,7 +182,7 @@ wwwww        <v-btn dark fab fixed bottom right color="primary" to="created">
       desativar () {
         let loader = this.$loading.show()
         this.$store.dispatch('member/desativarMembro', this.membroSelecionado.id).then(res => {
-          this.desserts.splice(this.membroSelecionado, 1)
+          this.membros.splice(this.membroSelecionado, 1)
           let toast = this.$toasted.show('Membro desativado!', {
             theme: 'bubble',
             position: 'top-right',
@@ -183,6 +192,7 @@ wwwww        <v-btn dark fab fixed bottom right color="primary" to="created">
           this.dialog = false
         })
       },
+      //Busca informações de: setores, situação do membros
       buscaRecursos () {
         let loader = this.$loading.show()
         this.$store.dispatch('setor/fetchSetores')
@@ -202,9 +212,6 @@ wwwww        <v-btn dark fab fixed bottom right color="primary" to="created">
         igrejas: 'igreja/igrejas',
         situacoesmembros: 'member/situacoesmembros',
       }),
-    },
-    mounted () {
-      this.buscaRecursos()
     },
   }
 </script>

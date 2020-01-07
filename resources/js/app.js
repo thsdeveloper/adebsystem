@@ -9,8 +9,6 @@ import App from '~/components/App'
 import InstantSearch from 'vue-instantsearch';
 Vue.use(InstantSearch);
 
-import 'dayspan-vuetify/dist/lib/dayspan-vuetify.min.css'
-
 Vue.use(require('vue-moment'));
 
 import Loading from 'vue-loading-overlay';

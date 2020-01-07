@@ -296,233 +296,233 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
-    import moment from 'moment';
-    import SessionEnderecos from "../../components/SessionEndereco";
-    import AutoCompleteProfession from "../../components/AutoCompleteProfession";
-    import axios from 'axios';
-    import swal from 'sweetalert2';
-    import Croppa from 'vue-croppa';
-    import 'vue-croppa/dist/vue-croppa.css'
+  import { mapGetters } from 'vuex'
+  import moment from 'moment'
+  import SessionEnderecos from '../../components/SessionEndereco'
+  import AutoCompleteProfession from '../../components/AutoCompleteProfession'
+  import axios from 'axios'
+  import swal from 'sweetalert2'
+  import Croppa from 'vue-croppa'
+  import 'vue-croppa/dist/vue-croppa.css'
 
-    export default {
-        name: "MemberCreated",
-        components: {
-            croppa: Croppa.component,
-            AutoCompleteProfession,
-            SessionEnderecos
-        },
-        metaInfo() {
-            return {title: 'Cadastro de Membro/Congregado'}
-        },
-        data: () => ({
+  export default {
+    middleware: ['auth', 'permission'],
+    name: 'MemberCreated',
+    components: {
+      croppa: Croppa.component,
+      AutoCompleteProfession,
+      SessionEnderecos
+    },
+    metaInfo () {
+      return { title: 'Cadastro de Membro/Congregado' }
+    },
+    data: () => ({
 
-            //Upload de Foto
-            myCroppa: {},
-            dialogUpload: false,
-            imagePerfil: false,
+      //Upload de Foto
+      myCroppa: {},
+      dialogUpload: false,
+      imagePerfil: false,
 
-            modalCreateMember: false,
-            maskCPF: '###.###.###-##',
-            maskPhone: '(##) # ####-####',
-            maskCep: '#####-###',
-            dateMask: '##/##/####',
-            valid: false,
+      modalCreateMember: false,
+      maskCPF: '###.###.###-##',
+      maskPhone: '(##) # ####-####',
+      maskCep: '#####-###',
+      dateMask: '##/##/####',
+      valid: false,
 
-            formasIgresso: [
-                {id: 1, nome: 'Aclamação - Aceito sem carta'},
-                {id: 2, nome: 'Novo Convertido - Por meio do batismo'},
-                {id: 3, nome: 'Transferência - Aceito com carta de recomendação'},
-                {id: 4, nome: 'Nacido na Igreja'},
-            ],
+      formasIgresso: [
+        { id: 1, nome: 'Aclamação - Aceito sem carta' },
+        { id: 2, nome: 'Novo Convertido - Por meio do batismo' },
+        { id: 3, nome: 'Transferência - Aceito com carta de recomendação' },
+        { id: 4, nome: 'Nacido na Igreja' },
+      ],
 
-            cursosTeologicos: [
-                {id: 1, nome: 'Básico'},
-                {id: 2, nome: 'Médio'},
-                {id: 3, nome: 'Bacharel'},
-            ],
+      cursosTeologicos: [
+        { id: 1, nome: 'Básico' },
+        { id: 2, nome: 'Médio' },
+        { id: 3, nome: 'Bacharel' },
+      ],
 
-            siatuacoesNoMinisterio: [
-                {id: 1, nome: 'Recebido'},
-                {id: 2, nome: 'Consagrado'},
-                {id: 3, nome: 'Reintegrado'},
-                {id: 4, nome: 'Aguardando Recebimento'},
-            ],
+      siatuacoesNoMinisterio: [
+        { id: 1, nome: 'Recebido' },
+        { id: 2, nome: 'Consagrado' },
+        { id: 3, nome: 'Reintegrado' },
+        { id: 4, nome: 'Aguardando Recebimento' },
+      ],
 
-            //Regras do forms
-            rules: {
-                emailRules: [
-                    v => !!v || 'Email é obrigatório',
-                    v => /.+@.+/.test(v) || 'E-mail deve ser válido'
-                ],
-                campoObrigatorio: [
-                    v => !!v || 'Este campo é obrigatório',
-                ],
-            },
+      //Regras do forms
+      rules: {
+        emailRules: [
+          v => !!v || 'Email é obrigatório',
+          v => /.+@.+/.test(v) || 'E-mail deve ser válido'
+        ],
+        campoObrigatorio: [
+          v => !!v || 'Este campo é obrigatório',
+        ],
+      },
 
+      form: {
+        setor_id: null,
+        igreja_id: null,
+        status_id: 1,
+        name: null,
+        email: null,
+        data_nascimento: null,
+        cpf: null,
+        rg: null,
+        gender_id: null,
+        profession_id: null,
+        phone: null,
+        uf: null,
+        cidade: null,
+        bairro: null,
+        cep: null,
+        address: null,
+        numero: null,
+        departments: null,
+        trusts: null,
+        marital_status_id: null,
+        nome_conjuge: null,
+        nome_mae: null,
+        nome_pai: null,
+        data_conversao: null,
+        data_batismo: null,
+        schooling_id: null,
+        forma_ingresso_id: null,
+        tipo_cadastro_id: 2,
+        fotoBase64: null,
+        cargo_ministerial_id: null,
+        uf_naturalidade: null,
+        cidade_naturalidade: null,
+        data_consagracao: null,
+        curso_teologico_id: null,
+        convencao_igreja: null,
+        cod_comadebg: null,
+        cod_cgadb: null,
+        situacao_ministerio_id: 1,
+        observacao: null,
+      },
+    }),
+    methods: {
+      salvarImagemPerfil () {
+        this.form.fotoBase64 = this.myCroppa.generateDataUrl('image/jpeg', 0.8)
+        this.dialogUpload = false
+        this.imagePerfil = true
+      },
+      fetchStates () {
+        this.$store.dispatch('member/fetchStates')
+      },
+      buscarCidade (uf) {
+        this.$store.dispatch('member/fetchCities', uf)
+      },
+      buscaIgreja () {
+        let loader = this.$loading.show()
+        this.$store.dispatch('igreja/buscarIgrejasPorSetor', this.form.setor_id).then(res => {
+          loader.hide()
+        })
+      },
+      buscaCEP () {
+        var _this = this
+        let loader = this.$loading.show()
+        if (this.form.cep.length === 9) {
+          axios.get('https://viacep.com.br/ws/' + this.form.cep + '/json/')
+            .then(function (res) {
+              if (res.data.erro === true) {
+                loader.hide()
+                swal.fire(
+                  'CEP inválido',
+                  'Por favor, preencha o endereço completo ou insira um novo CEP.',
+                  'question')
+              }
+              var UF = res.data.uf
+              _this.form.bairro = res.data.bairro
+              _this.form.address = res.data.logradouro
+              _this.form.uf = UF
+              if (UF !== '') {
+                _this.buscarCidade(UF)
+                _this.form.cidade = res.data.localidade
+              }
+              loader.hide()
+            }).catch(function (error) {
+            // handle error
+            console.log(error)
+          })
+        }
+      },
+      salvaMembro () {
+        if (this.$refs.form.validate()) {
+          let loader = this.$loading.show()
+          this.$store.dispatch('member/saveMember', this.form).then(res => {
+            loader.hide()
+          })
+        }
+      },
+      reset () {
+        this.$refs.form.reset()
+      },
 
-            form: {
-                setor_id: null,
-                igreja_id: null,
-                status_id: 1,
-                name: null,
-                email: null,
-                data_nascimento: null,
-                cpf: null,
-                rg: null,
-                gender_id: null,
-                profession_id: null,
-                phone: null,
-                uf: null,
-                cidade: null,
-                bairro: null,
-                cep: null,
-                address: null,
-                numero: null,
-                departments: null,
-                trusts: null,
-                marital_status_id: null,
-                nome_conjuge: null,
-                nome_mae: null,
-                nome_pai: null,
-                data_conversao: null,
-                data_batismo: null,
-                schooling_id: null,
-                forma_ingresso_id: null,
-                tipo_cadastro_id: 2,
-                fotoBase64: null,
-                cargo_ministerial_id: null,
-                uf_naturalidade: null,
-                cidade_naturalidade: null,
-                data_consagracao: null,
-                curso_teologico_id: null,
-                convencao_igreja: null,
-                cod_comadebg: null,
-                cod_cgadb: null,
-                situacao_ministerio_id: 1,
-                observacao: null,
-            },
-        }),
-        methods: {
-            salvarImagemPerfil() {
-                this.form.fotoBase64 = this.myCroppa.generateDataUrl('image/jpeg', 0.8);
-                this.dialogUpload = false;
-                this.imagePerfil = true;
-            },
-            fetchStates() {
-                this.$store.dispatch('member/fetchStates');
-            },
-            buscarCidade(uf) {
-                this.$store.dispatch('member/fetchCities', uf);
-            },
-            buscaIgreja() {
-                let loader = this.$loading.show();
-                this.$store.dispatch('igreja/buscarIgrejasPorSetor', this.form.setor_id).then(res => {
-                    loader.hide();
-                });
-            },
-            buscaCEP() {
-                var _this = this;
-                let loader = this.$loading.show();
-                if (this.form.cep.length === 9) {
-                    axios.get('https://viacep.com.br/ws/' + this.form.cep + '/json/')
-                        .then(function (res) {
-                            if (res.data.erro === true) {
-                                loader.hide();
-                                swal.fire(
-                                    'CEP inválido',
-                                    'Por favor, preencha o endereço completo ou insira um novo CEP.',
-                                    'question')
-                            }
-                            var UF = res.data.uf;
-                            _this.form.bairro = res.data.bairro;
-                            _this.form.address = res.data.logradouro;
-                            _this.form.uf = UF;
-                            if (UF !== '') {
-                                _this.buscarCidade(UF);
-                                _this.form.cidade = res.data.localidade;
-                            }
-                            loader.hide();
-                        }).catch(function (error) {
-                        // handle error
-                        console.log(error);
-                    });
-                }
-            },
-            salvaMembro() {
-                if (this.$refs.form.validate()) {
-                    let loader = this.$loading.show();
-                    this.$store.dispatch('member/saveMember', this.form).then(res => {
-                        loader.hide();
-                    });
-                }
-            },
-            reset() {
-                this.$refs.form.reset()
-            },
-
-            fetchDepartments() {
-                this.$store.dispatch('department/fetchDepartments');
-            },
-            fetchMaritalStatus() {
-                this.$store.dispatch('member/fetchMaritalStatus');
-            },
-            fetchTrusts() {
-                this.$store.dispatch('member/fetchTrusts');
-            },
-            fetchGenders() {
-                this.$store.dispatch('member/fetchGenders');
-            },
-            fetchSchoolings() {
-                this.$store.dispatch('member/fetchSchoolings');
-            },
-            fetchProfessions() {
-                this.$store.dispatch('member/fetchProfessions');
-            },
-            fetchSetores() {
-                this.$store.dispatch('setor/fetchSetores');
-            },
-            buscarTiposCadastros() {
-                this.$store.dispatch('member/buscarTiposCadastros');
-            },
-            buscarCargosMinisteriais() {
-                this.$store.dispatch('member/buscarCargosMinisteriais');
-            },
-            buscarSituacoesMembro() {
-                this.$store.dispatch('member/buscarSituacoesMembro');
-            }
-        },
-        computed: {
-            ...mapGetters({
-                departments: 'department/departments',
-                maritalStatus: 'member/maritalStatus',
-                trusts: 'member/trusts',
-                genders: 'member/genders',
-                schoolings: 'member/schoolings',
-                states: 'member/states',
-                cities: 'member/cities',
-                tiposCadastros: 'member/tiposCadastros',
-                cargosMinisteriais: 'member/cargosMinisteriais',
-                professions: 'member/professions',
-                setores: 'setor/setores',
-                igrejas: 'igreja/igrejas',
-                situacoesmembros: 'member/situacoesmembros',
-            }),
-        },
-        mounted() {
-            this.fetchDepartments();
-            this.fetchMaritalStatus();
-            this.fetchTrusts();
-            this.fetchGenders();
-            this.fetchSchoolings();
-            this.fetchStates();
-            this.fetchProfessions();
-            this.fetchSetores();
-            this.buscarTiposCadastros();
-            this.buscarCargosMinisteriais();
-            this.buscarSituacoesMembro();
-        },
-    }
+      fetchDepartments () {
+        this.$store.dispatch('department/fetchDepartments')
+      },
+      fetchMaritalStatus () {
+        this.$store.dispatch('member/fetchMaritalStatus')
+      },
+      fetchTrusts () {
+        this.$store.dispatch('member/fetchTrusts')
+      },
+      fetchGenders () {
+        this.$store.dispatch('member/fetchGenders')
+      },
+      fetchSchoolings () {
+        this.$store.dispatch('member/fetchSchoolings')
+      },
+      fetchProfessions () {
+        this.$store.dispatch('member/fetchProfessions')
+      },
+      fetchSetores () {
+        this.$store.dispatch('setor/fetchSetores')
+      },
+      buscarTiposCadastros () {
+        this.$store.dispatch('member/buscarTiposCadastros')
+      },
+      buscarCargosMinisteriais () {
+        this.$store.dispatch('member/buscarCargosMinisteriais')
+      },
+      buscarSituacoesMembro () {
+        this.$store.dispatch('member/buscarSituacoesMembro')
+      }
+    },
+    computed: {
+      ...mapGetters({
+        departments: 'department/departments',
+        maritalStatus: 'member/maritalStatus',
+        trusts: 'member/trusts',
+        genders: 'member/genders',
+        schoolings: 'member/schoolings',
+        states: 'member/states',
+        cities: 'member/cities',
+        tiposCadastros: 'member/tiposCadastros',
+        cargosMinisteriais: 'member/cargosMinisteriais',
+        professions: 'member/professions',
+        setores: 'setor/setores',
+        igrejas: 'igreja/igrejas',
+        situacoesmembros: 'member/situacoesmembros',
+      }),
+    },
+    mounted () {
+      this.fetchDepartments()
+      this.fetchMaritalStatus()
+      this.fetchTrusts()
+      this.fetchGenders()
+      this.fetchSchoolings()
+      this.fetchStates()
+      this.fetchProfessions()
+      this.fetchSetores()
+      this.buscarTiposCadastros()
+      this.buscarCargosMinisteriais()
+      this.buscarSituacoesMembro()
+    },
+  }
 </script>
 
 <style scoped>

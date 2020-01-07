@@ -1,22 +1,22 @@
 <template>
-    <v-layout align-center justify-center column fill-height>
-      <v-flex md6>
-        <v-card>
-          <v-card-title>
-            <div>
-              <h1>
-                Ops! Acesso não permitido.
-              </h1>
-              <p>Este módulo não esta habilitado para a sua conta, verifique junto ao administrador do sistema para conceder acesso.</p>
-            </div>
-          </v-card-title>
-        </v-card>
-      </v-flex>
-    </v-layout>
+  <v-container>
+    <v-row>
+      <v-col>
+        <img src="https://www.gstatic.com/identity/boq/accountsettingsmobile/signin_scene_316x112_9ab8cadd6080f72111aead1bedd3a9fd.png"/>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-alert border="left" color="red" dark>
+          Desculpe! Vocẽ não não tem permissão de acesso nesta página.
+        </v-alert>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-    export default {
-        name: 'NotPermission'
-    }
+  export default {
+    name: 'NotPermission'
+  }
 </script>

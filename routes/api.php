@@ -80,9 +80,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     //Setores
     Route::get('/setores', 'SetoresController@getAll');
     Route::get('/igrejas/{id}', 'IgrejasController@buscarIgrejasPorSetor');
+    Route::get('/igrejas', 'IgrejasController@buscarIgrejas');
 
     Route::post('/upload/files', 'UploadController@setFiles');
 
+    Route::get('carta-recomendacao/{id}','PDFController@pdfCartaRecomendacao');
 
 });
 

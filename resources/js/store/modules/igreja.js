@@ -28,4 +28,13 @@ export const actions = {
             alert('Ocorreu um erro na busca de igrejas')
         }
     },
+
+  async buscarIgrejas({commit}) {
+    try {
+      const {data} = await axios.get('/api/igrejas');
+      commit(types.BUSCAR_IGREJAS, {igrejas: data})
+    } catch (e) {
+      alert('Ocorreu um erro na busca de igrejas')
+    }
+  },
 };

@@ -20,11 +20,12 @@ class RolesPermissionTableSeeder extends Seeder
         Permission::create(['name' => 'members.all']);
         Permission::create(['name' => 'members.detail']);
         Permission::create(['name' => 'members.created']);
+        Permission::create(['name' => 'secretaria.visitantes']);
 
         // Criar funções e atribuir permissões criadas
         // isso pode ser feito como instruções separadas
         $admin = Role::create(['name' => 'admin']);
-        $admin->givePermissionTo(['members.all', 'members.detail', 'members.created']);
+        $admin->givePermissionTo(['members.all', 'members.detail', 'members.created', 'secretaria.visitantes']);
 
 
         $membro = Role::create(['name' => 'membro']);

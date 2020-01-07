@@ -37,39 +37,38 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-    import Notification from "./Notification";
+  import { mapGetters } from 'vuex'
+  import Notification from './Notification'
 
-
-    export default {
-        components: {
-            Notification,
-        },
+  export default {
+    components: {
+      Notification,
+    },
 
         data: () => ({
             tabs: false,
             appName: window.config.appName,
         }),
 
-        computed: {
-            ...mapGetters({
-                user: 'auth/user',
-                menusTabs: 'toolbar/menusTabs'
-            }),
-        },
-        methods: {
-            async toggleDrawer() {
-                await this.$store.dispatch('auth/toggleDrawer');
-            },
-            async logout() {
-                // Log out the user.
-                await this.$store.dispatch('auth/logout');
+    computed: {
+      ...mapGetters({
+        user: 'auth/user',
+        menusTabs: 'toolbar/menusTabs'
+      }),
+    },
+    methods: {
+      async toggleDrawer () {
+        await this.$store.dispatch('auth/toggleDrawer')
+      },
+      async logout () {
+        // Log out the user.
+        await this.$store.dispatch('auth/logout')
 
-                // Redirect to login.
-                this.$router.push({name: 'login'})
-            },
-        }
+        // Redirect to login.
+        this.$router.push({ name: 'login' })
+      },
     }
+  }
 </script>
 
 <style scoped>

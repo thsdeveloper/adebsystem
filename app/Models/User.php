@@ -143,6 +143,9 @@ class User extends Authenticatable implements JWTSubject, HasMedia
 
     public function getAllPermissionsAttribute() {
         $permissions = [];
+//        dd(Auth::user()->can('secretaria.visitantes'));
+        //secretaria.visitantes    //members.created
+//        dd(Auth::user()->getPermissionNames(), Auth::user()->permissions());
         foreach (Permission::all() as $permission) {
             if (Auth::user()->can($permission->name)) {
                 $permissions[] = $permission->name;

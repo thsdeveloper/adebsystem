@@ -65,7 +65,7 @@ export const mutations = {
 export const actions = {
 
   async fetchUsers({commit}, options) {
-    console.log('Options', options.page);
+    console.log('Options Auth', options);
     try {
       const {data} = await axios.get('/api/users/', {
         params: {
