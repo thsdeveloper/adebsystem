@@ -1,13 +1,12 @@
 import store from '~/store'
 
 export default (to, from, next) => {
-
-  console.log('TO', to);
-  console.log('from', from);
-  console.log('next', next);
-  console.log('Permissoes do user', store.getters['auth/user'].permissions);
-  console.log('nome da rota', to.name);
-  console.log('Tem permissção:', store.getters['auth/user'].permissions.indexOf(to.name) !== -1);
+  // console.log('TO', to);
+  // console.log('from', from);
+  // console.log('next', next);
+  console.log('Permissions to User:', store.getters['auth/user'].permissions);
+  console.log('Route', to.name);
+  console.log('Have Permission:', store.getters['auth/user'].permissions.indexOf(to.name) !== -1);
 
   if (store.getters['auth/user'].permissions.indexOf(to.name) !== -1) {
     next();

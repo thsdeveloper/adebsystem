@@ -6,11 +6,11 @@
     </v-toolbar-title>
     <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" :label="$t('what_are_you_looking_for')"
                   class="hidden-sm-and-down"/>
-    <ais-instant-search
-      :search-client="searchClient"
-      index-name="demo_ecommerce"
-    >
-    </ais-instant-search>
+<!--    <ais-instant-search-->
+<!--      :search-client="searchClient"-->
+<!--      index-name="demo_ecommerce"-->
+<!--    >-->
+<!--    </ais-instant-search>-->
     <v-spacer/>
     <v-btn icon>
       <v-icon>apps</v-icon>

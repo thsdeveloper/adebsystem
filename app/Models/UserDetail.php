@@ -37,5 +37,11 @@ class UserDetail extends Model
         return $this->hasOne(TiposCadastros::class, 'id', 'tipo_cadastro_id');
     }
 
+    public function cargoMinisterialPastor()
+    {
+        return $this->hasOne(CargosMinisteriais::class, 'id', 'cargo_ministerial_id')
+            ->where('id', 1);
+    }
+
 
 }

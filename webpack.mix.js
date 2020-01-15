@@ -12,23 +12,23 @@ mix
 if (mix.inProduction()) {
     mix.version();
 
-    // mix.extract([
-    //     'vue',
-    //     'vform',
-    //     'axios',
-    //     'vuex',
-    //     'jquery',
-    //     'popper.js',
-    //     'vue-i18n',
-    //     'vue-meta',
-    //     'js-cookie',
-    //     'bootstrap',
-    //     'vue-router',
-    //     'sweetalert2',
-    //     'vuex-router-sync',
-    //     '@fortawesome/vue-fontawesome',
-    //     '@fortawesome/fontawesome-svg-core'
-    // ])
+    mix.extract([
+        'vue',
+        'vform',
+        'axios',
+        'vuex',
+        'jquery',
+        'popper.js',
+        'vue-i18n',
+        'vue-meta',
+        'js-cookie',
+        'bootstrap',
+        'vue-router',
+        'sweetalert2',
+        'vuex-router-sync',
+        '@fortawesome/vue-fontawesome',
+        '@fortawesome/fontawesome-svg-core'
+    ])
 }
 
 mix.webpackConfig({

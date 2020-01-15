@@ -1,15 +1,15 @@
 <template>
   <div>
-    <v-tabs v-model="tab" background-color="transparent" color="pink" grow>
-      <v-tab>Igrejas</v-tab>
-      <v-tab>Setores</v-tab>
+      <v-tabs v-model="tab" background-color="transparent" :color="activeFab.color" icons-and-text grow>
+      <v-tab>Igrejas <v-icon>mdi-church</v-icon></v-tab>
+      <v-tab>Setores <v-icon>mdi-cube</v-icon></v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tab">
       <v-tab-item>
         <v-card flat color="basil">
           <v-card-text>
-            <v-data-table :headers="headersIgreja" :items="igrejas" :items-per-page="5" class="elevation-1">
+            <v-data-table :headers="headersIgreja" :items="igrejas" :items-per-page="5" item-key="id" class="elevation-1">
 
               <template v-slot:item.acoes="{ item }">
                 <v-menu bottom left>
@@ -19,10 +19,10 @@
                     </v-btn>
                   </template>
                   <v-list dense>
-                    <v-list-item :to="'detail/'+item.id">
+                    <v-list-item :to="'visualizar-igreja/'+item.id">
                       <v-list-item-title>Visualizar</v-list-item-title>
                     </v-list-item>
-                    <v-list-item @click="">
+                    <v-list-item @click="editarIgreja(item)">
                       <v-list-item-title>Editar</v-list-item-title>
                     </v-list-item>
                     <v-list-item @click="excluirIgreja(item)">
@@ -41,7 +41,7 @@
         <v-card flat color="basil">
           <v-card-text>
             <v-data-table :headers="headersSetor" :items="setores" :items-per-page="5"
-                          class="elevation-1"></v-data-table>
+                          class="elevation-1"/>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -49,82 +49,19 @@
     </v-tabs-items>
 
     <v-fab-transition>
-      <v-btn :key="activeFab.icon" :color="activeFab.color" dark fab fixed bottom right @click="dialogCadastrarIgreja = true">
+      <v-btn :key="activeFab.icon" :color="activeFab.color" dark fab fixed bottom right :to="activeFab.url">
         <v-icon>{{ activeFab.icon }}</v-icon>
       </v-btn>
     </v-fab-transition>
-
-<!--    Cadastro de Igrejas-->
-    <v-dialog v-model="dialogCadastrarIgreja" fullscreen hide-overlay transition="dialog-bottom-transition">
-      <v-card>
-        <v-toolbar dark color="primary">
-          <v-btn icon dark @click="dialogCadastrarIgreja = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>Cadastro de igreja</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn dark text @click="dialogCadastrarIgreja = false">Salvar</v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <v-list three-line subheader>
-          <v-subheader>User Controls</v-subheader>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>Content filtering</v-list-item-title>
-              <v-list-item-subtitle>Set the content filtering level to restrict apps that can be downloaded</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>Password</v-list-item-title>
-              <v-list-item-subtitle>Require password for purchase or use password to restrict purchase</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-        <v-divider></v-divider>
-        <v-list three-line subheader>
-          <v-subheader>General</v-subheader>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox v-model="notifications"></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Notifications</v-list-item-title>
-              <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox v-model="sound"></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Sound</v-list-item-title>
-              <v-list-item-subtitle>Auto-update apps at any time. Data charges may apply</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox v-model="widgets"></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Auto-add widgets</v-list-item-title>
-              <v-list-item-subtitle>Automatically add home screen widgets</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-dialog>
-
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-
+  import Swal from 'sweetalert2'
   export default {
     middleware: ['auth', 'permission'],
-    name: 'church',
+    name: 'setoresIgrejas',
     data () {
       return {
         tab: null,
@@ -154,6 +91,30 @@
       }
     },
     methods: {
+      editarIgreja(item){
+        Swal.fire({
+          title: 'Error!',
+          text: 'Do you want to continue',
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+      },
+      excluirIgreja(item){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Excluir igreja?',
+          text: 'Deseja realmente excluir definitivamente a igreja '+ item.nome_igreja+' ?',
+          showCancelButton: true,
+          confirmButtonText: 'Excluir',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.value) {
+            this.$store.dispatch('igreja/excluir', item.id).finally(() =>{
+              this.$toasted.show('Igreja excluída com sucesso!')
+            })
+          }
+        });
+      },
       buscaSetores () {
         this.$store.dispatch('setor/fetchSetores')
       },
@@ -169,9 +130,9 @@
       activeFab () {
         switch (this.tab) {
           case 0:
-            return { color: 'success', icon: 'add' }
+            return { color: 'success', icon: 'add',  url: 'cadastrar-igreja'}
           case 1:
-            return { color: 'red', icon: 'add' }
+            return { color: 'red', icon: 'add', url: 'cadastrar-setor'}
           default:
             return {}
         }

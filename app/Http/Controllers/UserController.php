@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use function GuzzleHttp\Promise\all;
 
 class UserController extends Controller
 {
@@ -215,6 +216,13 @@ class UserController extends Controller
     public function setDesativarMembro(Request $request){
         $inativo = DB::table('users')->where('id', $request->id_membro)->update(['status_id' => Config::get('constants.USER.MEMBRO_INATIVO')]);
         return response()->json($inativo);
+    }
+
+    public function getPastores(Request $request){
+        $pastores = User::whereHas('details', function ($query){
+            $query->where('cargo_ministerial_id', '=', 1);
+        })->get();
+        return response()->json($pastores);
     }
 
 }

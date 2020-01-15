@@ -20,6 +20,8 @@ const MembersCreated = () => import('~/pages/members/membersCreated').then(m => 
 //Setores / Igrejas
 const HomeSetoresIgreja = () => import('~/pages/setoresIgrejas/index').then(m => m.default || m);
 const SetoresIgreja = () => import('~/pages/setoresIgrejas/setores-igrejas').then(m => m.default || m);
+const CadastrarIgreja = () => import('~/pages/setoresIgrejas/cadastrar-igreja').then(m => m.default || m);
+const VisualizarIgreja = () => import('~/pages/setoresIgrejas/visualizar-igreja').then(m => m.default || m);
 
 
 //Secretaria
@@ -48,7 +50,7 @@ export default [
 
   //Secretaria
   {
-    path: '/secretaria', component: Secretaria,
+    path: '/secretaria', name: 'secretaria', component: Secretaria,
     children: [
       {path: '', redirect: {name: 'secretaria.home'}},
       {path: 'home', name: 'secretaria.home', component: SecretariaHome},
@@ -63,6 +65,8 @@ export default [
     children: [
       {path: '', redirect: {name: 'setoresIgrejas.home'}},
       {path: 'home', name: 'setoresIgrejas.home', component: SetoresIgreja},
+      {path: 'cadastrar-igreja', name: 'cadastrar.igreja', component: CadastrarIgreja},
+      {path: 'visualizar-igreja/:id', name: 'visualizar.igreja', component: VisualizarIgreja},
     ]
   },
 

@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/member/schoolings', 'UserController@getSchoolings');
     Route::get('/situacoes-membros', 'UserController@getSituacoesMembros');
     Route::post('/member/desativar', 'UserController@setDesativarMembro');
+    Route::get('/pastores', 'UserController@getPastores');
 
     Route::get('/tipos-cadastros', 'MembroController@getTiposCadastros');
     Route::get('/cargos-ministeriais', 'MembroController@getCargosMinisteriais');
@@ -79,8 +80,13 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     //Setores
     Route::get('/setores', 'SetoresController@getAll');
+
+    //Igrejas
     Route::get('/igrejas/{id}', 'IgrejasController@buscarIgrejasPorSetor');
     Route::get('/igrejas', 'IgrejasController@buscarIgrejas');
+    Route::post('/cadastrar-igreja', 'IgrejasController@cadastrarIgreja');
+    Route::post('/excluir-igreja', 'IgrejasController@excluir');
+    Route::post('/visualizar-igreja', 'IgrejasController@visualizarIgrejaPorId');
 
     Route::post('/upload/files', 'UploadController@setFiles');
 

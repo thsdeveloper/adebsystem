@@ -2,15 +2,8 @@
   <v-container>
     <v-row>
       <v-col>
-        <div class="pb-4">
-          <div class="font-weight-thin display-1">
-            <v-icon size="40">supervisor_account</v-icon>
-            Cadastro de Membros/Congregados
-          </div>
-          <div class="subheading">
-            Cadastro geral de membro ou congregado de acordo com o critério ministerial.
-          </div>
-        </div>
+        <titulo-pagina title="Cadastro de membros"
+                       description="Cadastro geral de membro ou congregado de acordo com o critério ministerial."/>
         <v-card>
           <v-form ref="form" v-model="valid" lazy-validation>
 
@@ -27,58 +20,58 @@
                 </v-flex>
                 <v-flex md4>
                   <v-select v-model="form.status_id" :items="situacoesmembros" label="Situação do membro"
-                            item-text="nome" item-value="id" required></v-select>
+                            item-text="nome" item-value="id" required/>
                 </v-flex>
                 <v-flex md4>
                   <v-select v-model="form.tipo_cadastro_id" :items="tiposCadastros" label="Tipo de Cadastro*"
-                            item-text="nome" item-value="id" required></v-select>
+                            item-text="nome" item-value="id" required/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="form.cpf" v-mask="maskCPF" label="CPF*" masked="false"
                                 :rules="rules.campoObrigatorio"
-                                :counter="11" required></v-text-field>
+                                :counter="11" required/>
                 </v-flex>
                 <v-flex xs12 sm6 md8>
                   <v-text-field v-model="form.name" label="Nome completo" :rules="rules.campoObrigatorio"
-                                :counter="255" required></v-text-field>
+                                :counter="255" required/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.rg" label="RG*" :rules="rules.campoObrigatorio" required></v-text-field>
+                  <v-text-field v-model="form.rg" label="RG*" :rules="rules.campoObrigatorio" required/>
                 </v-flex>
                 <v-flex xs12 sm4>
                   <v-select v-model="form.marital_status_id" :items="maritalStatus"
                             :rules="rules.campoObrigatorio" label="Estado Civil" item-text="name"
-                            item-value="id"></v-select>
+                            item-value="id"/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-select v-model="form.gender_id" :rules="rules.campoObrigatorio" :items="genders" label="Sexo*"
-                            item-text="name" item-value="id" required></v-select>
+                            item-text="name" item-value="id" required/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="form.data_nascimento" label="Data de Nascimento"
-                                v-mask="dateMask" :rules="rules.campoObrigatorio" required></v-text-field>
+                                v-mask="dateMask" :rules="rules.campoObrigatorio" required/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-select v-model="form.schooling_id" :items="schoolings" :rules="rules.campoObrigatorio"
-                            label="Escolaridade" item-text="name" item-value="id"></v-select>
+                            label="Escolaridade" item-text="name" item-value="id"/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-autocomplete v-model="form.profession_id" :items="professions" :rules="rules.campoObrigatorio"
                                   label="Profissão" item-text="name"
                                   item-value="id" deletable-chips hint="Selecione a profissão do membro"
-                                  no-data-text="Não encontramos esta profissão!"></v-autocomplete>
+                                  no-data-text="Não encontramos esta profissão!"/>
                 </v-flex>
                 <v-flex xs12 sm6 md4 v-if="form.marital_status_id === 2">
                   <v-text-field v-model="form.nome_conjuge" label="Nome do Conjuge" :rules="rules.campoObrigatorio"
-                                required></v-text-field>
+                                required/>
                 </v-flex>
                 <v-flex>
                   <v-text-field v-model="form.nome_mae" label="Nome da mãe"
-                                :rules="rules.campoObrigatorio"></v-text-field>
+                                :rules="rules.campoObrigatorio"/>
                 </v-flex>
                 <v-flex>
                   <v-text-field v-model="form.nome_pai" label="Nome do pai"
-                                :rules="rules.campoObrigatorio"></v-text-field>
+                                :rules="rules.campoObrigatorio"/>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -92,7 +85,7 @@
                 <v-flex md6>
                   <v-select v-model="form.setor_id" :items="setores"
                             label="Escolha o Setor" item-text="codigo_setor" :rules="rules.campoObrigatorio"
-                            @change="buscaIgreja" item-value="id"></v-select>
+                            @change="buscaIgreja" item-value="id"/>
                 </v-flex>
                 <v-flex md6>
                   <v-autocomplete v-model="form.igreja_id" :items="igrejas" :rules="rules.campoObrigatorio"
@@ -116,11 +109,11 @@
                 </v-flex>
                 <v-flex xs12 sm4>
                   <v-text-field v-model="form.data_conversao" label="Data de Conversão"
-                                v-mask="dateMask" required></v-text-field>
+                                v-mask="dateMask" required/>
                 </v-flex>
                 <v-flex xs12 sm4>
                   <v-text-field v-model="form.data_batismo" label="Data do batísmo"
-                                v-mask="dateMask" required></v-text-field>
+                                v-mask="dateMask" required/>
                 </v-flex>
                 <v-flex xs12 sm4>
                   <v-select
@@ -130,7 +123,7 @@
                     item-value="id"
                     item-text="nome"
                     label="Forma de ingresso na igreja?"
-                  ></v-select>
+                  />
                 </v-flex>
               </v-layout>
             </v-container>
@@ -142,7 +135,7 @@
             <v-container grid-list-md>
               <v-layout row wrap>
                 <v-flex xs6 sm6 md4>
-                  <v-text-field v-model="form.cep" v-mask="maskCep" label="CEP" @change="buscaCEP"></v-text-field>
+                  <v-text-field v-model="form.cep" v-mask="maskCep" label="CEP" @change="buscaCEP"/>
                 </v-flex>
                 <v-flex xs6 sm6 md4>
                   <v-select v-model="form.uf" :items="states" :rules="rules.campoObrigatorio" label="Estado"
@@ -155,26 +148,26 @@
                   <v-autocomplete v-model="form.cidade" :items="cities" :rules="rules.campoObrigatorio"
                                   label="Cidade" item-text="name"
                                   item-value="name" deletable-chips hint="Selecione a cidade do usuário"
-                                  no-data-text="Não encontramos a cidade!"></v-autocomplete>
+                                  no-data-text="Não encontramos a cidade!"/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.bairro" :rules="rules.campoObrigatorio" label="Bairro"></v-text-field>
+                  <v-text-field v-model="form.bairro" :rules="rules.campoObrigatorio" label="Bairro"/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="form.address" :rules="rules.campoObrigatorio"
-                                label="Endereço"></v-text-field>
+                                label="Endereço"/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.numero" label="Número" :rules="rules.campoObrigatorio"
-                                placeholder="Ex. 38"></v-text-field>
+                  <v-text-field v-model="form.numero" v-mask="numeroMask" label="Número" :rules="rules.campoObrigatorio"
+                                placeholder="Ex. 38"/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="form.email" label="Email" :rules="rules.emailRules"
-                                hint="Email válido para verificação"></v-text-field>
+                                hint="Email válido para verificação"/>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="form.phone" :rules="rules.campoObrigatorio" v-mask="maskPhone"
-                                label="Telefone celular"></v-text-field>
+                                label="Telefone celular"/>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -209,7 +202,7 @@
                 </v-flex>
                 <v-flex>
                   <v-text-field v-model="form.data_consagracao" v-mask="dateMask" :rules="rules.campoObrigatorio"
-                                label="Data Consagração"></v-text-field>
+                                label="Data Consagração"/>
                 </v-flex>
                 <v-flex>
                   <v-select v-model="form.curso_teologico_id" :items="cursosTeologicos"
@@ -251,7 +244,7 @@
                     v-model="form.observacao"
                     label="Escreva a observação sobre o membro"
                     value=""
-                  ></v-textarea>
+                  />
                 </v-flex>
               </v-layout>
             </v-container>
@@ -279,11 +272,11 @@
               Cadastrar imagem do membro?
             </v-card-title>
             <v-card-text>
-              <croppa :width="150" :height="150" v-model="myCroppa" :zoom-speed="10"></croppa>
+              <croppa :width="150" :height="150" v-model="myCroppa" :zoom-speed="10"/>
             </v-card-text>
-            <v-divider></v-divider>
+            <v-divider/>
             <v-card-actions>
-              <v-spacer></v-spacer>
+              <v-spacer/>
               <v-btn color="primary" flat @click="salvarImagemPerfil">
                 Salvar imagem
               </v-btn>
@@ -304,11 +297,13 @@
   import swal from 'sweetalert2'
   import Croppa from 'vue-croppa'
   import 'vue-croppa/dist/vue-croppa.css'
+  import TituloPagina from '../../components/TituloPagina'
 
   export default {
     middleware: ['auth', 'permission'],
     name: 'MemberCreated',
     components: {
+      TituloPagina,
       croppa: Croppa.component,
       AutoCompleteProfession,
       SessionEnderecos
@@ -328,6 +323,7 @@
       maskPhone: '(##) # ####-####',
       maskCep: '#####-###',
       dateMask: '##/##/####',
+      numeroMask: '######',
       valid: false,
 
       formasIgresso: [
@@ -454,6 +450,17 @@
           let loader = this.$loading.show()
           this.$store.dispatch('member/saveMember', this.form).then(res => {
             loader.hide()
+
+            swal({
+              type: 'success',
+              title: 'Membro cadastrado com sucesso!',
+              text: 'O membro foi cadastrado com sucesso em nossa base de dados.',
+            }).then((result) => {
+              if (result.value) {
+                this.$router.push({ name: 'members.all' })
+              }
+            })
+
           })
         }
       },
@@ -524,10 +531,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .v-btn--floating .v-icon {
-    height: auto !important;
-    width: auto !important;
-  }
-</style>

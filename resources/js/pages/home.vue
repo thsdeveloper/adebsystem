@@ -1,5 +1,6 @@
 <template>
  <v-container>
+  <google-map/>
    <v-row>
      <v-col>
        <v-card>
@@ -13,7 +14,7 @@
        <v-card>
          <v-card-title>Crescimento nos últimos anos</v-card-title>
          <v-card-text>
-           <apexchart width="380" type="donut" :options="options" :series="series"></apexchart>
+<!--           <apexchart width="380" type="donut" :options="options" :series="series"></apexchart>-->
          </v-card-text>
        </v-card>
      </v-col>
@@ -41,15 +42,17 @@
 <script>
 
     import PostTimeLine from "../components/PostTimeLine";
+    import GoogleMap from '../components/GoogleMapLoader'
 
     export default {
-        components: {PostTimeLine},
+        components: { GoogleMap, PostTimeLine},
         middleware: 'auth',
         metaInfo() {
             return {title: this.$t('home')}
         },
         data() {
             return {
+              itemsRotas: [],
                 options: {
                     chart: {
                         id: 'vuechart-example'
@@ -64,6 +67,13 @@
                 }]
             }
         },
+      created() {
+        this.$router.options.routes.forEach(route => {
+          this.itemsRotas.push({
+            name: route.name, path: route.path
+          })
+        })
+      }
     }
 </script>
 <style scoped>
