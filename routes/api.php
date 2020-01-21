@@ -18,16 +18,6 @@ use Illuminate\Support\Facades\Storage;
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
 
-    Route::prefix('profile')->group(function () {
-        // usage inside a laravel route
-        Route::get('/thiago', function () {
-            return Auth::user()->getAllPermissionsAttribute();
-        });
-    });
-
-    Route::group(['middleware' => ['role:presidente']], function () {
-
-    });
 
     //users
     Route::get('/user', 'UserController@getUser');
@@ -91,6 +81,22 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/upload/files', 'UploadController@setFiles');
 
     Route::get('carta-recomendacao/{id}','PDFController@pdfCartaRecomendacao');
+
+
+    Route::prefix('financeiro')->group(function () {
+
+        Route::post('inserir-tipo-receita', 'TipoReceitaFinanceiroController@inserir');
+        Route::post('inserir-tipo-despesa', 'TipoDespesaFinanceiroController@inserir');
+
+        Route::get('listar-tipo-receita', 'TipoReceitaFinanceiroController@listar');
+        Route::get('listar-tipo-despesa', 'TipoDespesaFinanceiroController@listar');
+
+        Route::post('editar-tipo-receita', 'TipoReceitaFinanceiroController@editar');
+        Route::post('editar-tipo-despesa', 'TipoDespesaFinanceiroController@editar');
+
+        Route::post('inserir-conta', 'ContaFinanceiroController@inserir');
+
+    });
 
 });
 

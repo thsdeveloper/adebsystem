@@ -30,7 +30,7 @@
 </head>
 <body>
 <div id="app"></div>
-
+<!-- Hotjar Tracking Code for www.adebsystem.com.br -->
 {{-- Global configuration object --}}
 <script>window.config = @json($config);</script>
 

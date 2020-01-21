@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\City;
+use App\Models\ContaFinanceiro;
 use App\Models\Igreja;
 use App\Models\State;
 use Illuminate\Http\Request;
@@ -68,6 +69,11 @@ class IgrejasController extends Controller
                     if ($address->save()) {
                         $igreja->endereco_id = $address->id;
                         $igreja->save();
+                        // Criação da Conta Financeira da Igreja
+                        $contaFinanceiro = new ContaFinanceiro();
+                        $contaFinanceiro->saldo = 0;
+                        $contaFinanceiro->modelo()->associate($igreja);
+                        $contaFinanceiro->save();
 
                         DB::commit();
                         return response()->json([

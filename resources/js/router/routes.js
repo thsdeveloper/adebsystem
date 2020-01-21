@@ -30,6 +30,12 @@ const SecretariaHome = () => import('~/pages/secretaria/home').then(m => m.defau
 const SecretariaVisitantes = () => import('~/pages/secretaria/visitantes').then(m => m.default || m);
 const SecretariaCartaRecomendacao = () => import('~/pages/secretaria/cartaRecomendacao').then(m => m.default || m);
 
+//Financeiro
+const Financeiro = () => import('~/pages/financeiro/index').then(m => m.default || m);
+const FinanceiroHome = () => import('~/pages/financeiro/home').then(m => m.default || m);
+const FinanceiroCadastrarReceita = () => import('~/pages/financeiro/cadastrarReceita').then(m => m.default || m);
+
+
 
 //Calendar
 const Calendar = () => import('~/pages/calendar/index').then(m => m.default || m);
@@ -56,6 +62,16 @@ export default [
       {path: 'home', name: 'secretaria.home', component: SecretariaHome},
       {path: 'visitantes', name: 'secretaria.visitantes', component: SecretariaVisitantes},
       {path: 'cartaRecomendacao', name: 'secretaria.cartaRecomendacao', component: SecretariaCartaRecomendacao},
+    ]
+  },
+
+  //Secretaria
+  {
+    path: '/financeiro', name: 'financeiro', component: Financeiro,
+    children: [
+      {path: '', redirect: {name: 'financeiro.home'}},
+      {path: 'home', name: 'financeiro.home', component: FinanceiroHome},
+      {path: 'cadastrar-receita', name: 'financeiro.cadastrarReceita', component: FinanceiroCadastrarReceita},
     ]
   },
 

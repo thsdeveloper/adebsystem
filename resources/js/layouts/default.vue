@@ -5,7 +5,6 @@
     </div>
     <navigation-drawer/>
     <v-content>
-        <snackbar></snackbar>
         <child animate-in="fadeIn"></child>
     </v-content>
   </v-app>
@@ -15,13 +14,11 @@
     /* eslint-disable indent */
     import Child from '../components/Child'
     import NavigationDrawer from "../components/NavigationDrawer";
-    import Snackbar from "../components/Snackbar";
     import Toolbar from "../components/Toolbar";
 
     export default {
         components: {
             Toolbar,
-            Snackbar,
             NavigationDrawer,
             Child,
         },
