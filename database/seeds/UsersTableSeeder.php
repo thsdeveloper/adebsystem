@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
         $this->faker = FactoryFaker::create('pt_BR');
 
         $this->createAdmins();
-        $this->createUsers();
+//      $this->createUsers();
     }
 
     private function createAdmins()

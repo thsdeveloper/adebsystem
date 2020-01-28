@@ -34,6 +34,7 @@ const SecretariaCartaRecomendacao = () => import('~/pages/secretaria/cartaRecome
 const Financeiro = () => import('~/pages/financeiro/index').then(m => m.default || m);
 const FinanceiroHome = () => import('~/pages/financeiro/home').then(m => m.default || m);
 const FinanceiroCadastrarReceita = () => import('~/pages/financeiro/cadastrarReceita').then(m => m.default || m);
+const FinanceiroCadastrarDespesa = () => import('~/pages/financeiro/cadastrarDespesa').then(m => m.default || m);
 
 
 
@@ -72,6 +73,7 @@ export default [
       {path: '', redirect: {name: 'financeiro.home'}},
       {path: 'home', name: 'financeiro.home', component: FinanceiroHome},
       {path: 'cadastrar-receita', name: 'financeiro.cadastrarReceita', component: FinanceiroCadastrarReceita},
+      {path: 'cadastrar-despesa', name: 'financeiro.cadastrarDespesa', component: FinanceiroCadastrarDespesa},
     ]
   },
 

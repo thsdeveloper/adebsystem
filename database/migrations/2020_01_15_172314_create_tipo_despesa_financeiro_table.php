@@ -16,6 +16,8 @@ class CreateTipoDespesaFinanceiroTable extends Migration
         Schema::create('tipo_despesa_financeiro', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

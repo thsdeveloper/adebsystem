@@ -1,29 +1,31 @@
 <template>
     <v-container>
-        <v-row>
-            <v-col>
-                <titulo-pagina title="Cadastro de Igrejas"
-                               description="As igrejas serão cadastras com informações pernitentes ao seu setor ministerial"/>
-            </v-col>
-        </v-row>
-        <v-card class="mx-auto">
-            <v-form ref="form" v-model="valid" lazy-validation>
-                <v-container>
+        <v-form ref="form" v-model="valid">
+            <v-card>
+                <v-card-title class="">
+                    <v-icon left>mdi-church</v-icon>
+                    Cadastro de igreja
+                </v-card-title>
+                <v-card-subtitle>
+                    Cadastre sua igreja com as devidas informações para uma boa análise de relatórios
+                </v-card-subtitle>
+
+                <v-card-text class="mt-5">
                     <v-row>
                         <v-col md="4">
                             <v-text-field v-model="form.nome_igreja" :rules="rules.campoObrigatorio"
-                                          :counter="150" label="Nome da Igreja"
+                                          :counter="150" label="Nome da Igreja" outlined
                                           required/>
                         </v-col>
                         <v-col md="4">
-                            <v-select v-model="form.setor_id" :items="setores"
+                            <v-select v-model="form.setor_id" :items="setores" outlined
                                       label="Escolha o Setor" item-text="codigo_setor"
-                                      :rules="rules.campoObrigatorio"
+                                      :rules="rules.campoObrigatorio" @change="buscarTesoureiros"
                                       item-value="id"/>
                         </v-col>
                         <v-col md="4">
                             <v-select v-model="form.pr_user_id" :items="pastores"
-                                      :rules="rules.campoObrigatorio"
+                                      :rules="rules.campoObrigatorio" outlined
                                       label="Pastor da igreja" item-text="name"
                                       item-value="id"/>
                         </v-col>
@@ -31,20 +33,26 @@
                     <v-row>
                         <v-col md="4">
                             <v-select v-model="form.co_pr_user_id" :items="pastores"
-                                      :rules="rules.campoObrigatorio"
+                                      :rules="rules.campoObrigatorio" outlined
                                       label="Co-Pastor da igreja" item-text="name"
+                                      item-value="id"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-select v-model="form.tesoureiro_user_id" :items="tesoureiros"
+                                      :rules="rules.campoObrigatorio" outlined
+                                      label="Escolha o tesoureiro" item-text="name"
                                       item-value="id"/>
                         </v-col>
                     </v-row>
                     <v-divider/>
                     <v-row>
                         <v-col>
-                            <v-text-field v-model="form.endereco.cep" v-mask="maskCep" label="CEP"
+                            <v-text-field v-model="form.endereco.cep" outlined v-mask="maskCep" label="CEP"
                                           @change="buscaCEP"/>
                         </v-col>
                         <v-col>
                             <v-select v-model="form.endereco.state_id" :items="estados"
-                                      :rules="rules.campoObrigatorio"
+                                      :rules="rules.campoObrigatorio" outlined
                                       label="Estado"
                                       item-text="name"
                                       item-value="uf" hint="Selecione o estado do usuário"
@@ -53,7 +61,7 @@
                         </v-col>
                         <v-col>
                             <v-autocomplete v-model="form.endereco.city_id" :items="cidades"
-                                            :rules="rules.campoObrigatorio"
+                                            :rules="rules.campoObrigatorio" outlined
                                             label="Cidade" item-text="name"
                                             item-value="name" deletable-chips
                                             hint="Selecione a cidade do usuário"
@@ -63,17 +71,17 @@
                     <v-row>
                         <v-col>
                             <v-text-field v-model="form.endereco.neighborhood"
-                                          :rules="rules.campoObrigatorio"
+                                          :rules="rules.campoObrigatorio" outlined
                                           label="Bairro"/>
                         </v-col>
                         <v-col>
                             <v-text-field v-model="form.endereco.address"
-                                          :rules="rules.campoObrigatorio"
+                                          :rules="rules.campoObrigatorio" outlined
                                           label="Endereço"/>
                         </v-col>
                         <v-col>
                             <v-text-field v-model="form.endereco.number" v-mask="numeroEnd"
-                                          label="Número"
+                                          label="Número" outlined
                                           :rules="rules.campoObrigatorio"
                                           placeholder="Ex. 38"/>
                         </v-col>
@@ -96,25 +104,24 @@
                             </GmapMap>
                         </v-col>
                     </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-btn color="primary" @click="cadastrarIgreja">Cadastrar</v-btn>
-                        </v-col>
-                    </v-row>
-                </v-container>
-            </v-form>
-        </v-card>
+                </v-card-text>
+            </v-card>
+        </v-form>
+
+        <v-btn color="success" fab dark fixed bottom right large @click="cadastrarIgreja">
+            <v-icon>save</v-icon>
+        </v-btn>
+
     </v-container>
 </template>
 <script>
   import { mapGetters } from 'vuex'
   import axios from 'axios'
-  import TituloPagina from '../../components/TituloPagina'
   import GoogleMapLoader from '../../components/GoogleMapLoader'
 
   export default {
     name: 'CadastroIgreja',
-    components: { GoogleMapLoader, TituloPagina },
+    components: { GoogleMapLoader },
     middleware: ['auth', 'permission'],
     data: () => ({
       valid: false,
@@ -126,6 +133,7 @@
         setor_id: null,
         pr_user_id: null,
         co_pr_user_id: null,
+        tesoureiro_user_id: null,
         endereco: {
           cep: null,
           state_id: null,
@@ -151,6 +159,7 @@
         setores: 'setor/setores',
         igrejas: 'igreja/igrejas',
         pastores: 'user/pastores',
+        tesoureiros: 'member/tesoureiros',
       }),
 
       mapConfig () {
@@ -213,6 +222,9 @@
       },
       buscarEstados () {
         this.$store.dispatch('member/fetchStates')
+      },
+      buscarTesoureiros () {
+        this.$store.dispatch('member/buscarTesoureiros', this.form.setor_id)
       },
 
     },

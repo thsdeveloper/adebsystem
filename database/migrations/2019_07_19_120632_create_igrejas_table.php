@@ -17,16 +17,18 @@ class CreateIgrejasTable extends Migration
             $table->increments('id');
             $table->integer('pr_user_id');
             $table->foreign('pr_user_id')->references('id')->on('users');
-            $table->integer('co_pr_user_id');
+            $table->integer('co_pr_user_id')->nullable();
             $table->foreign('co_pr_user_id')->references('id')->on('users');
+            $table->integer('tesoureiro_user_id')->nullable();
+            $table->foreign('tesoureiro_user_id')->references('id')->on('users');
             $table->integer('endereco_id')->nullable();
             $table->foreign('endereco_id')->references('id')->on('addresses');
             $table->integer('setor_id');
             $table->foreign('setor_id')->references('id')->on('setores');
             $table->string('nome_igreja');
+            $table->softDeletes();
             $table->timestamps();
         });
-
     }
 
     /**

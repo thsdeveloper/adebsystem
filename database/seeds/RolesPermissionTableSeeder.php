@@ -20,12 +20,37 @@ class RolesPermissionTableSeeder extends Seeder
         Permission::create(['name' => 'members.all']);
         Permission::create(['name' => 'members.detail']);
         Permission::create(['name' => 'members.created']);
+
+        Permission::create(['name' => 'secretaria.home']);
         Permission::create(['name' => 'secretaria.visitantes']);
+        Permission::create(['name' => 'secretaria.cartaRecomendacao']);
+
+        Permission::create(['name' => 'financeiro.home']);
+        Permission::create(['name' => 'financeiro.cadastrarReceita']);
+        Permission::create(['name' => 'financeiro.cadastrarDespesa']);
+
+        Permission::create(['name' => 'setoresIgrejas.home']);
+        Permission::create(['name' => 'cadastrar.igreja']);
+        Permission::create(['name' => 'visualizar.igreja']);
+
 
         // Criar funções e atribuir permissões criadas
         // isso pode ser feito como instruções separadas
         $admin = Role::create(['name' => 'admin']);
-        $admin->givePermissionTo(['members.all', 'members.detail', 'members.created', 'secretaria.visitantes']);
+        $admin->givePermissionTo([
+            'members.all',
+            'members.detail',
+            'members.created',
+            'secretaria.home',
+            'secretaria.visitantes',
+            'secretaria.cartaRecomendacao',
+            'financeiro.home',
+            'financeiro.cadastrarReceita',
+            'financeiro.cadastrarDespesa',
+            'setoresIgrejas.home',
+            'cadastrar.igreja',
+            'visualizar.igreja',
+            ]);
 
 
         $membro = Role::create(['name' => 'membro']);

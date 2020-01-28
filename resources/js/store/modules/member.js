@@ -15,6 +15,7 @@ export const state = {
   cargosMinisteriais: null,
   newUser: null,
   situacoesmembros: null,
+  tesoureiros: [],
 }
 
 // getters
@@ -30,6 +31,7 @@ export const getters = {
   tiposCadastros: state => state.tiposCadastros,
   cargosMinisteriais: state => state.cargosMinisteriais,
   situacoesmembros: state => state.situacoesmembros,
+  tesoureiros: state => state.tesoureiros,
 }
 
 // mutations
@@ -97,7 +99,7 @@ export const actions = {
 
   async buscarSituacoesMembro ({ commit }) {
     try {
-      const { data } = await axios.get('/api/situacoes-membros')
+      const { data } = await axios.get('/api/membro/situacoes')
       commit(types.BUSCAR_SITUACOES_MEMBROS, data)
 
     } catch (e) {
@@ -141,18 +143,9 @@ export const actions = {
     }
   },
 
-  // async buscaMembroDetail({commit}, idUser) {
-  //     try {
-  //         const {data} = await axios.get('/api/member/detail/'+idUser);
-  //         commit(types.FETCH_MEMBER_DETAIL, { memberDetail: data })
-  //     }catch (e) {
-  //         alert('Ocorreu um erro na busca do membro')
-  //     }
-  // },
-
   async fetchMaritalStatus ({ commit }) {
     try {
-      const { data } = await axios.get('/api/member/marital-status')
+      const { data } = await axios.get('/api/membro/marital-status')
       commit(types.FETCH_MARITAL_STATUS, { maritalStatus: data })
     } catch (e) {
       alert('Ocorreu um erro na busca do ESTADO CIVIL')
@@ -171,7 +164,7 @@ export const actions = {
 
   async fetchMember ({ commit }, id) {
     try {
-      const { data } = await axios.get('/api/member/detail/' + id)
+      const { data } = await axios.get('/api/membro/visualizar/' + id)
       if (data) {
         commit(types.FETCH_MEMBER_DETAIL, { memberDetail: data })
       }
@@ -181,7 +174,7 @@ export const actions = {
 
   async saveMember ({ commit }, dados) {
     try {
-      const { data } = await axios.post('/api/member/store', dados)
+      const { data } = await axios.post('/api/membro/cadastrar', dados)
     } catch (e) {
       swal({
         type: 'error',
@@ -194,7 +187,7 @@ export const actions = {
 
   async fetchGenders ({ commit }) {
     try {
-      const { data } = await axios.get('/api/member/genders')
+      const { data } = await axios.get('/api/membro/genders')
       commit(types.FETCH_GENDERS, { genders: data })
     } catch (e) {
       alert('Ocorreu um erro na busca do genero')
@@ -203,7 +196,7 @@ export const actions = {
 
   async fetchSchoolings ({ commit }) {
     try {
-      const { data } = await axios.get('/api/member/schoolings')
+      const { data } = await axios.get('/api/membro/schoolings')
       commit(types.FETCH_SCHOOLINGS, { schoolings: data })
     } catch (e) {
       alert('Ocorreu um erro na busca da escolaridade')
@@ -212,11 +205,29 @@ export const actions = {
 
   async desativarMembro ({ commit }, id) {
     try {
-      const { data } = await axios.post('/api/member/desativar', { id_membro: id })
+      const { data } = await axios.post('/api/membro/desativar', { id_membro: id })
       return data
       // commit(types.DESATIVAR_MEMBRO, data)
     } catch (e) {
       alert('Ocorreu um erro na DESATIVAÇÃO DO MEMBRO')
+    }
+  },
+
+  async buscarTesoureiros ({ commit }, idSetor) {
+    try {
+      const { data } = await axios.post('/api/membro/tesoureiros', { idSetor: idSetor })
+      // commit(types.FETCH_SCHOOLINGS, { schoolings: data })
+    } catch (e) {
+      alert('Ocorreu ao buscar os tesoureiros')
+    }
+  },
+
+  async buscaCadastroCpf ({ commit }, cpf) {
+    try {
+      const { data } = await axios.post('/api/membro/buscar-cadastro-membro-cpf', { cpf: cpf })
+      return data
+    } catch (e) {
+      alert('Ocorreu ao buscar os tesoureiros')
     }
   },
 

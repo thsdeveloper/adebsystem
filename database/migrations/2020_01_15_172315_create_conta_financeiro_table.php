@@ -15,8 +15,8 @@ class CreateContaFinanceiroTable extends Migration
     {
         Schema::create('conta_financeiro', function (Blueprint $table) {
             $table->increments('id');
-            $table->morphs('model');
-            $table->double('saldo', 8,2);
+            $table->morphs('conta');
+            $table->decimal('saldo', 12, 2);
             $table->timestamps();
         });
     }

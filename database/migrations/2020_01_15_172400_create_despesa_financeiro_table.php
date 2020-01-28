@@ -26,7 +26,7 @@ class CreateDespesaFinanceiroTable extends Migration
             $table->foreign('conta_id')->references('id')->on('conta_financeiro');
 
             $table->string('descricao', 200);
-            $table->double('valor', 8, 2);
+            $table->decimal('valor', 12, 2);
             $table->dateTime('data_pagamento');
             $table->boolean('situacao')->default(false);
             $table->text('observacao')->nullable();

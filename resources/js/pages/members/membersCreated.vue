@@ -1,316 +1,302 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <titulo-pagina title="Cadastro de membros"
-                       description="Cadastro geral de membro ou congregado de acordo com o critério ministerial."/>
-        <v-card>
-          <v-form ref="form" v-model="valid" lazy-validation>
+    <v-container>
+        <v-form ref="form" v-model="valid">
+            <v-card>
+                <v-card-title class="">
+                    <v-icon left>supervised_user_circle</v-icon>
+                    Cadastro de membros/congregados
+                </v-card-title>
+                <v-card-subtitle>
+                    Cadastro geral de membro ou congregado de acordo com o critério ministerial.
+                </v-card-subtitle>
 
-            <div class="blue-grey lighten-4 pa-2 pl-3">
-              <span>Dados básicos</span>
-            </div>
-            <!--Dados básicos-->
-            <v-container grid-list-md>
-              <v-layout row wrap>
-                <v-flex v-if="imagePerfil === true">
-                  <v-avatar :size="50" color="teal">
-                    <img :src="form.fotoBase64" alt="Foto de Perfil">
-                  </v-avatar>
-                </v-flex>
-                <v-flex md4>
-                  <v-select v-model="form.status_id" :items="situacoesmembros" label="Situação do membro"
-                            item-text="nome" item-value="id" required/>
-                </v-flex>
-                <v-flex md4>
-                  <v-select v-model="form.tipo_cadastro_id" :items="tiposCadastros" label="Tipo de Cadastro*"
-                            item-text="nome" item-value="id" required/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.cpf" v-mask="maskCPF" label="CPF*" masked="false"
-                                :rules="rules.campoObrigatorio"
-                                :counter="11" required/>
-                </v-flex>
-                <v-flex xs12 sm6 md8>
-                  <v-text-field v-model="form.name" label="Nome completo" :rules="rules.campoObrigatorio"
-                                :counter="255" required/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.rg" label="RG*" :rules="rules.campoObrigatorio" required/>
-                </v-flex>
-                <v-flex xs12 sm4>
-                  <v-select v-model="form.marital_status_id" :items="maritalStatus"
-                            :rules="rules.campoObrigatorio" label="Estado Civil" item-text="name"
-                            item-value="id"/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-select v-model="form.gender_id" :rules="rules.campoObrigatorio" :items="genders" label="Sexo*"
-                            item-text="name" item-value="id" required/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.data_nascimento" label="Data de Nascimento"
-                                v-mask="dateMask" :rules="rules.campoObrigatorio" required/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-select v-model="form.schooling_id" :items="schoolings" :rules="rules.campoObrigatorio"
-                            label="Escolaridade" item-text="name" item-value="id"/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-autocomplete v-model="form.profession_id" :items="professions" :rules="rules.campoObrigatorio"
-                                  label="Profissão" item-text="name"
-                                  item-value="id" deletable-chips hint="Selecione a profissão do membro"
-                                  no-data-text="Não encontramos esta profissão!"/>
-                </v-flex>
-                <v-flex xs12 sm6 md4 v-if="form.marital_status_id === 2">
-                  <v-text-field v-model="form.nome_conjuge" label="Nome do Conjuge" :rules="rules.campoObrigatorio"
-                                required/>
-                </v-flex>
-                <v-flex>
-                  <v-text-field v-model="form.nome_mae" label="Nome da mãe"
-                                :rules="rules.campoObrigatorio"/>
-                </v-flex>
-                <v-flex>
-                  <v-text-field v-model="form.nome_pai" label="Nome do pai"
-                                :rules="rules.campoObrigatorio"/>
-                </v-flex>
-              </v-layout>
-            </v-container>
+                <v-card-text class="mt-5">
+                    <v-row v-if="imagePerfil === true">
+                        <v-avatar :size="50" color="teal">
+                            <img :src="form.fotoBase64" alt="Foto de Perfil">
+                        </v-avatar>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12" md="4">
+                            <v-select v-model="form.status_id" :items="situacoesmembros" label="Situação do membro"
+                                      item-text="nome" item-value="id" outlined/>
+                        </v-col>
+                        <v-col cols="12" md="4">
+                            <v-select v-model="form.tipo_cadastro_id" :items="tiposCadastros" label="Tipo de Cadastro*"
+                                      item-text="nome" item-value="id" outlined/>
+                        </v-col>
+                        <v-col cols="12" md="4">
+                            <v-text-field v-model="form.cpf" v-mask="maskCPF" label="CPF*" masked="false"
+                                          :rules="rules.campoObrigatorio" outlined @change="buscaCadastroCpf"
+                                          :counter="11"/>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col md="8">
+                            <v-text-field v-model="form.name" label="Nome completo"
+                                          :rules="rules.campoObrigatorio" outlined
+                                          :counter="255"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.rg" label="Número do Documento / RG"
+                                          :rules="rules.campoObrigatorio"
+                                          :counter="191" outlined/>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col md="4">
+                            <v-select v-model="form.marital_status_id" :items="maritalStatus"
+                                      :rules="rules.campoObrigatorio" label="Estado Civil" item-text="name"
+                                      outlined item-value="id"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-select v-model="form.gender_id" :rules="rules.campoObrigatorio" :items="genders"
+                                      label="Sexo*" outlined
+                                      item-text="name" item-value="id"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.data_nascimento" label="Data de Nascimento"
+                                          outlined v-mask="dateMask" :rules="rules.campoObrigatorio"/>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col md="4">
+                            <v-select v-model="form.schooling_id" :items="schoolings"
+                                      outlined :rules="rules.campoObrigatorio"
+                                      label="Escolaridade" item-text="name" item-value="id"/>
 
-            <div class="blue-grey lighten-4 pa-2 pl-3">
-              <span>Dados da Igreja</span>
-            </div>
-            <!--Dados da Igreja-->
-            <v-container grid-list-md>
-              <v-layout row wrap>
-                <v-flex md6>
-                  <v-select v-model="form.setor_id" :items="setores"
-                            label="Escolha o Setor" item-text="codigo_setor" :rules="rules.campoObrigatorio"
-                            @change="buscaIgreja" item-value="id"/>
-                </v-flex>
-                <v-flex md6>
-                  <v-autocomplete v-model="form.igreja_id" :items="igrejas" :rules="rules.campoObrigatorio"
-                                  label="Escolha a Igreja" item-text="nome_igreja" item-value="id"
-                                  hint="Selecione a igreja do membro"
-                                  no-data-text="Não encontramos esta igreja">
-                  </v-autocomplete>
-                </v-flex>
-              </v-layout>
-              <v-layout row wrap v-if="form.tipo_cadastro_id === 2 || form.tipo_cadastro_id === 1">
-                <v-flex xs12 sm6>
-                  <v-select v-model="form.departments" :items="departments" :rules="rules.campoObrigatorio"
-                            attach chips label="Departamentos do membro" multiple item-text="name"
-                            item-value="id">
-                  </v-select>
-                </v-flex>
-                <v-flex xs12 sm6>
-                  <v-select v-model="form.trusts" :items="trusts" :rules="rules.campoObrigatorio" attach chips
-                            label="Cargo/Função - Local" multiple item-text="name" item-value="id">
-                  </v-select>
-                </v-flex>
-                <v-flex xs12 sm4>
-                  <v-text-field v-model="form.data_conversao" label="Data de Conversão"
-                                v-mask="dateMask" required/>
-                </v-flex>
-                <v-flex xs12 sm4>
-                  <v-text-field v-model="form.data_batismo" label="Data do batísmo"
-                                v-mask="dateMask" required/>
-                </v-flex>
-                <v-flex xs12 sm4>
-                  <v-select
-                    v-model="form.forma_ingresso_id"
-                    :items="formasIgresso"
-                    :rules="rules.campoObrigatorio"
-                    item-value="id"
-                    item-text="nome"
-                    label="Forma de ingresso na igreja?"
-                  />
-                </v-flex>
-              </v-layout>
-            </v-container>
+                        </v-col>
+                        <v-col md="4">
+                            <v-autocomplete v-model="form.profession_id" :items="professions"
+                                            outlined :rules="rules.campoObrigatorio"
+                                            label="Profissão" item-text="name"
+                                            item-value="id" deletable-chips
+                                            hint="Selecione a profissão do membro"
+                                            no-data-text="Não encontramos esta profissão!"/>
+                        </v-col>
+                        <v-col md="4" v-if="form.marital_status_id === 2">
+                            <v-text-field v-model="form.nome_conjuge" label="Nome do Conjuge"
+                                          outlined :rules="rules.campoObrigatorio"
+                            />
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.nome_mae" label="Nome da mãe"
+                                          outlined :rules="rules.campoObrigatorio"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.nome_pai" label="Nome do pai"
+                                          outlined :rules="rules.campoObrigatorio"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.email" outlined label="Email" :rules="rules.emailRules"
+                                          hint="Email válido para verificação"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.phone" :rules="rules.campoObrigatorio"
+                                          v-mask="maskPhone" outlined
+                                          label="Telefone celular"/>
+                        </v-col>
+                    </v-row>
+                    <v-divider/>
+                    <v-card-title>Dados Congregacionais</v-card-title>
+                    <v-row>
+                        <v-col md="6">
+                            <v-select v-model="form.setor_id" :items="setores"
+                                      label="Escolha o Setor" item-text="codigo_setor"
+                                      :rules="rules.campoObrigatorio" outlined
+                                      @change="buscaIgreja" item-value="id"/>
+                        </v-col>
+                        <v-col md="6">
+                            <v-autocomplete v-model="form.igreja_id" :items="igrejas"
+                                            :rules="rules.campoObrigatorio" outlined
+                                            label="Escolha a Igreja" item-text="nome_igreja" item-value="id"
+                                            hint="Selecione a igreja do membro"
+                                            no-data-text="Não encontramos esta igreja">
+                            </v-autocomplete>
+                        </v-col>
+                    </v-row>
+                    <v-row v-if="form.tipo_cadastro_id === 2 || form.tipo_cadastro_id === 1">
+                        <v-col md="6">
+                            <v-select v-model="form.departments" :items="departments"
+                                      :rules="rules.campoObrigatorio" outlined
+                                      attach chips label="Departamentos do membro" multiple item-text="name"
+                                      item-value="id">
+                            </v-select>
+                        </v-col>
+                        <v-col md="6">
+                            <v-select v-model="form.trusts" :items="trusts" :rules="rules.campoObrigatorio"
+                                      attach chips outlined
+                                      label="Cargo/Função - Local" multiple item-text="name" item-value="id">
+                            </v-select>
+                        </v-col>
+                        <v-col>
+                            <v-text-field v-model="form.data_conversao" label="Data de Conversão"
+                                          v-mask="dateMask" outlined/>
+                        </v-col>
+                        <v-col>
+                            <v-text-field v-model="form.data_batismo" label="Data do batísmo"
+                                          outlined v-mask="dateMask"/>
+                        </v-col>
+                        <v-col>
+                            <v-select
+                                    v-model="form.forma_ingresso_id"
+                                    :items="formasIgresso"
+                                    :rules="rules.campoObrigatorio"
+                                    item-value="id"
+                                    item-text="nome" outlined
+                                    label="Forma de ingresso na igreja?"
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-divider/>
+                    <v-card-title>Dados de Contato e Endereço</v-card-title>
+                    <v-row>
+                        <v-col md="4">
+                            <v-text-field v-model="form.cep" v-mask="maskCep" outlined label="CEP" @change="buscaCEP"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-select v-model="form.uf" :items="states" outlined :rules="rules.campoObrigatorio"
+                                      label="Estado"
+                                      item-text="name"
+                                      item-value="uf" hint="Selecione o estado do usuário"
+                                      @change="buscarCidade"
+                                      no-data-text="Não encontramos este estado!">
+                            </v-select>
+                        </v-col>
+                        <v-col md="4">
+                            <v-autocomplete v-model="form.cidade" :items="cities"
+                                            :rules="rules.campoObrigatorio"
+                                            label="Cidade" item-text="name" outlined
+                                            item-value="name" deletable-chips
+                                            hint="Selecione a cidade do usuário"
+                                            no-data-text="Não encontramos a cidade!"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.bairro" outlined :rules="rules.campoObrigatorio"
+                                          label="Bairro"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.address" outlined :rules="rules.campoObrigatorio"
+                                          label="Endereço"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.numero" outlined v-mask="numeroMask" label="Número"
+                                          :rules="rules.campoObrigatorio"
+                                          placeholder="Ex. 38"/>
+                        </v-col>
+                    </v-row>
 
-            <div class="blue-grey lighten-4 pa-2 pl-3">
-              <span>Dados de contato</span>
-            </div>
-            <!--Dados de contato-->
-            <v-container grid-list-md>
-              <v-layout row wrap>
-                <v-flex xs6 sm6 md4>
-                  <v-text-field v-model="form.cep" v-mask="maskCep" label="CEP" @change="buscaCEP"/>
-                </v-flex>
-                <v-flex xs6 sm6 md4>
-                  <v-select v-model="form.uf" :items="states" :rules="rules.campoObrigatorio" label="Estado"
-                            item-text="name"
-                            item-value="uf" hint="Selecione o estado do usuário" @change="buscarCidade"
-                            no-data-text="Não encontramos este estado!">
-                  </v-select>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-autocomplete v-model="form.cidade" :items="cities" :rules="rules.campoObrigatorio"
-                                  label="Cidade" item-text="name"
-                                  item-value="name" deletable-chips hint="Selecione a cidade do usuário"
-                                  no-data-text="Não encontramos a cidade!"/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.bairro" :rules="rules.campoObrigatorio" label="Bairro"/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.address" :rules="rules.campoObrigatorio"
-                                label="Endereço"/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.numero" v-mask="numeroMask" label="Número" :rules="rules.campoObrigatorio"
-                                placeholder="Ex. 38"/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.email" label="Email" :rules="rules.emailRules"
-                                hint="Email válido para verificação"/>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.phone" :rules="rules.campoObrigatorio" v-mask="maskPhone"
-                                label="Telefone celular"/>
-                </v-flex>
-              </v-layout>
-            </v-container>
+                    <v-divider v-if="form.tipo_cadastro_id === 1"/>
+                    <v-card-title v-if="form.tipo_cadastro_id === 1">Dados Ministeriais</v-card-title>
+                    <v-card-subtitle v-if="form.tipo_cadastro_id === 1">* Obrigatório apenas para obreiros
+                    </v-card-subtitle>
 
-            <div class="blue-grey lighten-4 pa-2 pl-3" v-if="form.tipo_cadastro_id === 1">
-              <span>Dados Ministeriais</span>
-            </div>
-            <!--Dados de Obreiros-->
-            <v-container grid-list-md v-if="form.tipo_cadastro_id === 1">
-              <v-layout row wrap>
-                <v-flex xs6 sm4>
-                  <v-select v-model="form.cargo_ministerial_id" :items="cargosMinisteriais"
-                            :rules="rules.campoObrigatorio"
-                            label="Cargo Ministerial" item-text="nome"
-                            item-value="id">
-                  </v-select>
-                </v-flex>
-                <v-flex xs12 sm4>
-                  <v-select v-model="form.uf_naturalidade" :items="states" :rules="rules.campoObrigatorio"
-                            label="Estado de Naturalidade"
-                            item-text="name"
-                            item-value="uf" hint="Selecione a naturalidade" @change="buscarCidade"
-                            no-data-text="Não encontramos este estado!">
-                  </v-select>
-                </v-flex>
-                <v-flex xs12 sm4>
-                  <v-autocomplete v-model="form.cidade_naturalidade" :items="cities" :rules="rules.campoObrigatorio"
-                                  label="Cidade da Naturalidade" item-text="name"
-                                  item-value="name" deletable-chips hint="Selecione a cidade"
-                                  no-data-text="Não encontramos a cidade!">
-                  </v-autocomplete>
-                </v-flex>
-                <v-flex>
-                  <v-text-field v-model="form.data_consagracao" v-mask="dateMask" :rules="rules.campoObrigatorio"
-                                label="Data Consagração"/>
-                </v-flex>
-                <v-flex>
-                  <v-select v-model="form.curso_teologico_id" :items="cursosTeologicos"
-                            label="Curso Teológivos" item-text="nome"
-                            item-value="id">
-                  </v-select>
-                </v-flex>
-                <v-flex>
-                  <v-text-field v-model="form.convencao_igreja" label="Convenção de Origem">
-                  </v-text-field>
-                </v-flex>
-                <v-flex>
-                  <v-text-field v-model="form.cod_comadebg" label="Código COMADEBG">
-                  </v-text-field>
-                </v-flex>
-                <v-flex>
-                  <v-text-field v-model="form.cod_cgadb" label="Código CGADB">
-                  </v-text-field>
-                </v-flex>
-                <v-flex>
-                  <v-select v-model="form.situacao_ministerio_id" :items="siatuacoesNoMinisterio"
-                            :rules="rules.campoObrigatorio"
-                            label="Situação no Ministério" item-text="nome"
-                            item-value="id">
-                  </v-select>
-                </v-flex>
-              </v-layout>
-            </v-container>
+                    <v-row v-if="form.tipo_cadastro_id === 1">
+                        <v-col md="4">
+                            <v-select v-model="form.cargo_ministerial_id" :items="cargosMinisteriais"
+                                      :rules="rules.campoObrigatorio" outlined
+                                      label="Cargo Ministerial" item-text="nome"
+                                      item-value="id"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-select v-model="form.uf_naturalidade" :items="states"
+                                      :rules="rules.campoObrigatorio"
+                                      label="Estado de Naturalidade"
+                                      item-text="name" outlined
+                                      item-value="uf" hint="Selecione a naturalidade" @change="buscarCidade"
+                                      no-data-text="Não encontramos este estado!"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-autocomplete v-model="form.cidade_naturalidade" :items="cities"
+                                            :rules="rules.campoObrigatorio" outlined
+                                            label="Cidade da Naturalidade" item-text="name"
+                                            item-value="name" deletable-chips hint="Selecione a cidade"
+                                            no-data-text="Não encontramos a cidade!"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.data_consagracao" v-mask="dateMask"
+                                          :rules="rules.campoObrigatorio" outlined
+                                          label="Data Consagração"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-select v-model="form.curso_teologico_id" :items="cursosTeologicos"
+                                      label="Curso Teológivos" item-text="nome" outlined
+                                      item-value="id"/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.convencao_igreja" label="Convenção de Origem" outlined/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.cod_comadebg" label="Código COMADEBG" outlined/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-text-field v-model="form.cod_cgadb" label="Código CGADB" outlined/>
+                        </v-col>
+                        <v-col md="4">
+                            <v-select v-model="form.situacao_ministerio_id" :items="siatuacoesNoMinisterio"
+                                      :rules="rules.campoObrigatorio"
+                                      label="Situação no Ministério" item-text="nome"
+                                      item-value="id" outlined outlined/>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-textarea
+                                    outlined
+                                    v-model="form.observacao"
+                                    label="Escreva a observação sobre o membro"
+                                    value="" outlined/>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+            </v-card>
+        </v-form>
 
-            <div class="blue-grey lighten-4 pa-2 pl-3">
-              <span>Campo de preenchimento de Observações</span>
-            </div>
-            <!--Dados de Obreiros-->
-            <v-container grid-list-md>
-              <v-layout row wrap>
-                <v-flex xs12 sm12>
-                  <v-textarea
-                    outlined
-                    v-model="form.observacao"
-                    label="Escreva a observação sobre o membro"
-                    value=""
-                  />
-                </v-flex>
-              </v-layout>
-            </v-container>
+        <v-btn color="teal" fab dark fixed top right large @click="dialogUpload = true">
+            <v-icon>add_a_photo</v-icon>
+        </v-btn>
 
-            <v-container grid-list-md>
-              <v-fab-transition>
-                <v-btn color="teal" fab dark absolute top right @click="dialogUpload = true">
-                  <v-icon>add_a_photo</v-icon>
-                </v-btn>
-              </v-fab-transition>
-            </v-container>
-          </v-form>
-        </v-card>
-        <v-layout row justify-center>
-          <v-btn dark fab fixed bottom right color="success" @click="salvaMembro">
+        <v-btn dark fab fixed bottom right large color="primary" @click="salvaMembro">
             <v-icon>save</v-icon>
-          </v-btn>
-        </v-layout>
+        </v-btn>
 
-
-        <!--Modal de cadastro da Imagem de Perfil-->
         <v-dialog v-model="dialogUpload" width="500">
-          <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>
-              Cadastrar imagem do membro?
-            </v-card-title>
-            <v-card-text>
-              <croppa :width="150" :height="150" v-model="myCroppa" :zoom-speed="10"/>
-            </v-card-text>
-            <v-divider/>
-            <v-card-actions>
-              <v-spacer/>
-              <v-btn color="primary" flat @click="salvarImagemPerfil">
-                Salvar imagem
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+            <v-card>
+                <v-card-title class="headline grey lighten-2" primary-title>
+                    Cadastrar imagem do membro?
+                </v-card-title>
+                <v-card-text>
+                    <croppa :width="150" :height="150" v-model="myCroppa" :zoom-speed="10"/>
+                </v-card-text>
+                <v-divider/>
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn color="primary" flat @click="salvarImagemPerfil">
+                        Salvar imagem
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
         </v-dialog>
-      </v-col>
-    </v-row>
-  </v-container>
+
+    </v-container>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-  import moment from 'moment'
-  import SessionEnderecos from '../../components/SessionEndereco'
-  import AutoCompleteProfession from '../../components/AutoCompleteProfession'
   import axios from 'axios'
   import swal from 'sweetalert2'
   import Croppa from 'vue-croppa'
   import 'vue-croppa/dist/vue-croppa.css'
-  import TituloPagina from '../../components/TituloPagina'
 
   export default {
     middleware: ['auth', 'permission'],
     name: 'MemberCreated',
     components: {
-      TituloPagina,
       croppa: Croppa.component,
-      AutoCompleteProfession,
-      SessionEnderecos
     },
-    metaInfo () {
-      return { title: 'Cadastro de Membro/Congregado' }
-    },
+    // metaInfo () {
+    //   return { title: 'Cadastro de Membro/Congregado' }
+    // },
     data: () => ({
 
       //Upload de Foto
@@ -459,15 +445,29 @@
               if (result.value) {
                 this.$router.push({ name: 'members.all' })
               }
+            }).catch((result) => {
+              loader.hide()
             })
 
           })
         }
       },
-      reset () {
-        this.$refs.form.reset()
+      buscaCadastroCpf () {
+        let loader = this.$loading.show()
+        this.$store.dispatch('member/buscaCadastroCpf', this.form.cpf).then(res => {
+          loader.hide()
+          if (res === true) {
+            swal({
+              type: 'warning',
+              title: 'CPF já cadastrado no sistema!',
+              text: 'O CPF informado já esta cadastrado na nossa base de dados, por favor digite outro CPF.',
+            })
+            this.form.cpf = null;
+          }
+        }).catch(res => {
+          loader.hide()
+        })
       },
-
       fetchDepartments () {
         this.$store.dispatch('department/fetchDepartments')
       },

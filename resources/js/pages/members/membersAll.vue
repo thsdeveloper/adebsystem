@@ -89,7 +89,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-btn dark fab fixed bottom right color="primary" to="created">
+        <v-btn dark fab fixed bottom right color="primary" large to="created">
           <v-icon>add</v-icon>
         </v-btn>
       </v-col>

@@ -49,7 +49,7 @@
     </v-tabs-items>
 
     <v-fab-transition>
-      <v-btn :key="activeFab.icon" :color="activeFab.color" dark fab fixed bottom right :to="activeFab.url">
+      <v-btn :key="activeFab.icon" :color="activeFab.color" dark fab large fixed bottom right :to="activeFab.url">
         <v-icon>{{ activeFab.icon }}</v-icon>
       </v-btn>
     </v-fab-transition>

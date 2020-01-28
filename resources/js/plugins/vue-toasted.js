@@ -2,6 +2,8 @@
 import Vue from 'vue';
 import Toasted from 'vue-toasted';
 Vue.use(Toasted, {
-  position: 'top-right',
-  theme: 'bubble',
+  position: 'bottom-center',
+  theme: 'toasted-primary',
+  icon: 'check',
+  type: 'success'
 });

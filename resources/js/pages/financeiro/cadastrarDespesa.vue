@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <form-cadastro-receita-despesa tipo-receita/>
+        <form-cadastro-receita-despesa/>
     </v-container>
 </template>
 
@@ -8,7 +8,7 @@
   import FormCadastroReceitaDespesa from '../../components/FormCadastroReceitaDespesa'
   export default {
     middleware: ['auth', 'permission'],
-    name: 'cadastrarReceita',
+    name: 'cadastrarDespesa',
     components: { FormCadastroReceitaDespesa }
   }
 </script>

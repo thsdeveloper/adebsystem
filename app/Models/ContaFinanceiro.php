@@ -10,7 +10,7 @@ class ContaFinanceiro extends Model
     protected $table = 'conta_financeiro';
 
     public function modelo(){
-        return $this->morphTo('', 'model_type', 'model_id');
+        return $this->morphTo('', 'conta_type', 'conta_id');
     }
 
 }

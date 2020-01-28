@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
             $this->call(GendersTableSeeder::class);
             $this->call(ProfessionsTableSeeder::class);
             $this->call(UsersTableSeeder::class);
-            $this->call(SetoresTableSeeder::class);
-            $this->call(IgrejasTableSeeder::class);
+//            $this->call(SetoresTableSeeder::class);
+//            $this->call(IgrejasTableSeeder::class);
 //            $this->call(PostsTableSeeder::class);
             $this->call(StatesTableSeeder::class);
             $this->call(CitiesTableSeeder::class);

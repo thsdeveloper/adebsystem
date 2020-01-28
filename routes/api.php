@@ -45,14 +45,22 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/cargos-funcoes', 'CargoFuncoesController@getCargosFuncoes');
 
     //Members
-    Route::get('/member/detail/{id}', 'UserController@getMemberId');
-    Route::get('/member/marital-status', 'UserController@getMaritalStatus');
-    Route::post('/member/store', 'UserController@cadastrarUser');
-    Route::get('/member/genders', 'UserController@getGenders');
-    Route::get('/member/schoolings', 'UserController@getSchoolings');
-    Route::get('/situacoes-membros', 'UserController@getSituacoesMembros');
-    Route::post('/member/desativar', 'UserController@setDesativarMembro');
     Route::get('/pastores', 'UserController@getPastores');
+
+    //Membros
+    Route::prefix('membro')->group(function () {
+        Route::get('marital-status', 'MembroController@getTiposEstadoCivil');
+        Route::get('genders', 'MembroController@getGeneros');
+        Route::get('schoolings', 'MembroController@getNiveisEscolaridade');
+
+
+        Route::post('cadastrar', 'MembroController@inserir');
+        Route::get('visualizar/{id}', 'MembroController@visualizarMembroPorId');
+        Route::post('desativar', 'MembroController@desativarMembro');
+        Route::get('situacoes', 'MembroController@situacoesMembros');
+        Route::post('tesoureiros', 'MembroController@getTesoureiros');
+        Route::post('buscar-cadastro-membro-cpf', 'MembroController@getCadastroCpf');
+    });
 
     Route::get('/tipos-cadastros', 'MembroController@getTiposCadastros');
     Route::get('/cargos-ministeriais', 'MembroController@getCargosMinisteriais');
@@ -80,22 +88,15 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('/upload/files', 'UploadController@setFiles');
 
-    Route::get('carta-recomendacao/{id}','PDFController@pdfCartaRecomendacao');
+    Route::get('carta-recomendacao/{id}', 'PDFController@pdfCartaRecomendacao');
 
 
     Route::prefix('financeiro')->group(function () {
-
-        Route::post('inserir-tipo-receita', 'TipoReceitaFinanceiroController@inserir');
-        Route::post('inserir-tipo-despesa', 'TipoDespesaFinanceiroController@inserir');
-
-        Route::get('listar-tipo-receita', 'TipoReceitaFinanceiroController@listar');
-        Route::get('listar-tipo-despesa', 'TipoDespesaFinanceiroController@listar');
-
-        Route::post('editar-tipo-receita', 'TipoReceitaFinanceiroController@editar');
-        Route::post('editar-tipo-despesa', 'TipoDespesaFinanceiroController@editar');
-
-        Route::post('inserir-conta', 'ContaFinanceiroController@inserir');
-
+        Route::post('inserir-tipo-categoria', 'TipoCategoriaFinanceiroController@inserir');
+        Route::post('listar-tipo-categoria', 'TipoCategoriaFinanceiroController@listar');
+        Route::post('editar-tipo-categoria', 'TipoCategoriaFinanceiroController@editar');
+        Route::post('listar-contas', 'ContaFinanceiroController@listar');
+        Route::post('inserir-transacao', 'TransacaoFinanceiroController@inserir');
     });
 
 });

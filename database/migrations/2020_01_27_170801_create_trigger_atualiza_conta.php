@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -35,6 +36,7 @@ class CreateTriggerAtualizaConta extends Migration
      */
     public function down()
     {
-        DB::unprepared('DROP trigger atualiza_conta');
+        DB::unprepared('DROP TRIGGER atualiza_conta_receita ON receita_financeiro');
+        DB::unprepared('DROP TRIGGER atualiza_conta_despesa ON despesa_financeiro');
     }
 }

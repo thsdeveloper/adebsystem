@@ -16,6 +16,9 @@ class CreateTipoReceitaFinanceiroTable extends Migration
         Schema::create('tipo_receita_financeiro', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }
