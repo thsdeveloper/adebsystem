@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <form-membro />
+        <form-membro :tipo-form="2"/>
     </v-container>
 </template>
 

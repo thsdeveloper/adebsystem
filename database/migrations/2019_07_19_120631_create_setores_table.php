@@ -16,11 +16,11 @@ class CreateSetoresTable extends Migration
         Schema::create('setores', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('pr_cord_setor_user_id');
-            $table->foreign('pr_cord_setor_user_id')->references('id')->on('users');
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
 
-//            $table->integer('sede_setor_igreja_id');
-//            $table->foreign('sede_setor_igreja_id')->references('id')->on('igrejas');
+            $table->integer('pr_cord_setor_user_id')->nullable();
+            $table->foreign('pr_cord_setor_user_id')->references('id')->on('users');
 
             $table->integer('codigo_setor');
             $table->string('nome_setor');

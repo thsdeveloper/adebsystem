@@ -20,9 +20,6 @@ class TransacaoFinanceiroController extends Controller
             $formatString = str_replace(',', '', $valor);
             $valorFormat = (float)$formatString;
 
-
-
-
             //0 = Despesa | 1 = Receita
             switch ($request->tipo) {
                 case 0:

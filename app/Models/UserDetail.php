@@ -26,6 +26,14 @@ class UserDetail extends Model
         return $this->belongsTo(Profession::class);
     }
 
+    public function departamentos(){
+        return $this->belongsToMany(Departments::class, 'users_departments', 'user_id', 'department_id');
+    }
+
+    public function cargos(){
+        return $this->belongsToMany(Trust::class, 'user_trusts', 'user_id', 'trust_id');
+    }
+
 
     public function igreja()
     {
@@ -41,6 +49,10 @@ class UserDetail extends Model
     {
         return $this->hasOne(CargosMinisteriais::class, 'id', 'cargo_ministerial_id')
             ->where('id', 1);
+    }
+
+    public function endereco(){
+        return $this->hasOne(Address::class, 'id', 'endereco_id');
     }
 
 

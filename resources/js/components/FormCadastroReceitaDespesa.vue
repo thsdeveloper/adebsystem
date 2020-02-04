@@ -211,9 +211,9 @@
       this.buscarCategorias()
     },
     watch: {
-      date (val) {
-        this.form.data_pagamento = this.formatDate(this.date)
-      },
+      // date (val) {
+      //   this.form.data_pagamento = this.formatDate(this.date)
+      // },
     },
   }
 </script>

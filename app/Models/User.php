@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use App\Post;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Spatie\Permission\Models\Role;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -21,7 +20,8 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     use Notifiable;
     use HasRoles;
     use HasMediaTrait;
-//    use Searchable;
+    use SoftDeletes;
+    use Searchable;
 
     protected $guard_name = 'api';
 
@@ -143,9 +143,6 @@ class User extends Authenticatable implements JWTSubject, HasMedia
 
     public function getAllPermissionsAttribute() {
         $permissions = [];
-//        dd(Auth::user()->can('secretaria.visitantes'));
-        //secretaria.visitantes    //members.created
-//        dd(Auth::user()->getPermissionNames(), Auth::user()->permissions());
         foreach (Permission::all() as $permission) {
             if (Auth::user()->can($permission->name)) {
                 $permissions[] = $permission->name;

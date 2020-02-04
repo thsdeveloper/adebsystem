@@ -15,7 +15,9 @@ class CreateIgrejasTable extends Migration
     {
         Schema::create('igrejas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('pr_user_id');
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('pr_user_id')->nullable();
             $table->foreign('pr_user_id')->references('id')->on('users');
             $table->integer('co_pr_user_id')->nullable();
             $table->foreign('co_pr_user_id')->references('id')->on('users');

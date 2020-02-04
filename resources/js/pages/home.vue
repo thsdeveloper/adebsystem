@@ -6,11 +6,21 @@
        <v-card>
          <v-card-title>Crescimento nos últimos anos</v-card-title>
          <v-card-text>
-           <apexchart type="bar" :options="options" :series="series"></apexchart>
+           <apexchart type="bar" :options="options" :series="series"/>
          </v-card-text>
        </v-card>
      </v-col>
      <v-col>
+         <v-card color="#385F73" dark>
+             <v-card-text class="white--text">
+                 <div class="headline mb-2">AdebSystem 1.0</div>
+                 Sistema Integrado de Gerenciamento da ADEB
+             </v-card-text>
+
+             <v-card-actions>
+                 <v-btn text>Contato</v-btn>
+             </v-card-actions>
+         </v-card>
        <v-card>
          <v-card-title>Crescimento nos últimos anos</v-card-title>
          <v-card-text>
@@ -21,16 +31,7 @@
    </v-row>
    <v-row>
      <v-col>
-       <v-card color="#385F73" dark>
-         <v-card-text class="white--text">
-           <div class="headline mb-2">AdebSystem 1.0</div>
-           Sistema Integrado de Gerenciamento da ADEB
-         </v-card-text>
 
-         <v-card-actions>
-           <v-btn text>Contato</v-btn>
-         </v-card-actions>
-       </v-card>
      </v-col>
      <v-col>
        <post-time-line/>

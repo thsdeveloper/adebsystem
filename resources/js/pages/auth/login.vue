@@ -60,9 +60,9 @@
             LoginWithGithub
         },
 
-        metaInfo () {
-            return { title: this.$t('login') }
-        },
+        // metaInfo () {
+        //     return { title: this.$t('login') }
+        // },
 
         data: () => ({
             form: new Form({

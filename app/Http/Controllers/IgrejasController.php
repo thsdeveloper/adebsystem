@@ -49,26 +49,27 @@ class IgrejasController extends Controller
 
                 DB::beginTransaction();
 
-                $igreja = new Igreja();
-                $igreja->nome_igreja = $request->nome_igreja;
-                $igreja->setor_id = $request->setor_id;
-                $igreja->pr_user_id = $request->pr_user_id;
-                $igreja->co_pr_user_id = $request->co_pr_user_id;
+                $address = new Address();
+                $address->cep = $cep;
+                $address->state_id = $state->id;
+                $address->city_id = $city->id;
+                $address->address = $request->endereco['address'];
+                $address->number = $request->endereco['number'];
+                $address->neighborhood = $request->endereco['neighborhood'];
+                $address->user_id = Auth::user()->id;
+                $address->lat = $request->endereco['lat'];
+                $address->lng = $request->endereco['lng'];
 
-                if ($igreja->save()) {
-                    $address = new Address();
-                    $address->cep = $cep;
-                    $address->state_id = $state->id;
-                    $address->city_id = $city->id;
-                    $address->address = $request->endereco['address'];
-                    $address->number = $request->endereco['number'];
-                    $address->neighborhood = $request->endereco['neighborhood'];
-                    $address->user_id = Auth::user()->id;
-                    $address->lat = $request->endereco['lat'];
-                    $address->lng = $request->endereco['lng'];
-                    if ($address->save()) {
-                        $igreja->endereco_id = $address->id;
-                        $igreja->save();
+                if($address->save()){
+                    $igreja = new Igreja();
+                    $igreja->nome_igreja = $request->nome_igreja;
+                    $igreja->setor_id = $request->setor_id;
+                    $igreja->pr_user_id = $request->pr_user_id;
+                    $igreja->co_pr_user_id = $request->co_pr_user_id;
+                    $igreja->endereco_id = $address->id;
+
+                    if($igreja->save()){
+
                         // Criação da Conta Financeira da Igreja
                         $contaFinanceiro = new ContaFinanceiro();
                         $contaFinanceiro->saldo = 0;
@@ -84,6 +85,7 @@ class IgrejasController extends Controller
 
                     }
                 }
+
             } else {
                 $response_json = [
                     "code" => "REG003",

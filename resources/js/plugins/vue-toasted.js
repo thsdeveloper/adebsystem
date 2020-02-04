@@ -5,5 +5,6 @@ Vue.use(Toasted, {
   position: 'bottom-center',
   theme: 'toasted-primary',
   icon: 'check',
-  type: 'success'
+  type: 'success',
+  duration: 5000
 });

@@ -25,7 +25,7 @@
                         </v-col>
                         <v-col md="4">
                             <v-select v-model="form.pr_user_id" :items="pastores"
-                                      :rules="rules.campoObrigatorio" outlined
+                                      outlined
                                       label="Pastor da igreja" item-text="name"
                                       item-value="id"/>
                         </v-col>
@@ -33,14 +33,8 @@
                     <v-row>
                         <v-col md="4">
                             <v-select v-model="form.co_pr_user_id" :items="pastores"
-                                      :rules="rules.campoObrigatorio" outlined
+                                      outlined
                                       label="Co-Pastor da igreja" item-text="name"
-                                      item-value="id"/>
-                        </v-col>
-                        <v-col md="4">
-                            <v-select v-model="form.tesoureiro_user_id" :items="tesoureiros"
-                                      :rules="rules.campoObrigatorio" outlined
-                                      label="Escolha o tesoureiro" item-text="name"
                                       item-value="id"/>
                         </v-col>
                     </v-row>

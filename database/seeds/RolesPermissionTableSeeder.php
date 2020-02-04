@@ -20,6 +20,7 @@ class RolesPermissionTableSeeder extends Seeder
         Permission::create(['name' => 'members.all']);
         Permission::create(['name' => 'members.detail']);
         Permission::create(['name' => 'members.created']);
+        Permission::create(['name' => 'members.editar']);
 
         Permission::create(['name' => 'secretaria.home']);
         Permission::create(['name' => 'secretaria.visitantes']);
@@ -41,6 +42,7 @@ class RolesPermissionTableSeeder extends Seeder
             'members.all',
             'members.detail',
             'members.created',
+            'members.editar',
             'secretaria.home',
             'secretaria.visitantes',
             'secretaria.cartaRecomendacao',

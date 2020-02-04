@@ -15,6 +15,7 @@ const Home = () => import('~/pages/home').then(m => m.default || m);
 const Members = () => import('~/pages/members/index').then(m => m.default || m);
 const MembersAll = () => import('~/pages/members/membersAll').then(m => m.default || m);
 const MembersDetail = () => import('~/pages/members/membersDetail').then(m => m.default || m);
+const MembersEditar = () => import('~/pages/members/memberEditar').then(m => m.default || m);
 const MembersCreated = () => import('~/pages/members/membersCreated').then(m => m.default || m);
 
 //Setores / Igrejas
@@ -96,6 +97,7 @@ export default [
       {path: '', redirect: {name: 'members.all'}},
       {path: 'all', name: 'members.all', component: MembersAll},
       {path: 'detail/:id', name: 'members.detail', component: MembersDetail, props: true},
+      {path: 'editar/:id', name: 'members.editar', component: MembersEditar, props: true},
       {path: 'created', name: 'members.created', component: MembersCreated},
     ]
   },

@@ -166,7 +166,8 @@ export const actions = {
     try {
       const { data } = await axios.get('/api/membro/visualizar/' + id)
       if (data) {
-        commit(types.FETCH_MEMBER_DETAIL, { memberDetail: data })
+        commit(types.FETCH_MEMBER_DETAIL, { memberDetail: data });
+        return data;
       }
     } catch (e) {
     }
