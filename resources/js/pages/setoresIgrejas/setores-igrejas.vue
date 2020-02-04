@@ -9,7 +9,8 @@
       <v-tab-item>
         <v-card flat color="basil">
           <v-card-text>
-            <v-data-table :headers="headersIgreja" :items="igrejas" :items-per-page="5" item-key="id" class="elevation-1">
+            <v-data-table :headers="headersIgreja" :items="igrejas" :items-per-page="5" item-key="id" class="elevation-1"
+            no-data-text="Nenhuma igreja cadastrada...">
 
               <template v-slot:item.acoes="{ item }">
                 <v-menu bottom left>
@@ -41,7 +42,7 @@
         <v-card flat color="basil">
           <v-card-text>
             <v-data-table :headers="headersSetor" :items="setores" :items-per-page="5"
-                          class="elevation-1"/>
+                          class="elevation-1" no-data-text="Nenhum setor cadastrado..."/>
           </v-card-text>
         </v-card>
       </v-tab-item>

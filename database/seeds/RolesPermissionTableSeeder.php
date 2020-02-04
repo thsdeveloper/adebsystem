@@ -32,6 +32,7 @@ class RolesPermissionTableSeeder extends Seeder
 
         Permission::create(['name' => 'setoresIgrejas.home']);
         Permission::create(['name' => 'cadastrar.igreja']);
+        Permission::create(['name' => 'cadastrar.setor']);
         Permission::create(['name' => 'visualizar.igreja']);
 
 
@@ -51,6 +52,7 @@ class RolesPermissionTableSeeder extends Seeder
             'financeiro.cadastrarDespesa',
             'setoresIgrejas.home',
             'cadastrar.igreja',
+            'cadastrar.setor',
             'visualizar.igreja',
             ]);
 

@@ -22,6 +22,9 @@ class CreateSetoresTable extends Migration
             $table->integer('pr_cord_setor_user_id')->nullable();
             $table->foreign('pr_cord_setor_user_id')->references('id')->on('users');
 
+            $table->integer('endereco_id')->nullable();
+            $table->foreign('endereco_id')->references('id')->on('addresses');
+
             $table->integer('codigo_setor');
             $table->string('nome_setor');
 
