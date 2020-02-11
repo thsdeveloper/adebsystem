@@ -9,11 +9,11 @@
                 <v-card-text>
 
                     <v-flex>
-                        <v-text-field v-model="form.email"
-                                      :class="{ 'is-invalid': form.errors.has('email') }"
-                                      name="email"
-                                      :label="$t('email')"
-                                      type="email"
+                        <v-text-field v-model="form.login"
+                                      :class="{ 'is-invalid': form.errors.has('login') }"
+                                      name="login"
+                                      :label="$t('Email ou CPF')"
+                                      type="text"
                                       autofocus>
                         </v-text-field>
                         <has-error :form="form" field="email"/>
@@ -66,7 +66,7 @@
 
         data: () => ({
             form: new Form({
-                email: '',
+                login: '',
                 password: ''
             }),
             remember: false
