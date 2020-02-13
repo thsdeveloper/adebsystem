@@ -1,9 +1,29 @@
-before_script:
-  - docker info
+stages:
+  - preparation
+  - building
+  - testing
+  - security
 
-build_image:
-  script:
-    - git clone https://github.com/LaraDock/laradock.git
-    - cd laradock
-    - docker-compose up -d  nginx
-    - docker exec --user=laradock workspace bash
+composer:
+  stage: preparation
+
+yarn:
+  stage: preparation
+
+build-assets:
+  stage: building
+
+db-seeding:
+  stage: building
+
+phpunit:
+  stage: testing
+
+codestyle:
+  stage: testing
+
+phpcpd:
+  stage: testing
+
+sensiolabs:
+  stage: security
