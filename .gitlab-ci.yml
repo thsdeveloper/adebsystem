@@ -1,6 +1,9 @@
 before_script:
-  - echo Hello!
+  - docker info
 
-job1:
-  scripts:
-    - echo job1
+build_image:
+  script:
+    - git clone https://github.com/LaraDock/laradock.git
+    - cd laradock
+    - docker-compose up -d  nginx
+    - docker exec --user=laradock workspace bash
