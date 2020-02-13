@@ -22,32 +22,32 @@ composer:
   script:
     - echo $CI_RUNNER_DESCRIPTION
 #    - php -v
-    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    - cp .env.example .env
-    - php artisan key:generate
-  artifacts:
-    paths:
-      - vendor/
-      - .env
-    expire_in: 1 days
-    when: always
-  cache:
-    paths:
-      - vendor/
+#    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+#    - cp .env.example .env
+#    - php artisan key:generate
+#  artifacts:
+#    paths:
+#      - vendor/
+#      - .env
+#    expire_in: 1 days
+#    when: always
+#  cache:
+#    paths:
+#      - vendor/
 
 npm:
   stage: preparation
   script:
     - npm --version
     - npm install
-  artifacts:
-    paths:
-      - node_modules/
-    expire_in: 1 days
-    when: always
-  cache:
-    paths:
-      - node_modules/
+#  artifacts:
+#    paths:
+#      - node_modules/
+#    expire_in: 1 days
+#    when: always
+#  cache:
+#    paths:
+#      - node_modules/
 
 #build-assets:
 #  stage: building
