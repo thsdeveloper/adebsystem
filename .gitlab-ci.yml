@@ -1,29 +1,18 @@
 stages:
-  - preparation
-  - building
-  - testing
-  - security
+  - build
 
-composer:
-  stage: preparation
-
-yarn:
-  stage: preparation
-
-build-assets:
-  stage: building
-
-db-seeding:
-  stage: building
-
-phpunit:
-  stage: testing
-
-codestyle:
-  stage: testing
-
-phpcpd:
-  stage: testing
-
-sensiolabs:
-  stage: security
+Building:
+  stage: build
+  variables:
+    COMPOSER_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/composer"
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - ${COMPOSER_CACHE_DIR}
+  image:  composer:1.8
+  script:
+    - composer install -o --no-dev
+  artifacts:
+    paths:
+     - $ARTIFACT_PATH
+  only: ['development', 'tags']
