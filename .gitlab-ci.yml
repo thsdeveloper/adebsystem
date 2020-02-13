@@ -22,7 +22,7 @@ composer:
   script:
     - echo $CI_RUNNER_DESCRIPTION
     - echo $CI_PROJECT_TITLE
-    - docker --version
+    - git --version
 #    - php -v
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 #    - cp .env.example .env
