@@ -1,14 +1,6 @@
-image: google/cloud-sdk:alpine
+before_script:
+  - echo Hello!
 
-deploy_prod:
-  stage: deploy
-  environment: PROD
-  only:
-  - master
-  script:
-  - echo $SERVICE_ACCOUNT_KEY > /tmp/$CI_PIPELINE_ID.json
-  - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
-  - gcloud --quiet --project simple-go-app app deploy app.yaml
-
-after_script:
-- rm /tmp/$CI_PIPELINE_ID.json
+job1:
+  scripts:
+    - echo job1
