@@ -22,10 +22,19 @@ export const mutations = {
 export const actions = {
     async fetchSetores({commit}) {
         try {
-            const {data} = await axios.get('/api/setores');
+            const {data} = await axios.get('/api/setor/listar');
             commit(types.FETCH_SETORES, {setores: data})
         } catch (e) {
             alert('Ocorreu um erro na busca de setores')
+        }
+    },
+
+    async cadastrarSetor({ commit }, payload) {
+        try {
+            const { data } = await axios.post('/api/setor/cadastrar', payload)
+            commit(types.CADASTRAR_SETOR, data.igreja)
+        } catch (e) {
+            alert('Ocorreu um erro ao cadastrar uma igreja')
         }
     },
 };

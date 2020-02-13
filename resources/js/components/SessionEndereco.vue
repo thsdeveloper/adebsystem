@@ -1,59 +1,53 @@
 <template>
     <div>
-        <v-row>
+        <v-row v-if="form">
             <v-col>
-                <v-text-field v-model="form.cep" outlined v-mask="maskCep" label="CEP"
-                              @change="buscaCEP"/>
+                <v-text-field v-model="enderecoViaCep.cep" outlined v-mask="maskCep" label="CEP"
+                              @change="buscarCEP" append-icon="delete" @click:append="limparCEP"/>
             </v-col>
             <v-col>
-                <v-select v-model="form.state_id" :items="estados"
+                <v-select v-model="enderecoViaCep.uf" :items="estados"
                           :rules="rules.campoObrigatorio" outlined
-                          label="Estado" :disabled="disabled"
+                          label="Estado" :disabled="desabilitaForm"
                           item-text="name"
                           item-value="uf" hint="Selecione o estado do usuário"
-                          @change="buscarCidade"
+                          @change="buscarCidade" @input="atualizaEstado"
                           no-data-text="Não encontramos este estado!"/>
             </v-col>
             <v-col>
-                <v-autocomplete v-model="form.city_id" :items="cidades"
+                <v-autocomplete v-model="enderecoViaCep.localidade" :items="cidades"
                                 :rules="rules.campoObrigatorio" outlined
-                                label="Cidade" item-text="name" :disabled="disabled"
-                                item-value="name" deletable-chips
+                                label="Cidade" item-text="name" :disabled="desabilitaForm"
+                                item-value="name" deletable-chips @input="atualizaCidade"
                                 hint="Selecione a cidade do usuário"
                                 no-data-text="Não encontramos a cidade!"/>
             </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="form">
             <v-col>
-                <v-text-field v-model="form.neighborhood" :disabled="disabled"
-                              :rules="rules.campoObrigatorio" outlined
+                <v-text-field v-model="enderecoViaCep.bairro" :disabled="desabilitaForm"
+                              :rules="rules.campoObrigatorio" outlined @input="atualizaBairro"
                               label="Bairro"/>
             </v-col>
             <v-col>
-                <v-text-field v-model="form.address"
+                <v-text-field v-model="enderecoViaCep.logradouro" @input="atualizaEndereco"
                               :rules="rules.campoObrigatorio" outlined
                               label="Endereço"/>
             </v-col>
             <v-col>
-                <v-text-field v-model="form.number" v-mask="numeroEnd"
-                              label="Número" outlined
+                <v-text-field v-model="enderecoViaCep.numero" v-mask="numeroEnd"
+                              label="Número" outlined @input="atualizaNumero"
                               :rules="rules.campoObrigatorio"
                               placeholder="Ex. 38"/>
             </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="mapa">
             <v-col>
-                <GmapMap :center="{ lat: -15.7825066, lng: -47.7501889}"
-                         :zoom="10" map-type-id="roadmap"
-                         style="width: 100%; height: 450px">
-
-                    <GmapMarker :position="{ lat: -15.7825066, lng: -47.7501889}"
-                                :clickable="true"
-                                label="Nome"
-                                :opacity="1.0"
-                                :draggable="true"
-                                @click="clickInfoMap($event.latLng)"
-                                title="Arraste o ponteiro para o endereço da igreja."
+                <GmapMap :center="centerMap" :zoom="zoomMap" :map-type-id="roadmap"
+                         :style="'width: '+widthMap+'; height: '+heightMap+''">
+                    <GmapMarker :position="{ lat: -15.7825066, lng: -47.7501889}" :clickable="true" :label="labelMaker"
+                                :opacity="1.0" :draggable="true" @click="clickInfoMap($event.latLng)"
+                                :title="titleMarker"
                                 @dragend="gMapFunc($event.latLng)"/>
 
                 </GmapMap>
@@ -62,30 +56,31 @@
     </div>
 </template>
 <script>
-  import { mapGetters } from 'vuex'
-  import axios from 'axios'
-  import swal from 'sweetalert2'
+  import { mapGetters, mapMutations } from 'vuex'
   import GoogleMapLoader from './GoogleMapLoader'
 
   export default {
     name: 'SessionEnderecos',
     components: { GoogleMapLoader },
+    props: {
+      mapa: { type: Boolean, default: false },
+      form: { type: Boolean, default: true },
+      centerMap: {
+        type: Object, default () {
+          return { lat: -15.7825066, lng: -47.7501889 }
+        }
+      },
+      roadmap: { type: String, default: 'roadmap' },
+      zoomMap: { type: Number, default: 10 },
+      widthMap: { type: String, default: '100%' },
+      heightMap: { type: String, default: '450px' },
+      titleMarker: { type: String, default: 'Arraste o ponteiro para o endereço informado.' },
+      labelMaker: { type: String, default: 'Local' },
+
+    },
     data: () => ({
       maskCep: '#####-###',
       numeroEnd: '######',
-      disabled: false,
-
-      form: {
-        cep: null,
-        state_id: null,
-        city_id: null,
-        number: null,
-        address: null,
-        neighborhood: null,
-        lat: null,
-        lng: null,
-      },
-
       rules: {
         campoObrigatorio: [
           v => !!v || 'Este campo é obrigatório',
@@ -94,48 +89,49 @@
 
     }),
     methods: {
-      async buscaCEP() {
-        try {
-          if (this.form.cep.length === 9) {
-            let loader = this.$loading.show();
-            const { data } = await axios.get('https://viacep.com.br/ws/' + this.form.cep + '/json/');
-            if(data){
-              this.disabled = true;
-              var UF = data.uf
-              this.form.neighborhood = data.bairro
-              this.form.address = data.logradouro
-              this.form.state_id = UF
-              if (UF !== '') {
-                this.buscarCidade(UF)
-                this.form.city_id = data.localidade
-              }
-              loader.hide();
-            }
-            if(data.erro){
-              this.disabled = false;
-              loader.hide();
-              swal({
-                type: 'error',
-                title: 'CEP não encontrado!',
-                text: 'Por favor, insira um CEP válido ou preencha manualmente o endereço.',
-                confirmButtonText: 'Ok',
-              })
-            }
-          }
-        } catch (e) {
-          console.error('103', e);
-        }
+      ...mapMutations({
+        ATUALIZAR_CEP: 'endereco/ATUALIZAR_CEP',
+        ATUALIZAR_ESTADO: 'endereco/ATUALIZAR_ESTADO',
+        ATUALIZAR_CIDADE: 'endereco/ATUALIZAR_CIDADE',
+        ATUALIZAR_BAIRRO: 'endereco/ATUALIZAR_BAIRRO',
+        ATUALIZAR_ENDERECO: 'endereco/ATUALIZAR_ENDERECO',
+        ATUALIZAR_NUMERO: 'endereco/ATUALIZAR_NUMERO',
+        DESABILITA_FORM: 'endereco/DESABILITA_FORM',
+      }),
+
+      atualizaEstado (uf) {
+        this.ATUALIZAR_ESTADO(uf)
       },
-      buscarCidade (uf) {
-        this.$store.dispatch('member/fetchCities', uf)
+      atualizaCidade (cidade) {
+        this.ATUALIZAR_CIDADE(cidade)
+      },
+      atualizaBairro (bairro) {
+        this.ATUALIZAR_BAIRRO(bairro)
+      },
+      atualizaEndereco (endereco) {
+        this.ATUALIZAR_ENDERECO(endereco)
+      },
+      atualizaNumero (numero) {
+        this.ATUALIZAR_NUMERO(numero)
+      },
+      limparCEP () {
+        this.DESABILITA_FORM(false)
+      },
+
+      buscarCEP () {
+        let loader = this.$loading.show()
+        this.$store.dispatch('endereco/buscarCEP', this.enderecoViaCep.cep).then(viaCep => {
+          loader.hide()
+        })
       },
       buscarEstados () {
-        this.$store.dispatch('member/fetchStates')
+        this.$store.dispatch('endereco/buscarEstados')
+      },
+      buscarCidade (uf) {
+        this.$store.dispatch('endereco/buscarCidades', uf)
       },
       gMapFunc (event) {
-        console.log(event.lat())
-        this.form.endereco.lat = event.lat()
-        this.form.endereco.lng = event.lng()
+        this.$store.dispatch('endereco/setLatLng', event)
       },
       clickInfoMap (event) {
         console.log('click: ', event.lng())
@@ -143,8 +139,10 @@
     },
     computed: {
       ...mapGetters({
-        estados: 'member/states',
-        cidades: 'member/cities',
+        estados: 'endereco/estados',
+        cidades: 'endereco/cidades',
+        enderecoViaCep: 'endereco/enderecoViaCep',
+        desabilitaForm: 'endereco/desabilitaForm',
       }),
     },
     mounted () {

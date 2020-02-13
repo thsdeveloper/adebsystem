@@ -77,7 +77,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/departments', 'DepartmentsController@getAll');
 
     //Setores
-    Route::get('/setores', 'SetoresController@getAll');
+    Route::prefix('setor')->group(function () {
+        Route::get('listar', 'SetoresController@getAll');
+        Route::post('cadastrar', 'SetoresController@inserir');
+    });
 
     //Igrejas
     Route::get('/igrejas/{id}', 'IgrejasController@buscarIgrejasPorSetor');

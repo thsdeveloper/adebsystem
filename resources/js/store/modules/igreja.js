@@ -49,9 +49,9 @@ export const actions = {
     }
   },
 
-  async cadastrarIgreja ({ commit }, igreja) {
+  async cadastrarIgreja ({ commit }, payload) {
     try {
-      const { data } = await axios.post('/api/cadastrar-igreja', igreja)
+      const { data } = await axios.post('/api/cadastrar-igreja', payload)
       commit(types.CADASTRAR_IGREJAS, data.igreja)
     } catch (e) {
       alert('Ocorreu um erro ao cadastrar uma igreja')

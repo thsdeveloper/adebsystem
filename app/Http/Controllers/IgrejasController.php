@@ -39,13 +39,13 @@ class IgrejasController extends Controller
         $cep = str_replace($chars,"", $request->endereco['cep']);
 
         try {
-            $validator = Validator::make(array('nome_igreja' => $request->nome_igreja), [
+            $validator = Validator::make(array('nome_igreja' => $request->igreja['nome_igreja']), [
                 'nome_igreja' => 'required',
             ]);
 
             if ($validator->passes()) {
-                $state = State::where('uf', $request->endereco['state_id'])->first();
-                $city = City::where('name', $request->endereco['city_id'])->first();
+                $state = State::where('uf', $request->endereco['uf'])->first();
+                $city = City::where('name', $request->endereco['localidade'])->first();
 
                 DB::beginTransaction();
 
@@ -53,19 +53,20 @@ class IgrejasController extends Controller
                 $address->cep = $cep;
                 $address->state_id = $state->id;
                 $address->city_id = $city->id;
-                $address->address = $request->endereco['address'];
-                $address->number = $request->endereco['number'];
-                $address->neighborhood = $request->endereco['neighborhood'];
+                $address->address = $request->endereco['logradouro'];
+                $address->number = $request->endereco['numero'];
+                $address->neighborhood = $request->endereco['bairro'];
                 $address->user_id = Auth::user()->id;
-                $address->lat = $request->endereco['lat'];
-                $address->lng = $request->endereco['lng'];
+                $address->lat = $request->latLng['lat'];
+                $address->lng = $request->latLng['lng'];
 
                 if($address->save()){
                     $igreja = new Igreja();
-                    $igreja->nome_igreja = $request->nome_igreja;
-                    $igreja->setor_id = $request->setor_id;
-                    $igreja->pr_user_id = $request->pr_user_id;
-                    $igreja->co_pr_user_id = $request->co_pr_user_id;
+                    $igreja->user_id = Auth::user()->id;
+                    $igreja->nome_igreja = $request->igreja['nome_igreja'];
+                    $igreja->setor_id = $request->igreja['setor_id'];
+                    $igreja->pr_user_id = $request->igreja['pr_user_id'];
+                    $igreja->co_pr_user_id = $request->igreja['co_pr_user_id'];
                     $igreja->endereco_id = $address->id;
 
                     if($igreja->save()){

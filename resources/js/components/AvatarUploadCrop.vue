@@ -53,7 +53,7 @@
             salvarImagem(){
                 this.dataUrl = this.myCroppa.generateDataUrl('image/jpeg', 0.8);
                 if(this.dataUrl !== null){
-                    this.$store.dispatch('member/fetchCities', this.dataUrl);
+
                 }
             }
 

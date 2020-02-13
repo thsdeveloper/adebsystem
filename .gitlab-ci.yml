@@ -20,7 +20,6 @@ cache:
 composer:
   stage: preparation
   script:
-    - echo $CI_JOB_NAME
     - php -v
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - cp .env.example .env

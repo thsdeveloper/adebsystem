@@ -30,12 +30,12 @@
                         </v-col>
                     </v-row>
                     <v-divider/>
-                    <session-enderecos/>
+                    <session-enderecos mapa/>
                 </v-card-text>
             </v-card>
         </v-form>
 
-        <v-btn color="success" fab dark fixed bottom right large @click="cadastrarIgreja">
+        <v-btn color="success" fab dark fixed bottom right large @click="cadastrarSetor">
             <v-icon>save</v-icon>
         </v-btn>
 
@@ -69,16 +69,23 @@
     computed: {
       ...mapGetters({
         pastores: 'user/pastores',
+        endereco: 'endereco/enderecoViaCep',
+        latLng: 'endereco/latLng',
       }),
     },
 
     methods: {
-      cadastrarIgreja () {
+      cadastrarSetor(){
         if (this.$refs.form.validate()) {
           let loader = this.$loading.show()
-          this.$store.dispatch('igreja/cadastrarIgreja', this.form).finally(() => {
+          this.$store.dispatch('setor/cadastrarSetor', {
+            setor: this.form,
+            endereco: this.endereco,
+            latLng: this.latLng
+          }).finally(() => {
             loader.hide()
-            this.$router.push({ name: 'setoresIgrejas.home' })
+            this.$toasted.show('Setor criado com sucesso!');
+            this.$router.push({ name: 'setoresIgrejas.home'});
           })
         }
       },

@@ -4,8 +4,6 @@ import swal from 'sweetalert2'
 // state
 export const state = {
   professions: [],
-  states: [],
-  cities: [],
   memberDetail: null,
   maritalStatus: null,
   trusts: null,
@@ -21,8 +19,6 @@ export const state = {
 // getters
 export const getters = {
   professions: state => state.professions,
-  states: state => state.states,
-  cities: state => state.cities,
   memberDetail: state => state.memberDetail,
   maritalStatus: state => state.maritalStatus,
   trusts: state => state.trusts,
@@ -46,14 +42,6 @@ export const mutations = {
 
   [types.BUSCAR_CARGOS_MINISTERIAIS] (state, { cargosMinisteriais }) {
     state.cargosMinisteriais = cargosMinisteriais
-  },
-
-  [types.FETCH_STATES] (state, { states }) {
-    state.states = states
-  },
-
-  [types.FETCH_CITIES] (state, { cities }) {
-    state.cities = cities
   },
 
   [types.FETCH_MEMBER_DETAIL] (state, { memberDetail }) {
@@ -122,24 +110,6 @@ export const actions = {
       commit(types.BUSCAR_CARGOS_MINISTERIAIS, { cargosMinisteriais: data })
     } catch (e) {
       alert('Ocorreu um erro na busca de cargos ministeriais')
-    }
-  },
-
-  async fetchStates ({ commit }) {
-    try {
-      const { data } = await axios.get('/api/states')
-      commit(types.FETCH_STATES, { states: data })
-    } catch (e) {
-      alert('Ocorreu um erro no fetchStates')
-    }
-  },
-
-  async fetchCities ({ commit }, ufState) {
-    try {
-      const { data } = await axios.get('/api/states/' + ufState + '/cities')
-      commit(types.FETCH_CITIES, { cities: data })
-    } catch (e) {
-      alert('Ocorreu um erro no fetchStates')
     }
   },
 

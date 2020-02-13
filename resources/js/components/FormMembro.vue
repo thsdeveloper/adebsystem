@@ -190,41 +190,7 @@
                     </v-row>
                     <v-divider/>
                     <v-card-title>Dados de Contato e Endereço</v-card-title>
-                    <v-row>
-                        <v-col md="4">
-                            <v-text-field v-model="form.cep" v-mask="maskCep" outlined label="CEP" @change="buscaCEP"/>
-                        </v-col>
-                        <v-col md="4">
-                            <v-select v-model="form.uf" :items="states" outlined :rules="rules.campoObrigatorio"
-                                      label="Estado"
-                                      item-text="name"
-                                      item-value="uf" hint="Selecione o estado do usuário"
-                                      @change="buscarCidade"
-                                      no-data-text="Não encontramos este estado!">
-                            </v-select>
-                        </v-col>
-                        <v-col md="4">
-                            <v-autocomplete v-model="form.cidade" :items="cities"
-                                            :rules="rules.campoObrigatorio"
-                                            label="Cidade" item-text="name" outlined
-                                            item-value="name" deletable-chips
-                                            hint="Selecione a cidade do usuário"
-                                            no-data-text="Não encontramos a cidade!"/>
-                        </v-col>
-                        <v-col md="4">
-                            <v-text-field v-model="form.bairro" outlined :rules="rules.campoObrigatorio"
-                                          label="Bairro"/>
-                        </v-col>
-                        <v-col md="4">
-                            <v-text-field v-model="form.address" outlined :rules="rules.campoObrigatorio"
-                                          label="Endereço"/>
-                        </v-col>
-                        <v-col md="4">
-                            <v-text-field v-model="form.numero" outlined v-mask="numeroMask" label="Número"
-                                          :rules="rules.campoObrigatorio"
-                                          placeholder="Ex. 38"/>
-                        </v-col>
-                    </v-row>
+                    <session-enderecos/>
 
                     <v-divider v-if="form.tipo_cadastro_id === 1"/>
                     <v-card-title v-if="form.tipo_cadastro_id === 1">Dados Ministeriais</v-card-title>
@@ -239,15 +205,15 @@
                                       item-value="id"/>
                         </v-col>
                         <v-col md="4">
-                            <v-select v-model="form.uf_naturalidade" :items="states"
+                            <v-select v-model="form.uf_naturalidade" :items="estados"
                                       :rules="rules.campoObrigatorio"
                                       label="Estado de Naturalidade"
                                       item-text="name" outlined
-                                      item-value="uf" hint="Selecione a naturalidade" @change="buscarCidade"
+                                      item-value="uf" hint="Selecione a naturalidade"
                                       no-data-text="Não encontramos este estado!"/>
                         </v-col>
                         <v-col md="4">
-                            <v-autocomplete v-model="form.cidade_naturalidade" :items="cities"
+                            <v-autocomplete v-model="form.cidade_naturalidade" :items="cidades"
                                             :rules="rules.campoObrigatorio" outlined
                                             label="Cidade da Naturalidade" item-text="name"
                                             item-value="name" deletable-chips hint="Selecione a cidade"
@@ -335,10 +301,12 @@
   import swal from 'sweetalert2'
   import Croppa from 'vue-croppa'
   import 'vue-croppa/dist/vue-croppa.css'
+  import SessionEnderecos from './SessionEndereco'
 
   export default {
     name: 'FormMembro',
     components: {
+      SessionEnderecos,
       croppa: Croppa.component,
     },
     props: {
@@ -356,7 +324,6 @@
       modalCreateMember: false,
       maskCPF: '###.###.###-##',
       maskPhone: '(##) # ####-####',
-      maskCep: '#####-###',
       numeroMask: '######',
       valid: false,
       modalDataAniversario: false,
@@ -444,45 +411,11 @@
         this.imagePerfil = true
         this.executeSalvarMembro()
       },
-      fetchStates () {
-        this.$store.dispatch('member/fetchStates')
-      },
-      buscarCidade (uf) {
-        this.$store.dispatch('member/fetchCities', uf)
-      },
       buscaIgreja () {
         let loader = this.$loading.show()
         this.$store.dispatch('igreja/buscarIgrejasPorSetor', this.form.setor_id).then(res => {
           loader.hide()
         })
-      },
-      buscaCEP () {
-        var _this = this
-        let loader = this.$loading.show()
-        if (this.form.cep.length === 9) {
-          axios.get('https://viacep.com.br/ws/' + this.form.cep + '/json/')
-            .then(function (res) {
-              if (res.data.erro === true) {
-                loader.hide()
-                swal.fire(
-                  'CEP inválido',
-                  'Por favor, preencha o endereço completo ou insira um novo CEP.',
-                  'question')
-              }
-              var UF = res.data.uf
-              _this.form.bairro = res.data.bairro
-              _this.form.address = res.data.logradouro
-              _this.form.uf = UF
-              if (UF !== '') {
-                _this.buscarCidade(UF)
-                _this.form.cidade = res.data.localidade
-              }
-              loader.hide()
-            }).catch(function (error) {
-            // handle error
-            console.log(error)
-          })
-        }
       },
       salvaMembro () {
         if (this.$refs.form.validate()) {
@@ -505,7 +438,6 @@
           this.$toasted.show('Alguns campos estão incorretos! Favor verifique.', { type: 'error' })
         }
       },
-
       executeSalvarMembro () {
         if (this.$refs.form.validate()) {
           let loader = this.$loading.show()
@@ -617,7 +549,6 @@
           // this.form.estado = membro.details.endereco.cep;
 
 
-
           this.form.observacao = membro.details.observacao;
         });
       }
@@ -629,8 +560,8 @@
         trusts: 'member/trusts',
         genders: 'member/genders',
         schoolings: 'member/schoolings',
-        states: 'member/states',
-        cities: 'member/cities',
+        estados: 'endereco/estados',
+        cidades: 'endereco/cidades',
         tiposCadastros: 'member/tiposCadastros',
         cargosMinisteriais: 'member/cargosMinisteriais',
         professions: 'member/professions',
@@ -668,7 +599,6 @@
       this.fetchTrusts()
       this.fetchGenders()
       this.fetchSchoolings()
-      this.fetchStates()
       this.fetchProfessions()
       this.fetchSetores()
       this.buscarTiposCadastros()
