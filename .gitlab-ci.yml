@@ -21,7 +21,7 @@ composer:
   image: edbizarro/gitlab-ci-pipeline-php:7.3
   stage: preparation
   script:
-    - echo $CI_COMMIT_REF_SLUG
+    - echo $CI_RUNNER_DESCRIPTION
     - php -v
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - cp .env.example .env
