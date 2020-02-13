@@ -23,7 +23,7 @@ composer:
     - echo $CI_RUNNER_DESCRIPTION
     - echo $CI_PROJECT_TITLE
     - pwd
-    - docker info
+    - whoami
 #    - php -v
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 #    - cp .env.example .env
