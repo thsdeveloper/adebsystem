@@ -23,6 +23,7 @@ composer:
   script:
     - echo $CI_RUNNER_DESCRIPTION
     - echo $CI_PROJECT_TITL
+    - docker --version
     - git branch -a
     - pwd
     - whoami
