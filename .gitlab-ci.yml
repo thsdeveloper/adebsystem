@@ -38,7 +38,7 @@ composer:
 #    - git branch -a
     - pwd
     - whoami
-    - echo 'Brasililia'
+    - echo 'Thiago'
 #    - php --version
 #    - docker --version
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
