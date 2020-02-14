@@ -5,8 +5,8 @@ stages:
   - security
 
 
-before_script:
-  - docker info
+#before_script:
+#  - docker info
 # Variables
 #variables:
 #  MYSQL_ROOT_PASSWORD: root
