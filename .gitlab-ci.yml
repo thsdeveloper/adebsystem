@@ -24,11 +24,9 @@ composer:
   script:
     - echo $CI_RUNNER_DESCRIPTION
     - echo $CI_PROJECT_TITL
-#    - docker --version
     - git branch -a
     - pwd
     - whoami
-    - php -v
     - echo 'Brasililia'
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 #    - cp .env.example .env
