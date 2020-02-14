@@ -1,5 +1,5 @@
 stages:
-  - preparation
+  - preparacao
   - building
   - testing
   - security
@@ -18,7 +18,7 @@ cache:
   key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
 
 composer:
-  stage: preparation
+  stage: preparacao
   script:
     - echo $CI_RUNNER_DESCRIPTION
     - echo $CI_PROJECT_TITLE
@@ -39,7 +39,7 @@ composer:
 #      - vendor/
 
 npm:
-  stage: preparation
+  stage: preparacao
   script:
     - npm --version
     - npm install
