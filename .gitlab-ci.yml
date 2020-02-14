@@ -22,7 +22,8 @@ composer:
   image:  composer:1.8
   script:
     - echo $CI_RUNNER_DESCRIPTION
-    - echo $CI_PROJECT_TITLE
+    - echo $CI_PROJECT_TITL
+    - git branch
     - pwd
     - whoami
     - php -v
