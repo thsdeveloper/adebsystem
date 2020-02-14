@@ -1,15 +1,3 @@
-
-image: jonaskello/docker-and-compose:1.12.1-1.8.0
-services:
-  - docker:1.12.1-dind
-before_script:
-  - docker info
-  - docker-compose version
-  - cp env-example .env
-  - sed -i -- "s/=false/=true/g" .env
-  - cat .env
-  - env | sort
-
 stages:
   - preparacao
   - building
@@ -39,7 +27,7 @@ composer:
     - pwd
     - whoami
     - echo 'Thiago'
-#    - php --version
+    - php --version
 #    - docker --version
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 #    - cp .env.example .env
