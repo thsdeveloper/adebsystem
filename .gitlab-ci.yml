@@ -4,7 +4,7 @@ stages:
   - testing
   - security
 
-#image: edbizarro/gitlab-ci-pipeline-php:7.3
+image: edbizarro/gitlab-ci-pipeline-php:7.3
 
 # Variables
 variables:
