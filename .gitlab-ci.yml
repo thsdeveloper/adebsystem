@@ -24,11 +24,12 @@ composer:
   script:
     - echo $CI_RUNNER_DESCRIPTION
     - echo $CI_PROJECT_TITL
-    - git branch -a
+#    - git branch -a
     - pwd
     - whoami
     - echo 'Brasililia'
-#    - php --version
+    - php --version
+    - docker --version
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 #    - cp .env.example .env
 #    - php artisan key:generate
