@@ -27,6 +27,7 @@ composer:
     - pwd
     - whoami
     - php -v
+    - echo 'Olla'
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 #    - cp .env.example .env
 #    - php artisan key:generate
