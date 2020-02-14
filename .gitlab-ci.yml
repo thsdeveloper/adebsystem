@@ -20,7 +20,7 @@ cache:
 
 composer:
   stage: preparacao
-#  image: edbizarro/gitlab-ci-pipeline-php:7.3
+  image: edbizarro/gitlab-ci-pipeline-php:7.3
   script:
     - echo $CI_RUNNER_DESCRIPTION
     - echo $CI_PROJECT_TITL
@@ -28,10 +28,6 @@ composer:
     - pwd
     - whoami
     - echo 'Brasililia'
-    - git clone https://github.com/LaraDock/laradock.git
-    - cd laradock
-    - docker-compose up -d  nginx mysql redis workspace
-    - docker exec -it laradock_workspace_1 bash
 #    - php --version
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 #    - cp .env.example .env
