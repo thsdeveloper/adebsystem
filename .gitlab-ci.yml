@@ -27,8 +27,8 @@ composer:
     - pwd
     - whoami
     - echo 'Thiago'
-    - php --version
-#    - docker --version
+#    - php --version
+    - docker --version
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 #    - cp .env.example .env
 #    - php artisan key:generate
