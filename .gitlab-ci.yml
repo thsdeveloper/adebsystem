@@ -1,6 +1,6 @@
 before_script:
   - cd /var/www/html #your project path
-  - ll
+  - touch agoravai.txt
 stages:
   - preparacao
   - building
