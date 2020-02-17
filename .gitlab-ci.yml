@@ -29,19 +29,18 @@ composer:
     - composer
     - touch blabla.txt
     - php --version
-#    - docker --version
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - cp .env.example .env
     - php artisan key:generate
-#  artifacts:
-#    paths:
-#      - vendor/
-#      - .env
-#    expire_in: 1 days
-#    when: always
-#  cache:
-#    paths:
-#      - vendor/
+  artifacts:
+    paths:
+      - vendor/
+      - .env
+    expire_in: 1 days
+    when: always
+  cache:
+    paths:
+      - vendor/
 
 npm:
   stage: preparacao
