@@ -24,6 +24,7 @@ composer:
   script:
     - echo $CI_RUNNER_DESCRIPTION
     - echo $CI_PROJECT_TITL
+    - echo $CI_PROJECT_DIR
     - pwd
     - whoami
     - composer --version
