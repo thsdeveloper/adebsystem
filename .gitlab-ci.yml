@@ -1,7 +1,5 @@
-before_script:
-  - cd /var/www/html #your project path
-  - touch agoravai.txt
-  - pwd
+#before_script:
+#  - cd /var/www/html #your project path
 stages:
   - preparacao
   - building
@@ -16,7 +14,7 @@ stages:
 #  MYSQL_ROOT_PASSWORD: root
 #  MYSQL_USER: mysql_user
 #  MYSQL_PASSWORD: mysql_password
-#  MYSQL_DATABASE: mysql_db
+#  MYSQL_DATABASE: mysql_dbcd /var/
 #  DB_HOST: mysql
 
 cache:
@@ -32,7 +30,6 @@ composer:
     - pwd
     - whoami
     - composer --version
-    - touch blabla.txt
     - php --version
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - cp .env.example .env
