@@ -28,6 +28,7 @@ composer:
     expire_in: 1 days
     when: always
   cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer
     paths:
       - vendor/
 
@@ -37,13 +38,19 @@ npm:
   script:
     - npm -v
     - npm install
+    - npm run dev
   artifacts:
     name: "$CI_JOB_NAME"
     paths:
       - node_modules/
+      - public/css/
+      - public/js/
+      - public/fonts/
+      - public/mix-manifest.json
     expire_in: 1 days
     when: always
   cache:
+    key: ${CI_COMMIT_REF_SLUG}-npm
     paths:
       - node_modules/
 #
@@ -55,14 +62,8 @@ build-assets:
     - npm
   script:
     - npm --version
-    - npm run dev
   artifacts:
     name: "$CI_JOB_NAME"
-    paths:
-      - public/css/
-      - public/js/
-      - public/fonts/
-      - public/mix-manifest.json
     expire_in: 1 days
     when: always
 
