@@ -20,6 +20,7 @@ cache:
 
 composer:
   stage: preparacao
+  image: composer:1.8
   script:
     - echo $CI_RUNNER_DESCRIPTION
     - echo $CI_PROJECT_TITL
@@ -27,8 +28,9 @@ composer:
     - pwd
     - whoami
     - echo 'Thiago'
+    - composer --version
 #    - php --version
-    - docker --version
+#    - docker --version
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 #    - cp .env.example .env
 #    - php artisan key:generate
