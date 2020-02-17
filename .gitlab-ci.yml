@@ -26,7 +26,7 @@ composer:
     - echo $CI_PROJECT_TITL
     - pwd
     - whoami
-    - composer
+    - composer --version
     - touch blabla.txt
     - php --version
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
@@ -43,10 +43,11 @@ composer:
       - vendor/
 
 npm:
+  image: node:10.16.3
   stage: preparacao
   script:
-    - npm --version
-    - npm install
+    - node -v
+    - npm -v
 #  artifacts:
 #    paths:
 #      - node_modules/
