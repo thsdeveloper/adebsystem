@@ -26,22 +26,22 @@ composer:
     - echo $CI_PROJECT_TITL
     - pwd
     - whoami
-    - composer --version
-    - touch blabla.txt
-#    - php --version
+    - composer
+#    - touch blabla.txt
+    - php --version
 #    - docker --version
-#    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-#    - cp .env.example .env
-#    - php artisan key:generate
-#  artifacts:
-#    paths:
-#      - vendor/
-#      - .env
-#    expire_in: 1 days
-#    when: always
-#  cache:
-#    paths:
-#      - vendor/
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - cp .env.example .env
+    - php artisan key:generate
+  artifacts:
+    paths:
+      - vendor/
+      - .env
+    expire_in: 1 days
+    when: always
+  cache:
+    paths:
+      - vendor/
 
 npm:
   stage: preparacao
