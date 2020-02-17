@@ -33,6 +33,7 @@ composer:
     - cp .env.example .env
     - php artisan key:generate
   artifacts:
+    name: "$CI_JOB_NAME"
     paths:
       - vendor/
       - .env
