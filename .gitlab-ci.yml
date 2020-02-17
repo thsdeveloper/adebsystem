@@ -46,34 +46,34 @@ npm:
   image: node:10.16.3
   stage: preparacao
   script:
-    - node -v
     - npm -v
-#  artifacts:
-#    paths:
-#      - node_modules/
-#    expire_in: 1 days
-#    when: always
-#  cache:
-#    paths:
-#      - node_modules/
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 days
+    when: always
+  cache:
+    paths:
+      - node_modules/
 
-#build-assets:
-#  stage: building
-#  # Download the artifacts for these jobs
-#  dependencies:
-#    - composer
-#    - yarn
-#  script:
-#    - yarn --version
-#    - yarn run production --progress false
-#  artifacts:
-#    paths:
-#      - public/css/
-#      - public/js/
-#      - public/fonts/
-#      - public/mix-manifest.json
-#    expire_in: 1 days
-#    when: always
+build-assets:
+  stage: building
+  # Download the artifacts for these jobs
+  dependencies:
+    - composer
+    - npm
+  script:
+    - npm --version
+    - npm run production --progress false
+  artifacts:
+    paths:
+      - public/css/
+      - public/js/
+      - public/fonts/
+      - public/mix-manifest.json
+    expire_in: 1 days
+    when: always
 
 #db-seeding:
 #  stage: building
