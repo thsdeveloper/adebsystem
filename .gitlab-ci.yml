@@ -27,7 +27,7 @@ composer:
     - pwd
     - whoami
     - composer
-#    - touch blabla.txt
+    - touch blabla.txt
     - php --version
 #    - docker --version
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
