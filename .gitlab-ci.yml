@@ -1,5 +1,5 @@
-#before_script:
-#  - cd /var/www/html #your project path
+before_script:
+  - docker-compose ps #your project path
 stages:
   - preparacao
   - building
