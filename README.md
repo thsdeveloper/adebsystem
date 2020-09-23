@@ -1,3 +1,10 @@
+# AdebSystem 1.0
+### **Sistema de Gerenciamento da ADEB Setor 11**
+Obs. O Sistema de gerenciamento AdebSystem é exclusivo para o usu interno do gerenciamento de membros da ADEB Setor 11.
+
+Roteiro de Instalação do Projeto em Ambiente Local.
+
+
 Passo 1: $ npm cache clean --force
 
 Etapa 2: exclua node_modules por $ rm -rf node_modules package-lock.jsonpasta ou exclua-o manualmente , indo para o diretório e clique com o botão direito do mouse em> excluir / mover para a lixeira. Além disso, exclua o arquivo package-lock.json também.
