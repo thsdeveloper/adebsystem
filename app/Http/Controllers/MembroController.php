@@ -28,6 +28,7 @@ class MembroController extends Controller
 {
     public function inserir(Request $request)
     {
+//         dd($request);
         $chars = array(".", "/", "-", "(", ")");
         $cpf = str_replace($chars, "", $request->cpf);
         $cep = str_replace($chars, "", $request->cep);

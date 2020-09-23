@@ -65,7 +65,7 @@ class RolesPermissionTableSeeder extends Seeder
 
 //        $role = Role::create(['name' => 'super-admin']);
 //        $role->givePermissionTo(Permission::all());
-        $this->command->info('[Igrejas] adicionada com sucesso ao banco!');
+        $this->command->info('[Permissões] adicionada com sucesso ao banco!');
     }
 }
 

@@ -76,9 +76,10 @@
             async login () {
                 // Submit the form.
                 const { data } = await this.form.post('/api/login');
+                console.log('THIAGO', data);
 
                 // Save the token.
-                this.$store.dispatch('auth/saveToken', {
+              this.$store.dispatch('auth/saveToken', {
                     token: data.token,
                     remember: this.remember
                 });

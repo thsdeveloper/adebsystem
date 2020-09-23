@@ -144,6 +144,7 @@ export const actions = {
   },
 
   async saveMember ({ commit }, dados) {
+    console.log('O que temos', dados)
     try {
       const { data } = await axios.post('/api/membro/cadastrar', dados)
     } catch (e) {

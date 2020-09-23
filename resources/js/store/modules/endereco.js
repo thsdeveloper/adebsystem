@@ -52,6 +52,7 @@ export const mutations = {
   },
 
   [types.ATUALIZAR_ESTADO] (state, uf) {
+    console.log('Chegou o que??', state, uf)
     state.enderecoViaCep.uf = uf
   },
 
