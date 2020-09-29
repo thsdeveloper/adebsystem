@@ -28,14 +28,13 @@ class MembroController extends Controller
 {
     public function inserir(Request $request)
     {
-//         dd($request);
         $chars = array(".", "/", "-", "(", ")");
-        $cpf = str_replace($chars, "", $request->cpf);
-        $cep = str_replace($chars, "", $request->cep);
-        $telefone = $request->phone;
+        $cpf = str_replace($chars, "", $request->form['cpf']);
+        $cep = str_replace($chars, "", $request->endereco['cep']);
+        $telefone = $request->form['phone'];
 
         try {
-            $validator = Validator::make(array('cpf' => $cpf, 'email' => $request->email), [
+            $validator = Validator::make(array('cpf' => $cpf, 'email' => $request->form['email']), [
                 'cpf' => 'required|unique:user_details|cpf|max:11',
                 'email' => 'required|unique:users',
             ]);
@@ -52,22 +51,22 @@ class MembroController extends Controller
             }
 
 
-            $state = State::where('uf', $request->uf)->first();
-            $city = City::where('name', $request->cidade)->first();
+            $state = State::where('uf', $request->endereco['uf'])->first();
+            $city = City::where('name', $request->endereco['localidade'])->first(); //Cidade
 
             DB::beginTransaction();
 
             $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
+            $user->name = $request->form['name'];
+            $user->email = $request->form['email'];
             $user->matricula = $user->getMatriculaMembro();
-            $user->status_id = $request->status_id;
+            $user->status_id = $request->form['status_id'];
             $user->password = Hash::make($cpf);
 
             //Cadastro de Imagem no Perfil
-            if ($request->fotoBase64 != null) {
+            if ($request->form['fotoBase64'] != null) {
                 //get the base-64 from data
-                $base64_str = substr($request->fotoBase64, strpos($request->fotoBase64, ",") + 1);
+                $base64_str = substr($request->form['fotoBase64'], strpos($request->form['fotoBase64'], ",") + 1);
 
                 //decode base64 string
                 $image = base64_decode($base64_str);
@@ -88,51 +87,51 @@ class MembroController extends Controller
                 $address->cep = $cep;
                 $address->state_id = $state->id;
                 $address->city_id = $city->id;
-                $address->address = $request->address;
-                $address->number = $request->numero;
-                $address->neighborhood = $request->bairro;
-                $address->user_id = Auth::user()->id;
+                $address->address = $request->endereco['logradouro'];
+                $address->number = $request->endereco['numero'];
+                $address->neighborhood = $request->endereco['bairro'];
+                $address->user_id = $user->id;
 
                 if ($address->save()) {
                     $user_detail = new UserDetail();
                     $user_detail->user_id = $user->id;
-                    $user_detail->tipo_cadastro_id = $request->tipo_cadastro_id;
-                    $user_detail->data_nascimento = $request->data_nascimento;
+                    $user_detail->tipo_cadastro_id = $request->form['tipo_cadastro_id'];
+                    $user_detail->data_nascimento = Carbon::createFromFormat('d/m/Y', $request->form['data_nascimento']);
                     $user_detail->cpf = $cpf;
-                    $user_detail->rg = $request->rg;
-                    $user_detail->gender_id = $request->gender_id;
-                    $user_detail->profession_id = $request->profession_id;
+                    $user_detail->rg = $request->form['rg'];
+                    $user_detail->gender_id = $request->form['gender_id'];
+                    $user_detail->profession_id = $request->form['profession_id'];
                     $user_detail->phone = $telefone;
-                    $user_detail->marital_status_id = $request->marital_status_id;
-                    $user_detail->nome_conjuge = $request->nome_conjuge;
-                    $user_detail->nome_pai = $request->nome_pai;
-                    $user_detail->nome_mae = $request->nome_mae;
-                    $user_detail->data_conversao = ($request->data_conversao !== null ? $request->data_conversao : null);
-                    $user_detail->data_batismo = ($request->data_batismo !== null ? $request->data_batismo : null);
-                    $user_detail->schooling_id = $request->schooling_id;
-                    $user_detail->forma_ingresso_id = $request->forma_ingresso_id;
-                    $user_detail->observacao = $request->observacao;
-                    $user_detail->igreja_id = $request->igreja_id;
+                    $user_detail->marital_status_id = $request->form['marital_status_id'];
+                    $user_detail->nome_conjuge = $request->form['nome_conjuge'];
+                    $user_detail->nome_pai = $request->form['nome_pai'];
+                    $user_detail->nome_mae = $request->form['nome_mae'];
+                    $user_detail->data_conversao = (Carbon::createFromFormat('d/m/Y', $request->form['data_conversao']) !== null ? Carbon::createFromFormat('d/m/Y', $request->form['data_conversao']) : null);
+                    $user_detail->data_batismo = (Carbon::createFromFormat('d/m/Y', $request->form['data_batismo']) !== null ? Carbon::createFromFormat('d/m/Y', $request->form['data_batismo']) : null);
+                    $user_detail->schooling_id = $request->form['schooling_id'];
+                    $user_detail->forma_ingresso_id = $request->form['forma_ingresso_id'];
+                    $user_detail->observacao = $request->form['observacao'];
+                    $user_detail->igreja_id = $request->form['igreja_id'];
                     $user_detail->endereco_id = $address->id;
 
-                    if ($request->tipo_cadastro_id == 1) {
-                        $state_naturalidade = State::where('uf', $request->uf_naturalidade)->first();
-                        $cidade_naturalidade = City::where('name', $request->cidade_naturalidade)->first();
+                    if ($request->form['tipo_cadastro_id'] == 1) {
+                        $state_naturalidade = State::where('uf', $request->form['uf_naturalidade'])->first();
+                        $cidade_naturalidade = City::where('name', $request->form['cidade_naturalidade'])->first();
 
-                        $user_detail->cargo_ministerial_id = $request->cargo_ministerial_id;
+                        $user_detail->cargo_ministerial_id = $request->form['cargo_ministerial_id'];
                         $user_detail->uf_naturalidade_id = $state_naturalidade->id;
                         $user_detail->cidade_naturalidade_id = $cidade_naturalidade->id;
-                        $user_detail->data_consagracao = ($request->data_consagracao !== null ? $request->data_consagracao : null);
-                        $user_detail->curso_teologico_id = $request->curso_teologico_id;
-                        $user_detail->convencao_igreja = $request->convencao_igreja;
-                        $user_detail->cod_comadebg = $request->cod_comadebg;
-                        $user_detail->cod_cgadb = $request->cod_cgadb;
-                        $user_detail->situacao_ministerio_id = $request->situacao_ministerio_id;
+                        $user_detail->data_consagracao = (Carbon::createFromFormat('d/m/Y', $request->form['data_consagracao']) !== null ? Carbon::createFromFormat('d/m/Y', $request->form['data_consagracao']) : null);
+                        $user_detail->curso_teologico_id = $request->form['curso_teologico_id'];
+                        $user_detail->convencao_igreja = $request->form['convencao_igreja'];
+                        $user_detail->cod_comadebg = $request->form['cod_comadebg'];
+                        $user_detail->cod_cgadb = $request->form['cod_cgadb'];
+                        $user_detail->situacao_ministerio_id = $request->form['situacao_ministerio_id'];
                     }
 
-                    $user->igreja()->attach($request->igreja_id);
-                    $user->departments()->attach($request->departments);
-                    $user->trusts()->attach($request->trusts);
+                    $user->igreja()->attach($request->form['igreja_id']);
+                    $user->departments()->attach($request->form['departments']);
+                    $user->trusts()->attach($request->form['trusts']);
 
                     if ($user_detail->save()) {
                         DB::commit();

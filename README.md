@@ -26,3 +26,7 @@ PS: Ainda assim, verifique o erro exibido em vermelho e aja de acordo. Este erro
 - Caso receba um erro "not-autorized" favor correr o comando abaixo.
 
 `php artisan cache:clear`
+
+- Para visualizar os arquivos
+
+`php artisan storage:link`

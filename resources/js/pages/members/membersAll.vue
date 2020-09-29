@@ -1,4 +1,3 @@
-import swal from "sweetalert2"
 <template>
     <v-container>
         <!--    <v-row>-->
@@ -42,6 +41,7 @@ import swal from "sweetalert2"
 
                     <template v-slot:item.photo_url="{ item }">
                         <v-avatar size="30px">
+<!--                          {{item.photo_url}}-->
                             <img :src="item.photo_url" alt="Imagem de Perfil">
                         </v-avatar>
                     </template>

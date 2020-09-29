@@ -14,13 +14,12 @@ class TrustsTableSeeder extends Seeder
 //        DB::table('trusts')->truncate();
         DB::table('trusts')->insert([
             ['name' => 'Missionário(a)'],
-            ['name' => 'Diácono'],
             ['name' => 'Líder de Departamento'],
             ['name' => 'Tesoureiro(a)'],
             ['name' => 'Secretário(a)'],
             ['name' => 'Professor(a)'],
             ['name' => 'Recepcionista'],
-            ['name' => 'Operador de Áudio'],
+            ['name' => 'Técnico de áudio'],
             ['name' => 'Regente'],
             ['name' => 'Auxiliar'],
             ['name' => 'Músico'],

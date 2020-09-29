@@ -143,10 +143,9 @@ export const actions = {
     }
   },
 
-  async saveMember ({ commit }, dados) {
-    console.log('O que temos', dados)
+  async saveMember ({ commit }, form) {
     try {
-      const { data } = await axios.post('/api/membro/cadastrar', dados)
+      const { data } = await axios.post('/api/membro/cadastrar', form)
     } catch (e) {
       swal({
         type: 'error',

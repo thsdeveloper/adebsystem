@@ -4,9 +4,9 @@
       <toolbar/>
     </div>
     <navigation-drawer/>
-    <v-content>
+    <v-main>
         <child animate-in="fadeIn"></child>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
