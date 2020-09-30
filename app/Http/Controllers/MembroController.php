@@ -14,6 +14,7 @@ use App\Models\State;
 use App\Models\TiposCadastros;
 use App\Models\User;
 use App\Models\UserDetail;
+use App\Notifications\NovoMembroNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -135,6 +136,7 @@ class MembroController extends Controller
 
                     if ($user_detail->save()) {
                         DB::commit();
+                        $user->notify(new NovoMembroNotification());
                         return response()->json([
                             'status' => true,
                             'msg' => 'Membro cadastrado com sucesso!',
@@ -153,6 +155,11 @@ class MembroController extends Controller
             ], 422);
         }
 
+    }
+
+    public function enviarNotification(){
+        $user = Auth::user();
+        $user->notify(new NovoMembroNotification());
     }
 
     public function visualizarMembroPorId($id)

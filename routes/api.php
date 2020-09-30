@@ -96,6 +96,8 @@ Route::prefix('membro')->group(function () {
     Route::get('situacoes', 'MembroController@situacoesMembros');
     Route::post('tesoureiros', 'MembroController@getTesoureiros');
     Route::post('buscar-cadastro-membro-cpf', 'MembroController@getCadastroCpf');
+
+    Route::get('enviar-email', 'MembroController@enviarNotification');
 });
 //Cargo Funções
 Route::get('/cargos-funcoes', 'CargoFuncoesController@getCargosFuncoes');
