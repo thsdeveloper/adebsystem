@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NovoMembroNotification extends Notification
+class NovoMembroNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -30,7 +30,10 @@ class NovoMembroNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'nexmo'];
+        if(app()->environment('production')){
+            return ['mail', 'nexmo'];
+        }
+        return ['mail'];
     }
 
     /**
