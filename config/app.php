@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'AdebSystem'),
 
     /*
     |--------------------------------------------------------------------------
@@ -162,6 +162,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 //        OwenIt\Auditing\AuditingServiceProvider::class,
+        Nexmo\Laravel\NexmoServiceProvider::class,
 
         /*
          * Application Service Providers...

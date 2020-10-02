@@ -63,7 +63,7 @@ class UserController extends Controller
 
     public function getPastores(Request $request){
         $pastores = User::whereHas('details', function ($query){
-            $query->where('cargo_ministerial_id', '=', 1);
+            $query->where('tipo_cadastro_id', '=', 1);
         })->get();
         return response()->json($pastores);
     }

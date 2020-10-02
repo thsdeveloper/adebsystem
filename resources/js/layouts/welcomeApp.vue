@@ -1,14 +1,14 @@
 <template>
   <v-app id="back">
-    <v-content>
+    <v-main>
       <v-container fluid class="fill-height">
         <v-row justify="center" align="center">
-          <v-col md="4">
+          <v-col md="10">
             <child animate-in="bounceInRight"></child>
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 <script>

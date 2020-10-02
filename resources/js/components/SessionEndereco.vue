@@ -1,12 +1,12 @@
 <template>
   <div>
     <v-row v-if="form">
-      <v-col>
+      <v-col cols="12" md="4">
         <v-text-field v-model="enderecoViaCep.cep" v-mask="maskCep" outlined label="CEP"
                       append-icon="delete" @change="buscarCEP" @click:append="limparCEP"
         />
       </v-col>
-      <v-col>
+      <v-col cols="12" md="4">
         <v-select v-model="enderecoViaCep.uf" :items="estados"
                   :rules="rules.campoObrigatorio" outlined
                   label="Estado" :disabled="desabilitaForm"
@@ -16,7 +16,7 @@
                   @input="atualizaEstado"
         />
       </v-col>
-      <v-col>
+      <v-col cols="12" md="4">
         <v-autocomplete v-model="enderecoViaCep.localidade" :items="cidades"
                         :rules="rules.campoObrigatorio" outlined
                         label="Cidade" item-text="name" :disabled="desabilitaForm"
@@ -27,19 +27,19 @@
       </v-col>
     </v-row>
     <v-row v-if="form">
-      <v-col>
+      <v-col cols="12" md="4">
         <v-text-field v-model="enderecoViaCep.bairro" :disabled="desabilitaForm"
                       :rules="rules.campoObrigatorio" outlined label="Bairro"
                       @input="atualizaBairro"
         />
       </v-col>
-      <v-col>
+      <v-col cols="12" md="4">
         <v-text-field v-model="enderecoViaCep.logradouro" :rules="rules.campoObrigatorio"
                       outlined label="Endereço"
                       @input="atualizaEndereco"
         />
       </v-col>
-      <v-col>
+      <v-col cols="12" md="4">
         <v-text-field v-model="enderecoViaCep.numero" v-mask="numeroEnd"
                       label="Número" outlined :rules="rules.campoObrigatorio"
                       placeholder="Ex. 38"

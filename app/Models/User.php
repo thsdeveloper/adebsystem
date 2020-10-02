@@ -174,4 +174,11 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $randomString;
     }
 
+    public function routeNotificationForNexmo($notification)
+    {
+        $phone = preg_replace("/[^0-9]/", "", $this->details->phone);
+        $codeArea = '55';
+        return $codeArea.$phone;
+    }
+
 }

@@ -54,7 +54,7 @@ export default [
   {path: '/', name: 'welcome', component: Login},
 
   {path: '/login', name: 'login', component: Login},
-  {path: '/register', name: 'register', component: Register},
+  {path: '/cadastrar', name: 'cadastrar', component: Register},
   {path: '/password/reset', name: 'password.request', component: PasswordEmail},
   {path: '/password/reset/:token', name: 'password.reset', component: PasswordReset},
 

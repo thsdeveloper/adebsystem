@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fill-height>
         <form-membro />
     </v-container>
 </template>

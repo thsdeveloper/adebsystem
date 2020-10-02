@@ -40,4 +40,10 @@ return [
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
     ],
 
+    'nexmo' => [
+        'key' => '6a7ceec6',
+        'secret' => 'nKFgXKb5LJmVIHN5',
+        'sms_from' => '5561996617935',
+    ],
+
 ];

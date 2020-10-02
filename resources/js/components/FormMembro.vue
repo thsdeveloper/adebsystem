@@ -4,10 +4,10 @@
       <v-card>
         <v-card-title :class="tipo.color + ' white--text'">
           <v-icon large left color="white">{{ tipo.icon }}</v-icon>
-          {{ tipo.title }} membro
+          {{ tipo.title }} membrolkdshgfksdahjgfkjadhsgf,jhfdskj Thiago dsfsdafdsj hgjsghdf jsdhgf kjgf
         </v-card-title>
         <v-card-subtitle :class="tipo.color + ' white--text'">
-          O processo de {{ tipo.title }} o membro pode ser visualizado nos relatórios de transações financeiras
+          O processo de {{ tipo.title }} o membro pode ser visualizado nos relatórios de transações.
         </v-card-subtitle>
 
         <v-card-text class="mt-5">
@@ -32,55 +32,41 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col md="8">
+            <v-col cols="12" md="8" xs="12">
               <v-text-field v-model="form.name" label="Nome completo"
                             :rules="rules.campoObrigatorio" outlined
                             :counter="255"/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4" xs="12">
               <v-text-field v-model="form.rg" label="Número do Documento / RG"
                             :rules="rules.campoObrigatorio"
                             :counter="191" outlined/>
             </v-col>
           </v-row>
           <v-row>
-            <v-col md="4">
+            <v-col cols="6" md="4">
               <v-select v-model="form.marital_status_id" :items="maritalStatus"
                         :rules="rules.campoObrigatorio" label="Estado Civil" item-text="name"
                         outlined item-value="id"/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="6" md="4">
               <v-select v-model="form.gender_id" :rules="rules.campoObrigatorio" :items="genders"
                         label="Sexo*" outlined
                         item-text="name" item-value="id"/>
             </v-col>
             <v-col md="4">
-              <v-dialog ref="dialogAniversario" v-model="modalDataAniversario"
-                        :return-value.sync="form.data_nascimento"
-                        persistent width="290px">
-                <template v-slot:activator="{ on }">
-                  <v-text-field v-model="computedDataNascimento" label="Data de Nascimento"
-                                outlined readonly :rules="rules.campoObrigatorio" clearable
-                                v-on="on"/>
-                </template>
-                <v-date-picker v-model="form.data_nascimento" scrollable locale="pt-BR">
-                  <v-spacer/>
-                  <v-btn text color="primary" @click="modalDataAniversario = false">Cancelar</v-btn>
-                  <v-btn text color="primary"
-                         @click="$refs.dialogAniversario.save(form.data_nascimento)">OK
-                  </v-btn>
-                </v-date-picker>
-              </v-dialog>
+              <v-text-field v-model="form.data_nascimento" label="Data de Nascimento" v-mask="maskDate"
+                            outlined :rules="rules.campoObrigatorio" clearable/>
             </v-col>
           </v-row>
           <v-row>
-            <v-col md="4">
+            <v-col cols="6" md="4">
               <v-select v-model="form.schooling_id" :items="schoolings"
                         outlined :rules="rules.campoObrigatorio"
                         label="Escolaridade" item-text="name" item-value="id"/>
 
             </v-col>
-            <v-col md="4">
+            <v-col cols="6" md="4">
               <v-autocomplete v-model="form.profession_id" :items="professions"
                               outlined :rules="rules.campoObrigatorio"
                               label="Profissão" item-text="name"
@@ -88,24 +74,24 @@
                               hint="Selecione a profissão do membro"
                               no-data-text="Não encontramos esta profissão!"/>
             </v-col>
-            <v-col md="4" v-if="form.marital_status_id === 2">
+            <v-col cols="12" md="4" v-if="form.marital_status_id === 2">
               <v-text-field v-model="form.nome_conjuge" label="Nome do Conjuge"
                             outlined :rules="rules.campoObrigatorio"
               />
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-text-field v-model="form.nome_mae" label="Nome da mãe"
                             outlined :rules="rules.campoObrigatorio"/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-text-field v-model="form.nome_pai" label="Nome do pai"
                             outlined :rules="rules.campoObrigatorio"/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-text-field v-model="form.email" outlined label="Email" :rules="rules.emailRules"
                             hint="Email válido para verificação"/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-text-field v-model="form.phone" :rules="rules.campoObrigatorio"
                             v-mask="maskPhone" outlined
                             label="Telefone celular"/>
@@ -118,7 +104,7 @@
               <v-select v-model="form.setor_id" :items="setores"
                         label="Escolha o Setor" item-text="codigo_setor"
                         :rules="rules.campoObrigatorio" outlined
-                        @change="buscaIgreja" item-value="id"/>
+                        @change="buscaIgreja" item-value="id" no-data-text="Não encontramos nenhum setor cadastrado"/>
             </v-col>
             <v-col md="6">
               <v-autocomplete v-model="form.igreja_id" :items="igrejas"
@@ -130,54 +116,28 @@
             </v-col>
           </v-row>
           <v-row v-if="form.tipo_cadastro_id === 2 || form.tipo_cadastro_id === 1">
-            <v-col md="6">
+            <v-col cols="12" md="6">
               <v-select v-model="form.departments" :items="departments"
                         :rules="rules.campoObrigatorio" outlined
                         attach chips label="Departamentos do membro" multiple item-text="name"
                         item-value="id">
               </v-select>
             </v-col>
-            <v-col md="6">
+            <v-col cols="12" md="6">
               <v-select v-model="form.trusts" :items="trusts" :rules="rules.campoObrigatorio"
                         attach chips outlined
                         label="Cargo/Função - Local" multiple item-text="name" item-value="id">
               </v-select>
             </v-col>
-            <v-col>
-              <v-dialog ref="dialogConversao" v-model="modalDataConversao"
-                        :return-value.sync="form.data_conversao"
-                        persistent width="290px">
-                <template v-slot:activator="{ on }">
-                  <v-text-field v-model="computedDataConversao" label="Data de Conversão"
-                                outlined readonly clearable v-on="on"/>
-                </template>
-                <v-date-picker v-model="form.data_conversao" scrollable locale="pt-BR">
-                  <v-spacer/>
-                  <v-btn text color="primary" @click="modalDataconversao = false">Cancelar</v-btn>
-                  <v-btn text color="primary"
-                         @click="$refs.dialogConversao.save(form.data_conversao)">OK
-                  </v-btn>
-                </v-date-picker>
-              </v-dialog>
+            <v-col cols="12" md="4">
+              <v-text-field v-model="form.data_conversao" label="Data de Conversão" v-mask="maskDate"
+                            outlined :rules="rules.campoObrigatorio" clearable/>
             </v-col>
-            <v-col>
-              <v-dialog ref="dialogBatismo" v-model="modalDataBatismo"
-                        :return-value.sync="form.data_batismo"
-                        persistent width="290px">
-                <template v-slot:activator="{ on }">
-                  <v-text-field v-model="computedDataBatismo" label="Data do Batísmo"
-                                outlined readonly clearable v-on="on"/>
-                </template>
-                <v-date-picker v-model="form.data_batismo" scrollable locale="pt-BR">
-                  <v-spacer/>
-                  <v-btn text color="primary" @click="modalDataBatismo = false">Cancelar</v-btn>
-                  <v-btn text color="primary" @click="$refs.dialogBatismo.save(form.data_batismo)">
-                    OK
-                  </v-btn>
-                </v-date-picker>
-              </v-dialog>
+            <v-col cols="12" md="4">
+              <v-text-field v-model="form.data_batismo" label="Data do Batísmo" v-mask="maskDate"
+                            outlined :rules="rules.campoObrigatorio" clearable/>
             </v-col>
-            <v-col>
+            <v-col cols="12" sm="4">
               <v-select
                 v-model="form.forma_ingresso_id"
                 :items="formasIgresso"
@@ -189,8 +149,8 @@
             </v-col>
           </v-row>
           <v-divider/>
-          <v-card-title>Dados de Contato e Endereço</v-card-title>
-          <session-enderecos />
+          <v-card-title>Endereço</v-card-title>
+          <session-enderecos/>
 
           <v-divider v-if="form.tipo_cadastro_id === 1"/>
           <v-card-title v-if="form.tipo_cadastro_id === 1">Dados Ministeriais</v-card-title>
@@ -198,13 +158,13 @@
           </v-card-subtitle>
 
           <v-row v-if="form.tipo_cadastro_id === 1">
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-select v-model="form.cargo_ministerial_id" :items="cargosMinisteriais"
                         :rules="rules.campoObrigatorio" outlined
                         label="Cargo Ministerial" item-text="nome"
                         item-value="id"/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-select v-model="form.uf_naturalidade" :items="estados"
                         :rules="rules.campoObrigatorio"
                         label="Estado de Naturalidade"
@@ -212,49 +172,32 @@
                         item-value="uf" hint="Selecione a naturalidade"
                         no-data-text="Não encontramos este estado!"/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-autocomplete v-model="form.cidade_naturalidade" :items="cidades"
                               :rules="rules.campoObrigatorio" outlined
                               label="Cidade da Naturalidade" item-text="name"
                               item-value="name" deletable-chips hint="Selecione a cidade"
                               no-data-text="Não encontramos a cidade!"/>
             </v-col>
-            <v-col md="4">
-
-              <v-dialog ref="dialogConsagracao" v-model="modalConsagracao"
-                        :return-value.sync="form.data_consagracao"
-                        persistent width="290px">
-                <template v-slot:activator="{ on }">
-                  <v-text-field v-model="computedDataConsagracao" label="Data da Consagração"
-                                :rules="rules.campoObrigatorio"
-                                outlined readonly clearable v-on="on"/>
-                </template>
-                <v-date-picker v-model="form.data_consagracao" scrollable locale="pt-BR">
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="modalConsagracao = false">Cancelar</v-btn>
-                  <v-btn text color="primary"
-                         @click="$refs.dialogConsagracao.save(form.data_consagracao)">OK
-                  </v-btn>
-                </v-date-picker>
-              </v-dialog>
-
-
+            <v-col cols="12" md="4">
+              <v-text-field v-model="form.data_consagracao" label="Data da Consagração" v-mask="maskDate"
+                            outlined :rules="rules.campoObrigatorio" clearable/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-select v-model="form.curso_teologico_id" :items="cursosTeologicos"
                         label="Curso Teológivos" item-text="nome" outlined
                         item-value="id"/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-text-field v-model="form.convencao_igreja" label="Convenção de Origem" outlined/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-text-field v-model="form.cod_comadebg" label="Código COMADEBG" outlined/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-text-field v-model="form.cod_cgadb" label="Código CGADB" outlined/>
             </v-col>
-            <v-col md="4">
+            <v-col cols="12" md="4">
               <v-select v-model="form.situacao_ministerio_id" :items="siatuacoesNoMinisterio"
                         :rules="rules.campoObrigatorio"
                         label="Situação no Ministério" item-text="nome"
@@ -263,15 +206,20 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-textarea outlined v-model="form.observacao" label="Escreva a observação sobre o membro"
+              <v-textarea outlined v-model="form.observacao" label="Escreva uma observação sobre o cadastro"
                           value=""/>
+            </v-col>
+          </v-row>
+          <v-row v-if="this.formPublico === true">
+            <v-col>
+              <v-btn elevation="2" block large color="primary" @click="salvaMembro">Cadastrar</v-btn>
             </v-col>
           </v-row>
         </v-card-text>
       </v-card>
     </v-form>
 
-    <v-btn dark fab fixed bottom right large :color="tipo.color" @click="salvaMembro">
+    <v-btn v-if="this.formPublico != true" dark fab fixed bottom right large :color="tipo.color" @click="salvaMembro">
       <v-icon>{{ tipo.icon }}</v-icon>
     </v-btn>
 
@@ -311,7 +259,8 @@ export default {
   },
   props: {
     // Tipo 1 > Inserir | 2 > Editar
-    tipoForm: { type: Number, default: 1 }
+    tipoForm: { type: Number, default: 1 },
+    formPublico: { type: Boolean, default: false }
   },
   data: () => ({
 
@@ -324,6 +273,7 @@ export default {
     modalCreateMember: false,
     maskCPF: '###.###.###-##',
     maskPhone: '(##) # ####-####',
+    maskDate: '##/##/####',
     numeroMask: '######',
     valid: false,
     modalDataAniversario: false,
@@ -336,6 +286,7 @@ export default {
       { id: 2, nome: 'Novo Convertido - Por meio do batismo' },
       { id: 3, nome: 'Transferência - Aceito com carta de recomendação' },
       { id: 4, nome: 'Nacido na Igreja' },
+      { id: 5, nome: 'Outros' },
     ],
 
     cursosTeologicos: [
@@ -442,7 +393,7 @@ export default {
     executeSalvarMembro () {
       if (this.$refs.form.validate()) {
         let loader = this.$loading.show()
-        this.$store.dispatch('member/saveMember', this.form).then(res => {
+        this.$store.dispatch('member/saveMember', { form: this.form, endereco: this.enderecoViaCep }).then(res => {
           loader.hide()
 
           swal({
@@ -506,11 +457,6 @@ export default {
     buscarSituacoesMembro () {
       this.$store.dispatch('member/buscarSituacoesMembro')
     },
-    formatDate (date) {
-      if (!date) return null
-      const [year, month, day] = date.split('-')
-      return `${day}/${month}/${year}`
-    },
     buscaMembro () {
       var id = this.$route.params.id
       this.$store.dispatch('member/fetchMember', id).then(membro => {
@@ -551,7 +497,7 @@ export default {
 
         this.form.observacao = membro.details.observacao
       })
-    }
+    },
   },
   computed: {
     ...mapGetters({
@@ -583,6 +529,12 @@ export default {
     },
     computedDataConsagracao () {
       return this.formatDate(this.form.data_consagracao)
+    },
+    formatDate (date) {
+      console.log('dataNascimento', date)
+      if (!date) return null
+      const [year, month, day] = date.split('/')
+      return `${day}-${month}-${year}`
     },
     tipo () {
       switch (this.tipoForm) {
