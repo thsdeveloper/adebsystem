@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title :class="tipo.color + ' white--text'">
           <v-icon large left color="white">{{ tipo.icon }}</v-icon>
-          {{ tipo.title }} membro
+          {{ tipo.title }} membrolkdshgfksdahjgfkjadhsgf,jhfdskj Thiago dsfsdafdsj hgjsghdf jsdhgf kjgf
         </v-card-title>
         <v-card-subtitle :class="tipo.color + ' white--text'">
           O processo de {{ tipo.title }} o membro pode ser visualizado nos relatórios de transações.
