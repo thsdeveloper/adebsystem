@@ -6,6 +6,7 @@ import swal from "sweetalert2"
 export const state = {
   estados: [],
   cidades: [],
+  cidadesNaturalidade: [],
   desabilitaForm: false,
   enderecoViaCep: {
     bairro: null,
@@ -29,6 +30,7 @@ export const state = {
 export const getters = {
   estados: state => state.estados,
   cidades: state => state.cidades,
+  cidadesNaturalidade: state => state.cidadesNaturalidade,
   enderecoViaCep: state => state.enderecoViaCep,
   desabilitaForm: state => state.desabilitaForm,
   latLng: state => state.latLng,
@@ -41,6 +43,9 @@ export const mutations = {
   },
   [types.BUSCAR_CIDADES] (state, cidades) {
     state.cidades = cidades
+  },
+  [types.BUSCAR_CIDADES_NATURALIDADE] (state, cidades) {
+    state.cidadesNaturalidade = cidades
   },
   [types.BUSCAR_ENDERECO_CEP] (state, enderecoViaCep) {
     state.enderecoViaCep = enderecoViaCep;
@@ -112,6 +117,15 @@ export const actions = {
       commit(types.BUSCAR_CIDADES, data)
     } catch (e) {
       alert('Ocorreu um erro na busca de cidades')
+    }
+  },
+
+  async buscarCidadesNaturalidade({ commit }, ufState) {
+    try {
+      const { data } = await axios.get('/api/states/' + ufState + '/cities')
+      commit(types.BUSCAR_CIDADES_NATURALIDADE, data)
+    } catch (e) {
+      alert('Ocorreu um erro na busca de cidades DA NATURALIDADE')
     }
   },
 

@@ -169,6 +169,7 @@
                         :rules="rules.campoObrigatorio"
                         label="Estado de Naturalidade"
                         item-text="name" outlined
+                        @change="buscarCidade"
                         item-value="uf" hint="Selecione a naturalidade"
                         no-data-text="Não encontramos este estado!"/>
             </v-col>
@@ -427,6 +428,9 @@ export default {
         loader.hide()
       })
     },
+    buscarCidade (uf) {
+      this.$store.dispatch('endereco/buscarCidadesNaturalidade', uf)
+    },
     fetchDepartments () {
       this.$store.dispatch('department/fetchDepartments')
     },
@@ -507,7 +511,7 @@ export default {
       genders: 'member/genders',
       schoolings: 'member/schoolings',
       estados: 'endereco/estados',
-      cidades: 'endereco/cidades',
+      cidades: 'endereco/cidadesNaturalidade',
       tiposCadastros: 'member/tiposCadastros',
       cargosMinisteriais: 'member/cargosMinisteriais',
       professions: 'member/professions',
