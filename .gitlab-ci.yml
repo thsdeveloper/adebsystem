@@ -1,4 +1,6 @@
-tarefa1:
+image: docker:stable
+
+build-docker:
+    stage: build
     script:
-        - echo "Helo Thiago"
-        - echo date
+        - docker build -t minha-imagem .
