@@ -16,8 +16,10 @@ class ResetPassword extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('You are receiving this email because we received a password reset request for your account.')
-            ->action('Reset Password', url(config('app.url').'/password/reset/'.$this->token).'?email='.urlencode($notifiable->email))
-            ->line('If you did not request a password reset, no further action is required.');
+            ->subject('Adebsystem - Redefinição de Senha')
+            ->greeting('Olá, tudo bem?')
+            ->line('Você está recebendo este e-mail porque recebemos uma solicitação de redefinição de senha de sua conta.')
+            ->action('Redefinir Senha', url(config('app.url').'/password/reset/'.$this->token).'?email='.urlencode($notifiable->email))
+                ->line('Se você não solicitou uma redefinição de senha, nenhuma ação adicional será necessária.');
     }
 }

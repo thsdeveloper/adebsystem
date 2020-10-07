@@ -12,24 +12,30 @@
 
               <v-flex>
                 <v-text-field v-model="form.login"
+                              :error="form.errors.has('login')"
                               :class="{ 'is-invalid': form.errors.has('login') }"
                               name="login"
                               :label="$t('Email ou CPF')"
                               type="text"
                               autofocus>
                 </v-text-field>
-                <has-error :form="form" field="email"/>
+                <v-alert border="left" type="error" v-if="form.errors.has('login')">
+                  <has-error :form="form" field="login"/>
+                </v-alert>
               </v-flex>
 
               <v-flex>
                 <v-text-field
+                  :error="form.errors.has('password')"
                   v-model="form.password"
-                  :class="{ 'is-invalid': form.errors.has('password') }"
                   name="password"
                   :label="$t('password')"
                   type="password">
                 </v-text-field>
-                <has-error :form="form" field="password"/>
+                <v-alert border="left" type="error" v-if="form.errors.has('password')">
+                  <has-error :form="form" field="password"/>
+                </v-alert>
+
               </v-flex>
 
               <!-- Remember Me -->
@@ -39,20 +45,27 @@
 
               <!-- GitHub Login Button -->
               <login-with-github/>
+
+              <v-btn class="btnLogin" color="primary" block large rounded type="submit" :loading="form.busy">{{ $t('login') }}</v-btn>
+
             </v-card-text>
             <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="primary" text to="/cadastrar">Cadastrar novo membro</v-btn>
               <v-btn color="primary" text :to="{ name: 'password.request' }">{{ $t('forgot_password') }}</v-btn>
-              <v-btn color="primary" type="submit" :loading="form.busy">{{ $t('login') }}</v-btn>
+              <v-btn color="primary" text to="/cadastrar">Cadastrar novo membro</v-btn>
             </v-card-actions>
           </v-form>
+
+
         </v-card>
       </v-col>
     </v-row>
   </div>
 </template>
-
+<style>
+.btnLogin{
+  margin-top: 20px;
+}
+</style>
 <script>
 import Form from 'vform'
 import LoginWithGithub from '~/components/LoginWithGithub'
