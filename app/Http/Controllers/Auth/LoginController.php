@@ -8,6 +8,7 @@ use App\Rules\LoginValidator;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 use JWTAuth;
 
 
@@ -44,7 +45,6 @@ class LoginController extends Controller
      */
     protected function validateLogin(Request $request)
     {
-//        dd($request->all());
         $this->validate($request, [
             'login' => ['required', 'string', new LoginValidator],
             'password' => 'required|string'
@@ -71,10 +71,11 @@ class LoginController extends Controller
         if ($user === null) {
             return false;
         }
-
+        if(!(Hash::check($request->password, $user->password))){
+            return false;
+        }
 
         $token = JWTAuth::fromUser($user);
-
 
         if ($token) {
             $this->guard()->setToken($token);
