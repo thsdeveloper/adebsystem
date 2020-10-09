@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <!--    <v-row>-->
         <!--      <v-col>-->
         <!--        <v-text-field v-model="form.nomeMembro" label="Nome membro" placeholder="Pesquisar por nome" outlined></v-text-field>-->

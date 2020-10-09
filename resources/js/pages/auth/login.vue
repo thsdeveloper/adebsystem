@@ -46,7 +46,9 @@
               <!-- GitHub Login Button -->
               <login-with-github/>
 
-              <v-btn class="btnLogin" color="primary" block large rounded type="submit" :loading="form.busy">{{ $t('login') }}</v-btn>
+              <v-btn class="btnLogin" color="primary" block large rounded type="submit" :loading="form.busy">
+                {{ $t('login') }}
+              </v-btn>
 
             </v-card-text>
             <v-card-actions>
@@ -62,13 +64,14 @@
   </div>
 </template>
 <style>
-.btnLogin{
+.btnLogin {
   margin-top: 20px;
 }
 </style>
 <script>
 import Form from 'vform'
 import LoginWithGithub from '~/components/LoginWithGithub'
+import swal from 'sweetalert2'
 
 export default {
   layout: 'welcomeApp',
@@ -93,8 +96,13 @@ export default {
   methods: {
     async login () {
       // Submit the form.
-      const { data } = await this.form.post('/api/login')
-      console.log('THIAGO', data)
+      const { data } = await this.form.post('/api/login').catch(error => {
+        swal({
+          type: 'error',
+          title: 'Ops! Acorreu algum erro!',
+          text: error.response.data.errors.email[0],
+        })
+      })
 
       // Save the token.
       this.$store.dispatch('auth/saveToken', {
@@ -110,6 +118,7 @@ export default {
 
       // Redirect home.
       this.$router.push({ name: 'home' })
+
     }
   },
 }

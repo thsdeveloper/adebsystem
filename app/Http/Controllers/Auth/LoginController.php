@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use JWTAuth;
 
 
@@ -94,7 +95,6 @@ class LoginController extends Controller
      */
     protected function sendLoginResponse(Request $request)
     {
-//        dd($request->all());
         $this->clearLoginAttempts($request);
 
         $token = (string)$this->guard()->getToken();

@@ -1,10 +1,22 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col>
         <v-flex xs12 sm12>
           <v-card>
-            <v-img class="white--text" height="100px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
+            <v-toolbar dark color="primary">
+              <v-row>
+                <v-col>
+                  <v-avatar size="50" color="grey lighten-4">
+                    <img :src="member.photo_url" :tile="true" :alt="member.name">
+                  </v-avatar>
+                </v-col>
+                <v-col>
+                  <v-toolbar-title>{{member.name}}</v-toolbar-title>
+                </v-col>
+              </v-row>
+            </v-toolbar>
+            <v-img class="white--text" height="100px">
               <v-container fill-height fluid>
                 <v-layout fill-height align-content-center>
                   <v-flex md1>
@@ -28,7 +40,7 @@
                   <v-flex md5>
                     <div class="subtitle-1">
                       <v-icon>card_giftcard</v-icon>
-                      {{member.details.date_birth}}
+                      {{member.details.data_nascimento}}
                     </div>
                     <div class="subtitle-1">
                       <v-icon>account_balance_wallet</v-icon>

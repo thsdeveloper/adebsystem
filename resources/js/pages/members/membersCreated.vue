@@ -1,5 +1,5 @@
 <template>
-    <v-container fill-height>
+    <v-container fill-height fluid>
         <form-membro />
     </v-container>
 </template>
