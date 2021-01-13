@@ -36,6 +36,6 @@
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features={{ implode(',', $polyfills) }}"></script>
 
 
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('js/app.json') }}"></script>
 </body>
 </html>
