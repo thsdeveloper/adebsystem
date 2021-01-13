@@ -64,7 +64,7 @@ return [
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', $database),
             'username' => env('DB_USERNAME', $username),
-            'password' => v('DB_PASSWORD', $password),
+            'password' => env('DB_PASSWORD', $password),
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => env('DB_SCHEMA', 'public'),
