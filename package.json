@@ -8,9 +8,15 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "lint": "eslint --fix --ext .js,.vue resources/js"
+    "lint": "eslint --fix --ext .js,.vue resources/js",
+    "heroku-postbuild": "npm run dev"
+  },
+  "engines": {
+    "node": "10.23.0",
+    "npm": "6.14.8"
   },
   "dependencies": {
+    "postinstall": "*",
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-brands-svg-icons": "^5.10.2",
     "@fortawesome/free-regular-svg-icons": "^5.10.2",

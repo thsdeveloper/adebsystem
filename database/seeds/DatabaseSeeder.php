@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+
 //use DB;
 
 class DatabaseSeeder extends Seeder
@@ -20,38 +21,20 @@ class DatabaseSeeder extends Seeder
 //        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         // Impede que seed seja executado em ambiente de produção
-        if(!app()->environment('production')):
-            $this->call(RolesPermissionTableSeeder::class);
-            $this->call(MaritalStatusTableSeeder::class);
-            $this->call(SchoolingsTableSeeder::class);
-            $this->call(GendersTableSeeder::class);
-            $this->call(ProfessionsTableSeeder::class);
-            $this->call(UsersTableSeeder::class);
+        $this->call(RolesPermissionTableSeeder::class);
+        $this->call(MaritalStatusTableSeeder::class);
+        $this->call(SchoolingsTableSeeder::class);
+        $this->call(GendersTableSeeder::class);
+        $this->call(ProfessionsTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
 //            $this->call(SetoresTableSeeder::class);
 //            $this->call(IgrejasTableSeeder::class);
 //            $this->call(PostsTableSeeder::class);
-            $this->call(StatesTableSeeder::class);
-            $this->call(CitiesTableSeeder::class);
-            $this->call(TrustsTableSeeder::class);
-            $this->call(DepartmentsTableSeeder::class);
-        endif;
+        $this->call(StatesTableSeeder::class);
+        $this->call(CitiesTableSeeder::class);
+        $this->call(TrustsTableSeeder::class);
+        $this->call(DepartmentsTableSeeder::class);
 
-        if(app()->environment('production')):
-            // seeds especiais para o ambiente de produção
-            $this->call(RolesPermissionTableSeeder::class);
-            $this->call(MaritalStatusTableSeeder::class);
-            $this->call(SchoolingsTableSeeder::class);
-            $this->call(GendersTableSeeder::class);
-            $this->call(ProfessionsTableSeeder::class);
-            $this->call(UsersTableSeeder::class);
-            $this->call(SetoresTableSeeder::class);
-            $this->call(IgrejasTableSeeder::class);
-//            $this->call(PostsTableSeeder::class);
-            $this->call(StatesTableSeeder::class);
-            $this->call(CitiesTableSeeder::class);
-            $this->call(TrustsTableSeeder::class);
-            $this->call(DepartmentsTableSeeder::class);
-        endif;
 
         // Habilitas as FKs
 //        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
