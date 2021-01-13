@@ -33,6 +33,7 @@ if (mix.inProduction()) {
 
 mix.webpackConfig({
   // plugins: [
+  // Removemos o menu aqui
   //     new BundleAnalyzerPlugin()
   // ],
   resolve: {
