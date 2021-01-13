@@ -21,6 +21,7 @@
       "plan": "heroku-postgresql:hobby-dev"
     }
   ],
+  "image": "heroku/nodejs",
   "buildpacks": [
     {
       "url": "https://github.com/heroku/heroku-buildpack-nodejs"
