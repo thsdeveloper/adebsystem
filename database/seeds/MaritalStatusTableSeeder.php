@@ -23,7 +23,7 @@ class MaritalStatusTableSeeder extends Seeder
 
         DB::table('situacoes_membros')->insert([
             ['nome' => 'Ativo'],
-            ['nome' => 'Inatio'],
+            ['nome' => 'Inativo'],
             ['nome' => 'Desligado por pedido'],
             ['nome' => 'Desligado por Ausência'],
             ['nome' => 'Desligado por Óbito'],
