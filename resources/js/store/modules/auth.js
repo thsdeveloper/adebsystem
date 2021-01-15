@@ -67,7 +67,7 @@ export const actions = {
   async fetchUsers({commit}, options) {
     console.log('Options Auth', options);
     try {
-      const {data} = await axios.get('/api/users/', {
+      const {data} = await axios.get('/api/users', {
         params: {
           page: options.page,
           itemsPerPage: options.itemsPerPage,

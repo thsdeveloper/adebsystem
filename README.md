@@ -11,6 +11,8 @@ Obs. O Sistema de gerenciamento AdebSystem é exclusivo para o usu interno do ge
 2 - Clonar o laradock no ambiente local.
 
 - `git clone https://github.com/laradock/laradock.git`
+- `run php artisan key:generate`
+- `php artisan jwt:secret`
 
 3 - Limpar o cache do npm e excluir o node_modules e package.lock.json
 - `npm cache clean --force`
@@ -31,16 +33,8 @@ Obs. O Sistema de gerenciamento AdebSystem é exclusivo para o usu interno do ge
 - `php artisan migrate:status`
 - `php artisan migrate`
 - `php artisan db:seed`
-- `docker-compose exec --user=root workspace bash`
 
 Isso funcionou para mim. Espero que funcione para você também.
-
-composer create-project --prefer-dist cretueusebiu/laravel-vue-spa
-Edit .env and set your database connection details
-(When installed via git clone or download, run php artisan key:generate and php artisan jwt:secret)
-php artisan migrate
-npm install
-
 
 
 PS: Ainda assim, verifique o erro exibido em vermelho e aja de acordo. Este erro é específico ao ambiente node.js. Feliz codificação !!

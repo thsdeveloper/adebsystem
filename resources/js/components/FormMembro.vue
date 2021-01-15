@@ -134,7 +134,7 @@
                           outlined :rules="rules.campoObrigatorio" clearable/>
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field v-model="form.data_batismo" label="Data do Batísmo" v-mask="maskDate"
+            <v-text-field v-model="form.data_batismo" label="Data do Batismo" v-mask="maskDate"
                           outlined :rules="rules.campoObrigatorio" clearable/>
           </v-col>
           <v-col cols="12" sm="4">
@@ -186,7 +186,7 @@
           </v-col>
           <v-col cols="12" md="4">
             <v-select v-model="form.curso_teologico_id" :items="cursosTeologicos"
-                      label="Curso Teológivos" item-text="nome" outlined
+                      label="Curso Teológicos" item-text="nome" outlined
                       item-value="id"/>
           </v-col>
           <v-col cols="12" md="4">

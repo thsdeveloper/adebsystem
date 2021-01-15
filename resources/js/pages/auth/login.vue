@@ -76,7 +76,9 @@ import swal from 'sweetalert2'
 export default {
   layout: 'welcomeApp',
   middleware: 'guest',
-
+  metaInfo () {
+    return { title: this.$t('login') }
+  },
   components: {
     LoginWithGithub
   },
