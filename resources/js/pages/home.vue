@@ -1,6 +1,13 @@
 <template>
-  <v-container>
-    <google-map/>
+  <v-container fluid>
+    <v-row>
+      <v-col>
+        <h2>Informativos</h2>
+      </v-col>
+    </v-row>
+
+
+
     <v-row>
       <v-col>
         <v-card>
@@ -21,20 +28,6 @@
             <v-btn text>Contato</v-btn>
           </v-card-actions>
         </v-card>
-        <v-card>
-          <v-card-title>Crescimento nos últimos anos</v-card-title>
-          <v-card-text>
-            <!--           <apexchart width="380" type="donut" :options="options" :series="series"></apexchart>-->
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-
-      </v-col>
-      <v-col>
-        <post-time-line/>
       </v-col>
     </v-row>
   </v-container>
@@ -44,14 +37,17 @@
 
 import PostTimeLine from '../components/PostTimeLine'
 import GoogleMap from '../components/GoogleMapLoader'
+import firebase from '../firebaseConfig';
+
+const db = firebase.firestore();
 
 export default {
-  components: { GoogleMap, PostTimeLine },
+  components: {GoogleMap, PostTimeLine},
   middleware: 'auth',
-  metaInfo () {
-    return { title: this.$t('home') }
+  metaInfo() {
+    return {title: this.$t('home')}
   },
-  data () {
+  data() {
     return {
       itemsRotas: [],
       options: {
@@ -68,12 +64,42 @@ export default {
       }]
     }
   },
-  created () {
+  methods: {
+    buscaNoticias() {
+      db.collection("informativos").add({date: 'date', ne: 'name'}).then(() => {
+        console.log("Document successfully written!");
+      })
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+        });
+    },
+    async readEmployees() {
+      let employeesData = [];
+      db.collection("employees").get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            employeesData.push({
+              id: doc.id,
+              name: doc.data().name,
+              date: doc.data().date,
+            });
+            console.log(doc.id, " => ", doc.data());
+          });
+          return employeesData
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+    }
+  },
+  created() {
     this.$router.options.routes.forEach(route => {
       this.itemsRotas.push({
         name: route.name, path: route.path
       })
     })
+  },
+  mounted() {
+    this.buscaNoticias();
   }
 }
 </script>
