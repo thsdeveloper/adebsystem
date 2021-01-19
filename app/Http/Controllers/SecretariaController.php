@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Visitante;
+use App\Notifications\EnviaBoasVindasVisitante;
+use App\Notifications\NovoMembroNotification;
 use App\Notifications\PostNotification;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
+use function GuzzleHttp\Promise\all;
 
 class SecretariaController extends Controller
 {
@@ -22,15 +27,37 @@ class SecretariaController extends Controller
         $visitante->evangelico = $request['evangelico'];
         $visitante->igreja = $request['igreja'];
         $visitante->apresentado = false;
-        $visitante->observacao =  $request['observacao'];;
-        $visitante->save();
-
-        return response($visitante, 201);
+        $visitante->autoriza_envio = $request['autoriza_envio'];
+        $visitante->autoriza_apresentacao = $request['autoriza_apresentacao'];
+        if ($visitante->save()) {
+            return Visitante::with('user')->orderBy('created_at', 'desc')->get();
+        }
     }
 
     public function listarVisitantes()
     {
         $visitantes = Visitante::with('user')->orderBy('created_at', 'desc')->get();
-        return response($visitantes, 201);
+        return response($visitantes, 200);
+    }
+
+    public function apresentarVisitante(Request $request)
+    {
+        foreach ($request->all() as $Modelvisitante) {
+            if ($Modelvisitante['autoriza_apresentacao']) {
+
+                DB::table('visitantes')->where('id', $Modelvisitante['id'])->update(['apresentado' => true ]);
+
+//                if ($visitante::where('id', $Modelvisitante['id'])->update(['apresentado' => true])) {
+////                    return Visitante::with('user')->orderBy('created_at', 'desc')->get();
+//                }
+            }
+        }
+
+    }
+
+    public function enviarNotificacoes(){
+//        Notification::route('mail', $visitante['email'])
+//                ->route('nexmo', $visitante['telefone'])
+//                ->notify(new EnviaBoasVindasVisitante($visitante));
     }
 }
