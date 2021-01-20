@@ -14,6 +14,9 @@
         <v-btn text @click="enviarNotificacaoVisitante()">
            Enviar Mensagens
         </v-btn>
+        <v-btn text @click="enviarNotificacaoVisitante()">
+          Imprimir Cartas
+        </v-btn>
       </div>
 
       <v-btn icon>
@@ -51,27 +54,16 @@
                                 label="Telefone de contato"></v-text-field>
                 </v-col>
                 <v-col md="4">
-                  <v-checkbox
+                  <v-switch
                     v-model="form.evangelico"
                     label="O visitante ja é evangélico?"
-                  ></v-checkbox>
+                  ></v-switch>
                 </v-col>
                 <v-col md="4">
-                  <v-checkbox
+                  <v-switch
                     v-model="form.procurando_igreja"
                     label="Procurando uma igreja para congregar?"
-                  ></v-checkbox>
-                </v-col>
-                <v-col xs="12" sm="6" md="4">
-                  <v-text-field v-model="form.igreja" outlined
-                                label="De qual igreja o visitante pertence?"></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-textarea
-                    v-model="form.observacao"
-                    outlined
-                    label="Observações sobre o visitante"
-                    value=""></v-textarea>
+                  ></v-switch>
                 </v-col>
                 <v-col cols="12" xs="12" sm="12" md="12">
                   <v-switch
@@ -83,8 +75,16 @@
                     label="Autoriza a apresentação?"
                   ></v-switch>
                 </v-col>
-                <v-col cols="12" xs12 sm6 md4>
-                  <v-btn color="success" @click="salvaVisitante">Cadastrar visitante</v-btn>
+                <v-col cols="12">
+                  <v-text-field v-model="form.igreja" outlined
+                                label="De qual igreja o visitante pertence?"></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-textarea
+                    v-model="form.observacao"
+                    outlined
+                    label="Observações sobre o visitante"
+                    value=""></v-textarea>
                 </v-col>
               </v-row>
             </v-form>
@@ -106,8 +106,7 @@
 
           <template v-slot:item.apresentado="{ item }">
             <div v-if="item.autoriza_apresentacao">
-              <v-chip @click="apresentarVisitantes" dark
-                      :color="(item.apresentado ? 'success' : (item.apresentado ? 'red' : 'dark' ))">
+              <v-chip dark :color="(item.apresentado ? 'success' : (item.apresentado ? 'red' : 'dark' ))">
                 <v-avatar left>
                   <v-icon>{{ item.apresentado ? 'mdi-checkbox-marked-circle' : (item.apresentado ? 'red' : 'block') }}
                   </v-icon>
@@ -128,6 +127,9 @@
         </v-data-table>
       </v-tab-item>
     </v-tabs-items>
+    <v-btn dark fab fixed bottom right color="success" large @click="salvaVisitante()">
+      <v-icon>save</v-icon>
+    </v-btn>
   </div>
 </template>
 <script>
@@ -209,6 +211,7 @@ export default {
         if (result.value) {
           let loader = this.$loading.show();
           this.$store.dispatch('secretaria/apresentarVisitantes', this.visitantesSelecionados).then(res => {
+            this.buscarVisitantes();
             loader.hide();
           });
         } else {
@@ -217,7 +220,24 @@ export default {
       });
     },
     enviarNotificacaoVisitante(){
-      alert('Desenvolvendo recurso de enviar notificação');
+      swal({
+        type: 'warning',
+        showCancelButton: true,
+        title: 'Enviar mensagens de Email e SMS?',
+        confirmButtonText: 'Sim, enviar!',
+        cancelButtonText: 'Não, cancelar!',
+        text: 'Os visitantes com autorização de envio de mensagens receberá e-mail e SMS.',
+      }).then((result) => {
+        if (result.value) {
+          let loader = this.$loading.show();
+          this.$store.dispatch('secretaria/enviarMensagensVisitantes', this.visitantesSelecionados).then(res => {
+            this.buscarVisitantes();
+            loader.hide();
+          });
+        } else {
+          console.info('Operação Cancelada');
+        }
+      });
     }
   },
   computed: {

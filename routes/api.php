@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/secretaria/salvar-visitante', 'SecretariaController@salvarVisitante');
     Route::get('/secretaria/listar-visitante', 'SecretariaController@listarVisitantes');
     Route::post('/secretaria/apresentar-visitantes', 'SecretariaController@apresentarVisitante');
+    Route::post('/secretaria/enviar-notificacao-visitantes', 'SecretariaController@enviarNotificacoes');
 
 
     //Igrejas

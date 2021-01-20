@@ -72,7 +72,7 @@ export const actions = {
     }
   },
 
-  async apresentarVisitantes({commit}, visitantes) {
+  async apresentarVisitantes({commit}, visitantes){
     try {
       const {data} = await axios.post('/api/secretaria/apresentar-visitantes', visitantes);
       if (data) {
@@ -90,6 +90,27 @@ export const actions = {
       }
     } catch (e) {
       console.error('Ocorreu um erro na busca de visitantes');
+    }
+  },
+
+  async enviarMensagensVisitantes({commit}, visitantes){
+    try {
+      const {data} = await axios.post('/api/secretaria/enviar-notificacao-visitantes', visitantes);
+      if (data) {
+        swal({
+          type: 'success',
+          title: 'Mensagens enviadas com sucesso?',
+          text: 'Todos os visitantes com o autorização receberam uma mensagem de e-mail e SMS!',
+        }).then((result) => {
+          if (result.value) {
+            commit(types.BUSCAR_VISITANTES, data);
+          } else {
+            console.info('Operação Cancelada');
+          }
+        });
+      }
+    } catch (e) {
+      console.error('Ocorreu um erro no envio de emails e sms de visitantes');
     }
   }
 };

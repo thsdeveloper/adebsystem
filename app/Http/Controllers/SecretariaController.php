@@ -45,7 +45,7 @@ class SecretariaController extends Controller
         foreach ($request->all() as $Modelvisitante) {
             if ($Modelvisitante['autoriza_apresentacao']) {
 
-                DB::table('visitantes')->where('id', $Modelvisitante['id'])->update(['apresentado' => true ]);
+                DB::table('visitantes')->where('id', $Modelvisitante['id'])->update(['apresentado' => true]);
 
 //                if ($visitante::where('id', $Modelvisitante['id'])->update(['apresentado' => true])) {
 ////                    return Visitante::with('user')->orderBy('created_at', 'desc')->get();
@@ -55,9 +55,19 @@ class SecretariaController extends Controller
 
     }
 
-    public function enviarNotificacoes(){
-//        Notification::route('mail', $visitante['email'])
-//                ->route('nexmo', $visitante['telefone'])
-//                ->notify(new EnviaBoasVindasVisitante($visitante));
+    public function enviarNotificacoes(Request $request)
+    {
+        foreach ($request->all() as $Modelvisitante) {
+            if ($Modelvisitante['autoriza_envio']) {
+                if ($Modelvisitante['email'] != null) {
+                    Notification::route('mail', $Modelvisitante['email'])->notify(new EnviaBoasVindasVisitante($Modelvisitante));
+                }
+                if($Modelvisitante['telefone'] != null){
+                    Notification::route('nexmo', $Modelvisitante['telefone'])->notify(new EnviaBoasVindasVisitante($Modelvisitante));
+                }
+            }
+        }
+
+
     }
 }

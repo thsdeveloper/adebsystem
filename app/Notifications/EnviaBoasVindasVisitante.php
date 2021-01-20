@@ -77,7 +77,7 @@ class EnviaBoasVindasVisitante extends Notification implements ShouldQueue
     public function toNexmo($notifiable)
     {
         return (new NexmoMessage)
-            ->content('Voce visitou a ADEB Riacho Fundo');
+            ->content('Obrigado pela sua visita! A ADEB Riacho Fundo preparou uma surpresa pra vc, acesse: https://www.youtube.com/channel/UCCkSBfP-6i52hQ_GR-0Zz2Q');
 
     }
 }
