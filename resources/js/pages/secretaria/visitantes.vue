@@ -1,217 +1,349 @@
 <template>
   <div>
-    <div v-if="bottomNav === 'cadastrar'">
-      <v-card>
-        <v-card-text>
-          <v-container grid-list-md>
+    <v-toolbar color="indigo" dark flat>
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Registro de Visitantes</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <div v-if="visitantesSelecionados.length > 0">
+        <v-btn text @click="apresentarVisitantes()">
+          Apresentar
+        </v-btn>
+        <v-btn text @click="enviarNotificacaoVisitante()">
+           Enviar Mensagens
+        </v-btn>
+      </div>
+
+      <v-btn icon>
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn>
+
+
+      <template v-slot:extension>
+        <v-tabs v-model="tab" align-with-title>
+          <v-tabs-slider color="yellow"></v-tabs-slider>
+          <v-tab v-for="item in items" :key="item">
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+      </template>
+
+    </v-toolbar>
+
+    <v-tabs-items v-model="tab">
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
             <v-form ref="form" v-model="valid" lazy-validation>
-              <v-layout row wrap>
-                <v-flex xs12 sm12 md12>
-                  <h1>Cadastro de Visitantes</h1>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.nome" label="Nome do visitante" :rules="nomeRules"
+              <v-row>
+                <v-col xs="12" sm="6" md="4">
+                  <v-text-field v-model="form.nome" outlined label="Nome do visitante" :rules="nomeRules"
                                 required></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.email" label="Email do visitante"
+                </v-col>
+                <v-col xs="12" sm="6" md="4">
+                  <v-text-field v-model="form.email" :rules="emailRules" outlined label="Email do visitante"
                                 hint="Email válido para envio de notificações"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.telefone" label="Telefone de contato"></v-text-field>
-                </v-flex>
-                <v-flex md4>
-                  <v-switch v-model="form.procurando_igreja"
-                            label="Este visitante está procurando uma igreja para congregar?"></v-switch>
-                </v-flex>
-                <v-flex md4>
-                  <v-switch v-model="form.evangelico" label="O visitante ja é evangélico?"></v-switch>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="form.igreja" label="De qual igreja o visitante pertence?"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
+                </v-col>
+                <v-col xs="12" sm="6" md="4">
+                  <v-text-field v-model="form.telefone" v-mask="maskPhone" outlined
+                                label="Telefone de contato"></v-text-field>
+                </v-col>
+                <v-col xs="12" sm="6" md="4">
+                  <v-switch
+                    v-model="form.evangelico"
+                    label="O visitante ja é evangélico?"
+                  ></v-switch>
+                </v-col>
+                <v-col xs="12" sm="6" md="4">
+                  <v-switch
+                    v-model="form.procurando_igreja"
+                    label="Procurando uma igreja para congregar?"
+                  ></v-switch>
+                </v-col>
+                <v-col xs="12" sm="6" md="4">
+                  <v-switch
+                    v-model="form.autoriza_envio"
+                    label="Autoriza o envio de mensagens de agradecimento?"
+                  ></v-switch>
+                </v-col>
+                <v-col xs="12" sm="6" md="4">
+                  <v-switch
+                    v-model="form.autoriza_apresentacao"
+                    label="Autoriza a apresentação em público?"
+                  ></v-switch>
+                </v-col>
+                <v-col xs="12" sm="6" md="8" v-if="form.evangelico">
+                  <v-text-field v-model="form.igreja" outlined
+                                label="Qual igreja o senhor(a) pertence?"></v-text-field>
+                </v-col>
+                <v-col cols="12">
                   <v-textarea
                     v-model="form.observacao"
                     outlined
                     label="Observações sobre o visitante"
                     value=""></v-textarea>
-                </v-flex>
-
-                <v-flex xs12 sm6 md4>
-                  <v-btn color="success" @click="salvaVisitante">Cadastrar</v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-form>
-          </v-container>
-        </v-card-text>
-      </v-card>
-    </div>
-    <div v-if="bottomNav === 'visualizar'">
-      <v-data-table :headers="headers" :items="visitantes" class="elevation-1">
-        <template slot="items" slot-scope="props">
-          <td>{{ props.item.nome }}</td>
-          <td>{{ props.item.email | verificaNull }}</td>
-          <td>{{ props.item.created_at | moment("DD/MM/YYYY")}}</td>
-          <td>
-            <v-chip>
-              <v-avatar>
-                <img :src="props.item.user.photo_url" :alt="props.item.user.name">
-              </v-avatar>
-              {{props.item.user.name}}
-            </v-chip>
-          </td>
-          <td>
-            <v-chip v-if="props.item.apresentado" color="primary" text-color="white">{{ props.item.apresentado |
-              apresentado }}
-            </v-chip>
-            <v-chip v-else color="red" text-color="white">{{ props.item.apresentado | apresentado }}</v-chip>
-          </td>
-        </template>
-      </v-data-table>
-    </div>
-    <div v-if="bottomNav === 'apresentar'" class="mold-slider-visitantes">
-      <v-layout column>
-        <v-flex xs12 sm6>
-          <vue-glide :perView="1" :rewind="false">
-            <vue-glide-slide v-for="vi in visitantes" :key="vi.id">
-              <v-card v-if="vi.apresentado">
-                <v-card-title primary-title>
-                  <div>
-                    <h1 class="display-1">{{vi.nome}}</h1>
-                    <div class="headline">{{vi.observacao}}</div>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-data-table  v-model="visitantesSelecionados" show-select :single-select="false" item-key="id"
+                      :headers="headers" :items="visitantes" no-data-text="Nenhum visitante cadastrado!">
 
-                    <div v-if="vi.evangelico">
-                      <v-chip color="green" text-color="white">Já convertido</v-chip>
-                    </div>
-                    <div v-else>
-                      <v-chip color="red" text-color="white">Não convertido</v-chip>
-                    </div>
+          <template v-slot:header.data-table-select="{ on , props }">
+            <v-simple-checkbox color="purple" v-bind="props" v-on="on"/>
+          </template>
 
-                    <div v-if="vi.procurando_igreja">
-                      <v-chip color="orange" text-color="white">Está procurando uma igreja</v-chip>
-                    </div>
-
-                    <h1 class="body-2">Email: <b>{{vi.email | verificaNull}}</b></h1>
-                    <h1 class="body-2">Telefone <b>{{vi.telefone | verificaNull}}</b></h1>
-
-                  </div>
-                </v-card-title>
-              </v-card>
-            </vue-glide-slide>
-            <template slot="control">
-              <v-btn color="success" data-glide-dir="<">Anterior</v-btn>
-              <v-btn color="success" data-glide-dir=">">Próximo</v-btn>
-            </template>
-          </vue-glide>
-
-        </v-flex>
-      </v-layout>
-    </div>
+          <template v-slot:item.data-table-select="{ isSelected, select }">
+            <v-simple-checkbox :value="isSelected" @input="select($event)"></v-simple-checkbox>
+          </template>
 
 
-    <v-bottom-nav :active.sync="bottomNav" :value="true" absolute color="white">
-      <v-btn color="teal" flat value="cadastrar">
-        <span>Cadastrar</span>
-        <v-icon>add_circle</v-icon>
-      </v-btn>
+          <template v-slot:item.apresentado="{ item }">
+            <div v-if="item.autoriza_apresentacao">
+              <v-chip dark :color="(item.apresentado ? 'success' : (item.apresentado ? 'red' : 'dark' ))">
+                <v-avatar left>
+                  <v-icon>{{ item.apresentado ? 'mdi-checkbox-marked-circle' : (item.apresentado ? 'red' : 'block') }}
+                  </v-icon>
+                </v-avatar>
+                {{ item.apresentado | apresentado }}
+              </v-chip>
+            </div>
+            <div v-else>
+              <v-chip>
+                Não autoriza apresentação
+              </v-chip>
+            </div>
+          </template>
 
-      <v-btn color="teal" flat value="visualizar">
-        <span>Visualizar</span>
-        <v-icon>supervisor_account</v-icon>
-      </v-btn>
+          <template v-slot:item.envio_mensagem="{ item }">
+            <div v-if="item.autoriza_envio">
+              <v-chip dark :color="(item.envio_mensagem ? 'success' : (item.envio_mensagem ? 'red' : 'dark' ))">
+                <v-avatar left>
+                  <v-icon>{{ item.envio_mensagem ? 'mdi-checkbox-marked-circle' : item.envio_mensagem ? 'red' : 'block' }}
+                  </v-icon>
+                </v-avatar>
+                {{ item.envio_mensagem | envioMensagem }}
+              </v-chip>
+            </div>
+            <div v-else>
+              <v-chip>
+                Não autoriza envio
+              </v-chip>
+            </div>
+          </template>
 
-      <v-btn color="teal" flat value="apresentar">
-        <span>Apresentar</span>
-        <v-icon>record_voice_over</v-icon>
-      </v-btn>
-    </v-bottom-nav>
+          <template v-slot:item.acoes="{ item }">
+            <v-menu bottom left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-item :href="'/api/carta-boas-vindas/'+item.id" target="_blank">
+                  <v-list-item-title>Emitir Carta</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="enviarMensagemWhatsap(item)" target="_blank">
+                  <v-list-item-title>Enviar mensagem WhatsApp</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </template>
+
+        </v-data-table>
+      </v-tab-item>
+    </v-tabs-items>
+    <v-btn dark fab fixed bottom right color="success" large @click="salvaVisitante()">
+      <v-icon>save</v-icon>
+    </v-btn>
   </div>
 </template>
 <script>
-    import {mapGetters} from "vuex";
-    import {Glide, GlideSlide} from 'vue-glide-js';
-    import 'vue-glide-js/dist/vue-glide.css';
+import {mapGetters} from "vuex";
+import swal from "sweetalert2";
+import * as types from "../../store/mutation-types";
 
-    export default {
-        components: {
-            [Glide.name]: Glide,
-            [GlideSlide.name]: GlideSlide
-        },
-        middleware: ["auth", 'permission'],
-        data() {
-            return {
-                valid: false,
-                bottomNav: 'cadastrar',
-                maskPhone: '(##) # ####-####',
+export default {
+  middleware: ["auth", 'permission'],
+  metaInfo() {
+    return {title: 'Cadastro de Visitantes'}
+  },
+  data() {
+    return {
+      tab: null,
+      visitantesSelecionados: [],
+      items: [
+        'Cadastro', 'Lista de Visitantes',
+      ],
 
-                headers: [
-                    {
-                        text: 'Nome do Visitante',
-                        align: 'left',
-                        value: 'nome',
-                    },
-                    {text: 'Email', align: 'left', value: 'email'},
-                    // { text: 'Telefone',  align: 'left', value: 'telefone' },
-                    // { text: 'Observações',  align: 'left', value: 'observacao' },
-                    {text: 'Data de Visita', align: 'left', value: 'created_at'},
-                    {text: 'Cadastrado por', align: 'left', value: 'user.name'},
-                    {text: 'Apresentado?', align: 'left', value: 'apresentado'}
-                ],
+      form: {
+        nome: null,
+        email: null,
+        telefone: null,
+        procurando_igreja: false,
+        evangelico: false,
+        igreja: null,
+        observacao: null,
+        autoriza_envio: false,
+        autoriza_apresentacao: false,
+        envio_mensagem: false,
+      },
 
-                form: {
-                    nome: null,
-                    email: null,
-                    telefone: null,
-                    procurando_igreja: false,
-                    evangelico: false,
-                    igreja: null,
-                    observacao: null,
-                },
+      valid: false,
+      bottomNav: 'cadastrar',
+      maskPhone: '(##) # ####-####',
 
-                nomeRules: [
-                    v => !!v || 'Nome é obrigatório',
-                ],
-            }
+      headers: [
+        {
+          text: 'Nome do Visitante',
+          align: 'left',
+          value: 'nome',
         },
-        methods: {
-            salvaVisitante() {
-                if (this.$refs.form.validate()) {
-                    let loader = this.$loading.show();
-                    this.$store.dispatch('secretaria/salvarVisitante', this.form).then(res => {
-                        loader.hide();
-                    });
-                }
-            },
-            buscarVisitantes() {
-                this.$store.dispatch("secretaria/buscarVisitantes");
-            }
-        },
-        computed: {
-            ...mapGetters({visitantes: "secretaria/visitantes"})
-        },
-        mounted() {
-            this.buscarVisitantes();
-        },
-        filters: {
-            // Filter definitions
-            verificaNull(value) {
-                if (value === null) {
-                    return 'Nenhuma informação'
-                }
-                return value
-            },
-            apresentado(value) {
-                if (value) {
-                    return 'Apresentado!'
-                }
-                return 'Não apresentado!'
-            }
-        }
+        {text: 'Email', align: 'left', value: 'email'},
+        {text: 'Telefone', align: 'left', value: 'telefone'},
+        {text: 'Data da Visita', align: 'left', value: 'created_at'},
+        // {text: 'Cadastrado por', align: 'left', value: 'user.name'},
+        {text: 'Apresentado?', align: 'left', value: 'apresentado'},
+        {text: 'Envio E-mail/SMS', align: 'left', value: 'envio_mensagem'},
+        {text: 'Ações', align: 'left', value: 'acoes'},
+      ],
+
+      nomeRules: [
+        v => !!v || 'Nome é obrigatório',
+      ],
+      emailRules: [
+        v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail deve ser válido'
+      ],
     }
-</script>
-<style scoped>
-  .mold-slider-visitantes {
-    text-align: center;
+  },
+  methods: {
+    salvaVisitante() {
+      if (this.$refs.form.validate()) {
+        let loader = this.$loading.show();
+        this.$store.dispatch('secretaria/salvarVisitante', this.form).then(res => {
+          loader.hide();
+        });
+      }
+    },
+    buscarVisitantes() {
+      this.$store.dispatch("secretaria/buscarVisitantes");
+    },
+    apresentarVisitantes() {
+      swal({
+        type: 'warning',
+        showCancelButton: true,
+        title: 'Apresentar visitantes?',
+        confirmButtonText: 'Sim, apresentar!',
+        cancelButtonText: 'Não, cancelar!',
+        text: 'Alterando o status dos visitantes para "apresentado" como forma e identificação de cada pessoa nas apresentações.',
+      }).then((result) => {
+        if (result.value) {
+          let loader = this.$loading.show();
+          this.$store.dispatch('secretaria/apresentarVisitantes', this.visitantesSelecionados).then(res => {
+            this.buscarVisitantes();
+            loader.hide();
+          });
+        } else {
+          console.info('Operação Cancelada');
+        }
+      });
+    },
+    enviarNotificacaoVisitante(){
+      swal({
+        type: 'warning',
+        showCancelButton: true,
+        title: 'Enviar mensagens de Email e SMS?',
+        confirmButtonText: 'Sim, enviar!',
+        cancelButtonText: 'Não, cancelar!',
+        text: 'Os visitantes com autorização de envio de mensagens receberá e-mail e SMS.',
+      }).then((result) => {
+        if (result.value) {
+          let loader = this.$loading.show();
+          this.$store.dispatch('secretaria/enviarMensagensVisitantes', this.visitantesSelecionados).then(res => {
+            this.buscarVisitantes();
+            loader.hide();
+          });
+        } else {
+          console.info('Operação Cancelada');
+        }
+      });
+    },
+    enviarMensagemWhatsap(visitante){
+      swal({
+        type: 'warning',
+        showCancelButton: true,
+        title: 'Enviar mensagem para WhatsApp?',
+        confirmButtonText: 'Sim, enviar!',
+        cancelButtonText: 'Não, cancelar!',
+        text: 'O visitante receberá uma mensagem pelo whatsapp.',
+      }).then((result) => {
+        if (result.value) {
+          let loader = this.$loading.show();
+          this.$store.dispatch('secretaria/enviarWhatsappVisitante', visitante).then(res => {
+            this.buscarVisitantes();
+            loader.hide();
+          });
+        } else {
+          console.info('Operação Cancelada');
+        }
+      });
+    }
+    // imprimirCartasVisitantes(id){
+    //   swal({
+    //     type: 'warning',
+    //     showCancelButton: true,
+    //     title: 'Emitir Carta de Boas Vindas?',
+    //     confirmButtonText: 'Sim',
+    //     cancelButtonText: 'Não, cancelar!',
+    //     text: 'Você fará um download de um arquivo .pdf para imprimir as cartas.',
+    //   }).then((result) => {
+    //     if (result.value) {
+    //       let loader = this.$loading.show();
+    //       this.$store.dispatch('secretaria/emitirCartasVisitantes', id).then(res => {
+    //         this.buscarVisitantes();
+    //         loader.hide();
+    //       });
+    //     } else {
+    //       console.info('Operação de emitir carta foi cancelada');
+    //     }
+    //   });
+    // }
+  },
+  computed: {
+    ...mapGetters({
+      visitantes: 'secretaria/visitantes',
+      visitante: 'secretaria/visitante'
+    })
+  },
+  mounted() {
+    this.buscarVisitantes();
+  },
+  filters: {
+    // Filter definitions
+    verificaNull(value) {
+      if (value === null) {
+        return 'Nenhuma informação'
+      }
+      return value
+    },
+    apresentado(value) {
+      if (value) {
+        return 'Apresentado!'
+      }
+      return 'Não apresentado!'
+    },
+    envioMensagem(value) {
+      if (value) {
+        return 'Enviado'
+      }
+      return 'Pendente'
+    }
   }
-</style>
+}
+</script>
