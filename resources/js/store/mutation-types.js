@@ -13,6 +13,7 @@ export const FETCH_POSTS = 'FETCH_POSTS'
 export const CREATE_POST = 'CREATE_POST'
 
 export const BUSCAR_VISITANTES = 'BUSCAR_VISITANTES'
+export const BUSCAR_VISITANTE = 'BUSCAR_VISITANTE'
 
 //Snack Bar
 export const SHOW_SNACK_BAR = 'SHOW_SNACK_BAR'
