@@ -49,6 +49,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/secretaria/salvar-visitante', 'SecretariaController@salvarVisitante');
     Route::get('/secretaria/listar-visitante', 'SecretariaController@listarVisitantes');
     Route::post('/secretaria/apresentar-visitantes', 'SecretariaController@apresentarVisitante');
+    Route::post('/secretaria/enviar-notificacao-visitantes', 'SecretariaController@enviarNotificacoes');
+    Route::post('/secretaria/enviar-whatsapp-visitante', 'SecretariaController@enviarWhatsapp');
 
 
     //Igrejas
@@ -59,6 +61,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/upload/files', 'UploadController@setFiles');
 
     Route::get('carta-recomendacao/{id}', 'PDFController@pdfCartaRecomendacao');
+    Route::get('carta-boas-vindas/{id}', 'PDFController@pdfCartaBoasVindas');
 
 
     Route::prefix('financeiro')->group(function () {

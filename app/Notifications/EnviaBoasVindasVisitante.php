@@ -11,16 +11,15 @@ use Illuminate\Notifications\Messages\MailMessage;
 class EnviaBoasVindasVisitante extends Notification implements ShouldQueue
 {
     use Queueable;
-    private $visitante;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($visitante)
+    public function __construct()
     {
-        $this->visitante = $visitante;
+
     }
 
     /**
@@ -31,7 +30,7 @@ class EnviaBoasVindasVisitante extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        if(app()->environment('production')){
+        if(app()->environment('production') || $notifiable->telefone != null){
             return ['mail', 'nexmo'];
         }
         return ['mail'];
@@ -47,7 +46,7 @@ class EnviaBoasVindasVisitante extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Bem vindo ao AdebSystem')
-            ->greeting('Olá '. $this->visitante['nome'].'!')
+            ->greeting('Olá '. $notifiable->nome.'!')
             ->line('Sou o Pastor Wilson Donizete, pastor da ADEB Riacho Fundo e queremos agradecer pela sua visita!')
             ->line('Ficamos tão felizes por ter cultuado conosco uma vez, que queremos que volte mais vezes.')
             ->line('Que nesses dias você seja grandemente abençoado. Que o Senhor Jesus te fortaleça e te capacite a avançar na obra que Ele tem a realizar em sua vida.')
@@ -77,7 +76,7 @@ class EnviaBoasVindasVisitante extends Notification implements ShouldQueue
     public function toNexmo($notifiable)
     {
         return (new NexmoMessage)
-            ->content('Voce visitou a ADEB Riacho Fundo');
+            ->content('Oi '.$notifiable->nome.', obrigado pela sua visita! A ADEB Riacho Fundo preparou uma surpresa para vc. ACESSE: https://www.youtube.com/channel/UCCkSBfP-6i52hQ_GR-0Zz2Q');
 
     }
 }
