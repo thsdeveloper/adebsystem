@@ -14,9 +14,6 @@
         <v-btn text @click="enviarNotificacaoVisitante()">
            Enviar Mensagens
         </v-btn>
-        <v-btn text @click="enviarNotificacaoVisitante()">
-          Imprimir Cartas
-        </v-btn>
       </div>
 
       <v-btn icon>
@@ -53,31 +50,33 @@
                   <v-text-field v-model="form.telefone" v-mask="maskPhone" outlined
                                 label="Telefone de contato"></v-text-field>
                 </v-col>
-                <v-col md="4">
+                <v-col xs="12" sm="6" md="4">
                   <v-switch
                     v-model="form.evangelico"
                     label="O visitante ja é evangélico?"
                   ></v-switch>
                 </v-col>
-                <v-col md="4">
+                <v-col xs="12" sm="6" md="4">
                   <v-switch
                     v-model="form.procurando_igreja"
                     label="Procurando uma igreja para congregar?"
                   ></v-switch>
                 </v-col>
-                <v-col cols="12" xs="12" sm="12" md="12">
+                <v-col xs="12" sm="6" md="4">
                   <v-switch
                     v-model="form.autoriza_envio"
-                    label="Autoriza o envio de mensagem?"
-                  ></v-switch>
-                  <v-switch
-                    v-model="form.autoriza_apresentacao"
-                    label="Autoriza a apresentação?"
+                    label="Autoriza o envio de mensagens de agradecimento?"
                   ></v-switch>
                 </v-col>
-                <v-col cols="12">
+                <v-col xs="12" sm="6" md="4">
+                  <v-switch
+                    v-model="form.autoriza_apresentacao"
+                    label="Autoriza a apresentação em público?"
+                  ></v-switch>
+                </v-col>
+                <v-col xs="12" sm="6" md="8" v-if="form.evangelico">
                   <v-text-field v-model="form.igreja" outlined
-                                label="De qual igreja o visitante pertence?"></v-text-field>
+                                label="Qual igreja o senhor(a) pertence?"></v-text-field>
                 </v-col>
                 <v-col cols="12">
                   <v-textarea
@@ -111,8 +110,6 @@
                   <v-icon>{{ item.apresentado ? 'mdi-checkbox-marked-circle' : (item.apresentado ? 'red' : 'block') }}
                   </v-icon>
                 </v-avatar>
-
-
                 {{ item.apresentado | apresentado }}
               </v-chip>
             </div>
@@ -121,9 +118,44 @@
                 Não autoriza apresentação
               </v-chip>
             </div>
-
-
           </template>
+
+          <template v-slot:item.envio_mensagem="{ item }">
+            <div v-if="item.autoriza_envio">
+              <v-chip dark :color="(item.envio_mensagem ? 'success' : (item.envio_mensagem ? 'red' : 'dark' ))">
+                <v-avatar left>
+                  <v-icon>{{ item.envio_mensagem ? 'mdi-checkbox-marked-circle' : item.envio_mensagem ? 'red' : 'block' }}
+                  </v-icon>
+                </v-avatar>
+                {{ item.envio_mensagem | envioMensagem }}
+              </v-chip>
+            </div>
+            <div v-else>
+              <v-chip>
+                Não autoriza envio
+              </v-chip>
+            </div>
+          </template>
+
+          <template v-slot:item.acoes="{ item }">
+            <v-menu bottom left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-item :href="'/api/carta-boas-vindas/'+item.id" target="_blank">
+                  <v-list-item-title>Emitir Carta</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="enviarMensagemWhatsap(item)" target="_blank">
+                  <v-list-item-title>Enviar mensagem WhatsApp</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </template>
+
         </v-data-table>
       </v-tab-item>
     </v-tabs-items>
@@ -159,7 +191,8 @@ export default {
         igreja: null,
         observacao: null,
         autoriza_envio: false,
-        autoriza_apresentacao: false
+        autoriza_apresentacao: false,
+        envio_mensagem: false,
       },
 
       valid: false,
@@ -175,8 +208,10 @@ export default {
         {text: 'Email', align: 'left', value: 'email'},
         {text: 'Telefone', align: 'left', value: 'telefone'},
         {text: 'Data da Visita', align: 'left', value: 'created_at'},
-        {text: 'Cadastrado por', align: 'left', value: 'user.name'},
+        // {text: 'Cadastrado por', align: 'left', value: 'user.name'},
         {text: 'Apresentado?', align: 'left', value: 'apresentado'},
+        {text: 'Envio E-mail/SMS', align: 'left', value: 'envio_mensagem'},
+        {text: 'Ações', align: 'left', value: 'acoes'},
       ],
 
       nomeRules: [
@@ -238,7 +273,47 @@ export default {
           console.info('Operação Cancelada');
         }
       });
+    },
+    enviarMensagemWhatsap(visitante){
+      swal({
+        type: 'warning',
+        showCancelButton: true,
+        title: 'Enviar mensagem para WhatsApp?',
+        confirmButtonText: 'Sim, enviar!',
+        cancelButtonText: 'Não, cancelar!',
+        text: 'O visitante receberá uma mensagem pelo whatsapp.',
+      }).then((result) => {
+        if (result.value) {
+          let loader = this.$loading.show();
+          this.$store.dispatch('secretaria/enviarWhatsappVisitante', visitante).then(res => {
+            this.buscarVisitantes();
+            loader.hide();
+          });
+        } else {
+          console.info('Operação Cancelada');
+        }
+      });
     }
+    // imprimirCartasVisitantes(id){
+    //   swal({
+    //     type: 'warning',
+    //     showCancelButton: true,
+    //     title: 'Emitir Carta de Boas Vindas?',
+    //     confirmButtonText: 'Sim',
+    //     cancelButtonText: 'Não, cancelar!',
+    //     text: 'Você fará um download de um arquivo .pdf para imprimir as cartas.',
+    //   }).then((result) => {
+    //     if (result.value) {
+    //       let loader = this.$loading.show();
+    //       this.$store.dispatch('secretaria/emitirCartasVisitantes', id).then(res => {
+    //         this.buscarVisitantes();
+    //         loader.hide();
+    //       });
+    //     } else {
+    //       console.info('Operação de emitir carta foi cancelada');
+    //     }
+    //   });
+    // }
   },
   computed: {
     ...mapGetters({
@@ -262,6 +337,12 @@ export default {
         return 'Apresentado!'
       }
       return 'Não apresentado!'
+    },
+    envioMensagem(value) {
+      if (value) {
+        return 'Enviado'
+      }
+      return 'Pendente'
     }
   }
 }

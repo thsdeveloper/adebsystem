@@ -29,6 +29,7 @@ class SecretariaController extends Controller
         $visitante->apresentado = false;
         $visitante->autoriza_envio = $request['autoriza_envio'];
         $visitante->autoriza_apresentacao = $request['autoriza_apresentacao'];
+        $visitante->envio_mensagem = $request['envio_mensagem'];
         if ($visitante->save()) {
             return Visitante::with('user')->orderBy('created_at', 'desc')->get();
         }
@@ -59,15 +60,16 @@ class SecretariaController extends Controller
     {
         foreach ($request->all() as $Modelvisitante) {
             if ($Modelvisitante['autoriza_envio']) {
-                if ($Modelvisitante['email'] != null) {
-                    Notification::route('mail', $Modelvisitante['email'])->notify(new EnviaBoasVindasVisitante($Modelvisitante));
-                }
-                if($Modelvisitante['telefone'] != null){
-                    Notification::route('nexmo', $Modelvisitante['telefone'])->notify(new EnviaBoasVindasVisitante($Modelvisitante));
+                if ($Modelvisitante['email'] || $Modelvisitante['telefone']) {
+                    $visitante = Visitante::find($Modelvisitante['id']);
+
+                    if($visitante){
+                        $visitante->notify(new EnviaBoasVindasVisitante());
+                        DB::table('visitantes')->where('id', $Modelvisitante['id'])->update(['envio_mensagem' => true]);
+                    }
+
                 }
             }
         }
-
-
     }
 }
