@@ -95,7 +95,7 @@ class SecretariaController extends Controller
                 ]
             ]
         ];
-        $headers = ["Authorization" => "Basic " . base64_encode('6a7ceec6:nKFgXKb5LJmVIHN5')];
+        $headers = ["Authorization" => "Basic " . base64_encode(env('NEXMO_API_KEY').':'.env('NEXMO_API_SECRET'))];
 
         $client = new \GuzzleHttp\Client();
         $response = $client->request('POST', $url, ["headers" => $headers, "json" => $params]);
