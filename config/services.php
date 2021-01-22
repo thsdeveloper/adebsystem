@@ -41,9 +41,9 @@ return [
     ],
 
     'nexmo' => [
-        'key' => env('NEXMO_API_KEY', '6a7ceec6'),
-        'secret' => env('NEXMO_API_SECRET', 'nKFgXKb5LJmVIHN5'),
-        'sms_from' => env('NEXMO_SMS_FROM', '5561996617935'),
+        'key' => env('NEXMO_API_KEY'),
+        'secret' => env('NEXMO_API_SECRET'),
+        'sms_from' => env('NEXMO_SMS_FROM'),
     ],
 
 ];
