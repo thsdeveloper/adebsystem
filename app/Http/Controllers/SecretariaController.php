@@ -10,6 +10,7 @@ use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use function GuzzleHttp\Promise\all;
 
@@ -63,7 +64,7 @@ class SecretariaController extends Controller
                 if ($Modelvisitante['email'] || $Modelvisitante['telefone']) {
                     $visitante = Visitante::find($Modelvisitante['id']);
 
-                    if($visitante){
+                    if ($visitante) {
                         $visitante->notify(new EnviaBoasVindasVisitante());
                         DB::table('visitantes')->where('id', $Modelvisitante['id'])->update(['envio_mensagem' => true]);
                     }
@@ -71,5 +72,35 @@ class SecretariaController extends Controller
                 }
             }
         }
+    }
+
+    public function enviarWhatsapp(Request $request)
+    {
+        $visitante = Visitante::find($request->input('id'));
+
+        $telefone = preg_replace("/[^0-9]/", "", $request->input('telefone'));
+
+        $codeArea = '5561';
+        $tel = $codeArea . substr($telefone, 3);
+
+
+        // TODO: validate incoming params first!
+        $url = "https://messages-sandbox.nexmo.com/v0.1/messages";
+        $params = ["to" => ["type" => "whatsapp", "number" => $tel],
+            "from" => ["type" => "whatsapp", "number" => "14157386170"],
+            "message" => [
+                "content" => [
+                    "type" => "text",
+                    "text" => "Olá " . $visitante->nome . ". Ficamos muito felizes com a sua presença aqui hoje. Saiba que você está no melhor lugar do mundo, que é a casa de Deus. Se preferir pode nos enviar uma mensagem com o título 'programação' e estaremos enviando a nossa programação de cultos. Atenciosamente, ADEB Riacho Fundo"
+                ]
+            ]
+        ];
+        $headers = ["Authorization" => "Basic " . base64_encode('6a7ceec6:nKFgXKb5LJmVIHN5')];
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('POST', $url, ["headers" => $headers, "json" => $params]);
+        $data = $response->getBody();
+        Log::Info($data);
+        return $data;
     }
 }
