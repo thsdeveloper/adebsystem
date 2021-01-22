@@ -75,6 +75,13 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
+
+    Route::prefix('webhooks')->group(function () {
+        Route::post('status', 'WebhooksController@status');
+        Route::post('inbound', 'WebhooksController@inbound');
+    });
+
+
     Route::post('login', 'Auth\LoginController@login');
     Route::post('register', 'Auth\RegisterController@register');
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');

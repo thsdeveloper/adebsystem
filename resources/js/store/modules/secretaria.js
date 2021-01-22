@@ -112,6 +112,28 @@ export const actions = {
     } catch (e) {
       console.error('Ocorreu um erro no envio de emails e sms de visitantes');
     }
+  },
+
+  async enviarWhatsappVisitante({commit}, visitante){
+    try {
+      const {data} = await axios.post('/api/secretaria/enviar-whatsapp-visitante', visitante);
+      if (data) {
+        swal({
+          type: 'success',
+          title: 'Mensagens enviadas com sucesso?',
+          text: 'O visitante recebeu uma mensagem de enviar-whatsapp-visitante',
+        }).then((result) => {
+          if (result.value) {
+            console.info('Operação enviada');
+            // commit(types.BUSCAR_VISITANTES, data);
+          } else {
+            console.info('Operação Cancelada');
+          }
+        });
+      }
+    } catch (e) {
+      console.error('Ocorreu um erro no envio de whatsapp ao visitante');
+    }
   }
 
   // async emitirCartasVisitantes({commit}, id){
