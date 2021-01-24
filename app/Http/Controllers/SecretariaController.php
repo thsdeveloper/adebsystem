@@ -103,4 +103,11 @@ class SecretariaController extends Controller
         Log::Info($data);
         return $data;
     }
+
+    public function excluirVisitante(Request $request){
+        $visitante = Visitante::find($request->input('id'));
+        $visitante->delete();
+        return $visitante->all();
+
+    }
 }

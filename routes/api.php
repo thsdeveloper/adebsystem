@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/secretaria/apresentar-visitantes', 'SecretariaController@apresentarVisitante');
     Route::post('/secretaria/enviar-notificacao-visitantes', 'SecretariaController@enviarNotificacoes');
     Route::post('/secretaria/enviar-whatsapp-visitante', 'SecretariaController@enviarWhatsapp');
+    Route::post('/secretaria/excluir-visitante', 'SecretariaController@excluirVisitante');
 
 
     //Igrejas
