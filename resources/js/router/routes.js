@@ -69,7 +69,7 @@ export default [
     ]
   },
 
-  //Secretaria
+  //Financeiro
   {
     path: '/financeiro', name: 'financeiro', component: Financeiro,
     children: [
