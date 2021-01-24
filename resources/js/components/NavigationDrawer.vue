@@ -86,7 +86,13 @@
           { icon: 'dashboard', text: this.$t('dashboard'), route: '/home' },
           { icon: 'people', text: this.$t('members'), route: '/members' },
           { icon: 'location_city', text: 'Setores / Igrejas', route: '/setoresIgrejas'},
-          { icon: 'assignment_ind', text: 'Secretaria', route: '/secretaria' },
+          {
+            icon: 'assignment_ind', 'icon-alt': 'assignment_ind', text: 'Secretaria', route: '/secretaria', model: false,
+            children: [
+              { icon: 'supervisor_account', text: 'Controle de Visitantes', route: '/secretaria/visitantes' },
+              { icon: 'drafts', text: 'Cartas de Recomendação', route: '/secretaria/cartaRecomendacao' },
+            ]
+          },
           { icon: 'monetization_on', text: 'Financeiro', route: '/financeiro' },
           { icon: 'date_range', text: this.$t('general_agenda'), route: '/calendar' },
           {

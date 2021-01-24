@@ -134,6 +134,26 @@ export const actions = {
     } catch (e) {
       console.error('Ocorreu um erro no envio de whatsapp ao visitante');
     }
+  },
+  async excluirVisitante({commit}, visitante){
+    try {
+      const {data} = await axios.post('/api/secretaria/excluir-visitante', visitante);
+      if (data) {
+        swal({
+          type: 'success',
+          title: 'Visitante excluído com sucesso?',
+          text: 'O visitante selecionado foi excluído com sucesso',
+        }).then((result) => {
+          if (result.value) {
+            commit(types.BUSCAR_VISITANTES, data);
+          } else {
+            console.info('Operação Cancelada');
+          }
+        });
+      }
+    } catch (e) {
+      console.error('Ocorreu um erro no envio de whatsapp ao visitante');
+    }
   }
 
   // async emitirCartasVisitantes({commit}, id){
