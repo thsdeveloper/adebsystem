@@ -3,7 +3,7 @@
     <v-toolbar color="indigo" dark flat>
 <!--      <v-app-bar-nav-icon></v-app-bar-nav-icon>-->
 
-      <v-toolbar-title>Registro de Visitantes</v-toolbar-title>
+      <v-toolbar-title>Controle de Visitantes</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -146,10 +146,47 @@
               </template>
 
               <v-list>
+                <v-dialog v-model="dialog" width="500">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-list-item v-bind="attrs" v-on="on">
+                      <v-list-item-title>Visualizar</v-list-item-title>
+                    </v-list-item>
+                  </template>
+
+                  <v-card>
+                    <v-card-title class="headline grey lighten-2">
+                      {{item.nome}}
+                    </v-card-title>
+
+                    <v-card-text>
+                     <div class="p-4">
+                       <p>Email: <strong>{{item.email}}</strong></p>
+                       <p>Telefone: <strong>{{item.telefone}}</strong></p>
+                       <p>Já é evangélico: <strong>{{item.evangelico | simNao}}</strong></p>
+                       <p>Procurando Igreja?: <strong>{{item.procurando_igreja | simNao}}</strong></p>
+                       <p>Autoriza envio de mensagens?: <strong>{{item.autoriza_envio | simNao}}</strong></p>
+                       <p>Autoriza apresentação?: <strong>{{item.autoriza_apresentacao | simNao}}</strong></p>
+                       <p>Observações?: <strong>{{item.observacao}}</strong></p>
+                     </div>
+                    </v-card-text>
+
+                    <v-divider></v-divider>
+
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="primary" text @click="dialog = false">
+                        Ok
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+                <v-list-item @click="excluirVisitante(item)">
+                  <v-list-item-title>Excluir</v-list-item-title>
+                </v-list-item>
                 <v-list-item :href="'/api/carta-boas-vindas/'+item.id" target="_blank">
                   <v-list-item-title>Emitir Carta</v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="enviarMensagemWhatsap(item)" target="_blank">
+                <v-list-item @click="enviarMensagemWhatsap(item)">
                   <v-list-item-title>Enviar mensagem WhatsApp</v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -176,6 +213,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       tab: null,
       visitantesSelecionados: [],
       items: [
@@ -293,6 +331,26 @@ export default {
           console.info('Operação Cancelada');
         }
       });
+    },
+    excluirVisitante(visitante){
+      swal({
+        type: 'warning',
+        showCancelButton: true,
+        title: 'Excluir o visitante da base de dados?',
+        confirmButtonText: 'Sim, excluir!',
+        cancelButtonText: 'Não, cancelar!',
+        text: 'O visitante será excluído e este ação não poderá ser desfeita.',
+      }).then((result) => {
+        if (result.value) {
+          let loader = this.$loading.show();
+          this.$store.dispatch('secretaria/excluirVisitante', visitante).then(res => {
+            this.buscarVisitantes();
+            loader.hide();
+          });
+        } else {
+          console.info('Operação de excluir Cancelada');
+        }
+      });
     }
     // imprimirCartasVisitantes(id){
     //   swal({
@@ -343,6 +401,12 @@ export default {
         return 'Enviado'
       }
       return 'Pendente'
+    },
+    simNao(value) {
+      if (value) {
+        return 'Sim'
+      }
+      return 'Não'
     }
   }
 }
