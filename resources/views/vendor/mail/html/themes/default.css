@@ -292,3 +292,8 @@ img {
     font-size: 15px;
     text-align: center;
 }
+p.center-texto-igreja {
+    margin: 0;
+    padding: 0;
+    font-size: 12px!important;
+}

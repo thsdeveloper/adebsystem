@@ -45,19 +45,20 @@ class EnviaBoasVindasVisitante extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Bem vindo ao AdebSystem')
+            ->subject('Bem vindo à ADEB Riacho Fundo')
             ->greeting('Olá '. $notifiable->nome.'!')
-            ->line('Sou o Pastor Wilson Donizete, pastor da ADEB Riacho Fundo e queremos agradecer pela sua visita!')
+            ->line('Sou o Pastor Wilson Donizete, pastor Coordenador da ADEB Riacho Fundo Setor 11 e quero agradecer pela sua visita hoje em nossa igreja!')
             ->line('Ficamos tão felizes por ter cultuado conosco uma vez, que queremos que volte mais vezes.')
             ->line('Que nesses dias você seja grandemente abençoado. Que o Senhor Jesus te fortaleça e te capacite a avançar na obra que Ele tem a realizar em sua vida.')
+            ->line('Caso queira falar comigo, entre em contato pelo telefone (61) 9 9969-7216, estremos sempre a sua disposição.')
             ->line('Nosso cultos são:')
             ->line('Terça-feira: Culto de Oração e Ensino às 19:30h')
             ->line('Quinta-feira: Culto da Vitória às 20h.')
             ->line('Domingo:')
             ->line('Escola Dominical às 9h')
             ->line('Culto de Celebração às 18h')
-            ->line('Em nossa igreja você nunca estará sozinho, temos departamentos específicos para estimular o crescimento na fé específico para cada faixa etária.')
-            ->action('Acesse nosso canal no Youtube', url('https://www.youtube.com/channel/UCCkSBfP-6i52hQ_GR-0Zz2Q'));
+            ->line('Em nossa igreja ninguém ficará sozinho, temos sempre um departamentos específico para estimular o crescimento na fé para cada faixa etária.')
+            ->action('Acesse nosso canal no Youtube', url('https://www.youtube.com/channel/UCCkSBfP-6i52hQ_GR-0Zz2Q?sub_confirmation=1'));
     }
 
     /**
