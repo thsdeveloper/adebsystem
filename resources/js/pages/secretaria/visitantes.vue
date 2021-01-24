@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar color="indigo" dark flat>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+<!--      <v-app-bar-nav-icon></v-app-bar-nav-icon>-->
 
       <v-toolbar-title>Registro de Visitantes</v-toolbar-title>
 
@@ -16,9 +16,9 @@
         </v-btn>
       </div>
 
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+<!--      <v-btn icon>-->
+<!--        <v-icon>mdi-dots-vertical</v-icon>-->
+<!--      </v-btn>-->
 
 
       <template v-slot:extension>
@@ -38,15 +38,15 @@
           <v-card-text>
             <v-form ref="form" v-model="valid" lazy-validation>
               <v-row>
-                <v-col xs="12" sm="6" md="4">
+                <v-col cols="12" xs="12" sm="12" md="4">
                   <v-text-field v-model="form.nome" outlined label="Nome do visitante" :rules="nomeRules"
                                 required></v-text-field>
                 </v-col>
-                <v-col xs="12" sm="6" md="4">
+                <v-col cols="12" xs="12" sm="12" md="4">
                   <v-text-field v-model="form.email" :rules="emailRules" outlined label="Email do visitante"
                                 hint="Email válido para envio de notificações"></v-text-field>
                 </v-col>
-                <v-col xs="12" sm="6" md="4">
+                <v-col cols="12" xs="12" sm="12" md="4">
                   <v-text-field v-model="form.telefone" v-mask="maskPhone" outlined
                                 label="Telefone de contato"></v-text-field>
                 </v-col>
