@@ -1,9 +1,11 @@
 <template>
-<div class="p-5">
-  <v-card>
-    <session-enderecos mapa height-map="200px"/>
-  </v-card>
-</div>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <v-alert color="blue" type="success">Aguarde! Estamos trabalhando para oferecer recursos incríveis...</v-alert>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style>

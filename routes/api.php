@@ -48,6 +48,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     //Secretária
     Route::post('/secretaria/salvar-visitante', 'SecretariaController@salvarVisitante');
     Route::get('/secretaria/listar-visitante', 'SecretariaController@listarVisitantes');
+    Route::post('/secretaria/apresentar-visitantes', 'SecretariaController@apresentarVisitante');
+    Route::post('/secretaria/enviar-notificacao-visitantes', 'SecretariaController@enviarNotificacoes');
+    Route::post('/secretaria/enviar-whatsapp-visitante', 'SecretariaController@enviarWhatsapp');
+    Route::post('/secretaria/excluir-visitante', 'SecretariaController@excluirVisitante');
 
 
     //Igrejas
@@ -58,6 +62,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/upload/files', 'UploadController@setFiles');
 
     Route::get('carta-recomendacao/{id}', 'PDFController@pdfCartaRecomendacao');
+    Route::get('carta-boas-vindas/{id}', 'PDFController@pdfCartaBoasVindas');
 
 
     Route::prefix('financeiro')->group(function () {
@@ -71,6 +76,13 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
+
+    Route::prefix('webhooks')->group(function () {
+        Route::post('status', 'WebhooksController@status');
+        Route::post('inbound', 'WebhooksController@inbound');
+    });
+
+
     Route::post('login', 'Auth\LoginController@login');
     Route::post('register', 'Auth\RegisterController@register');
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
