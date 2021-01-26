@@ -2,7 +2,7 @@
 import firebase from "firebase";
 
 // Your web app's Firebase configuration
-var firebaseConfig = {
+let firebaseConfig = {
   apiKey: "AIzaSyCBxVQ5xuffvJIxcw18OCC11vjn1-OX0rI",
   authDomain: "adebriacho.firebaseapp.com",
   databaseURL: "https://adebriacho.firebaseio.com",
