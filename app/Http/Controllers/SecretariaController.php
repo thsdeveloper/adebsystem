@@ -31,7 +31,6 @@ class SecretariaController extends Controller
         $visitante->autoriza_envio = $request['autoriza_envio'];
         $visitante->autoriza_apresentacao = $request['autoriza_apresentacao'];
         $visitante->envio_mensagem = $request['envio_mensagem'];
-        $visitante->observacao = $request['observacao'];
         if ($visitante->save()) {
             return Visitante::with('user')->orderBy('created_at', 'desc')->get();
         }

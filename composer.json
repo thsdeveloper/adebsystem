@@ -13,7 +13,6 @@
     "algolia/scout-extended": "^1.8",
     "barryvdh/laravel-cors": "^0.11.2",
     "barryvdh/laravel-dompdf": "^0.8.5",
-    "cossou/jasperphp": "^2.8",
     "fideloper/proxy": "^4.0",
     "guzzlehttp/guzzle": "^6.3",
     "intervention/image": "^2.5",
