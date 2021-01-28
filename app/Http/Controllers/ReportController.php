@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use JasperPHP;
 
 class ReportController extends Controller
@@ -42,6 +43,7 @@ class ReportController extends Controller
 
         //Compila o arquivo jrxml
         $compile = JasperPHP::compile(public_path() . '/reports/visitantes.jrxml')->execute();
+        Log::Info($compile);
 
         //Executa o arquivo de relatorio
         $process = JasperPHP::process(
@@ -52,14 +54,17 @@ class ReportController extends Controller
             $this->getDatabaseConfig()
         )->execute();
 
+        Log::Info($process);
+
 
         $file = $output . '.' . $extencao;
         $path = $file;
 
 
-        if (!file_exists($file)) {
-            abort(404);
-        }
+//        if (!file_exists($file)) {
+//            abort(404);
+//        }
+
         //caso tenha sido gerado pego o conteudo
         $file = file_get_contents($file);
 
