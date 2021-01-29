@@ -44,12 +44,12 @@ class ReportController extends Controller
         Log::info($output);
 
         //Compila o arquivo jrxml
-//        $compile = JasperPHP::compile(public_path() . '/reports/visitantes.jrxml')->execute();
-//        Log::info($compile);
+        $compile = JasperPHP::compile(public_path() . '/reports/visitantes.jrxml')->execute();
+        dd($compile);
 
         //Executa o arquivo de relatorio
         $process = JasperPHP::process(public_path() . '/reports/visitantes.jasper', $output, array($extencao), array('DescricaoNome' => 'Thiago'), $this->getDatabaseConfig())->execute();
-        dd($process);
+        Log::info($process);
 
 
         $file = $output . '.' . $extencao;
