@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use JasperPHP;
 
 class ReportController extends Controller
@@ -21,7 +22,7 @@ class ReportController extends Controller
             'password' => env('DB_PASSWORD'),
             'database' => env('DB_DATABASE'),
             'jdbc_driver' => 'org.postgresql.Driver',
-            'jdbc_url' => 'jdbc:postgresql://'.env('DB_HOST').':5432/'.env('DB_DATABASE'),
+            'jdbc_url' => 'jdbc:postgresql://' . env('DB_HOST') . ':5432/' . env('DB_DATABASE'),
             'jdbc_dir' => base_path() . env('JDBC_DIR', '/vendor/cossou/jasperphp/src/JasperStarter/jdbc'),
         ];
     }
@@ -36,28 +37,25 @@ class ReportController extends Controller
 
         // Nome do arquivo
         $fileName = $nome . time();
+        Log::info($fileName);
 
         // coloca na variavel o caminho do novo relatório que será gerado
         $output = public_path() . '/reports/' . $fileName;
+        Log::info($output);
 
         //Compila o arquivo jrxml
         $compile = JasperPHP::compile(public_path() . '/reports/visitantes.jrxml')->execute();
-        dd($compile);
+        Log::info($compile);
 
         //Executa o arquivo de relatorio
-        $process = JasperPHP::process(
-            public_path() . '/reports/visitantes.jasper',
-            $output,
-            array($extencao),
-            array('DescricaoNome' => 'Thiago'),
-            $this->getDatabaseConfig()
-        )->execute();
-
-//      dd($process);
+        $process = JasperPHP::process(public_path() . '/reports/visitantes.jasper', $output, array($extencao), array('DescricaoNome' => 'Thiago'), $this->getDatabaseConfig())->execute();
+        Log::info($process);
 
 
         $file = $output . '.' . $extencao;
         $path = $file;
+        Log::info($path);
+
 
 
 //        if (!file_exists($file)) {
@@ -66,8 +64,11 @@ class ReportController extends Controller
         //caso tenha sido gerado pego o conteudo
         $file = file_get_contents($file);
 
+
         //deleto o arquivo gerado, pois iremos mandar o conteudo para o navegador
-        unlink($path);
+        $excluiArquivo = unlink($path);
+        Log::info($excluiArquivo);
+
 
         // Se a extenção for PDF exibir na tela
         if ($extencao == 'pdf') {
