@@ -49,7 +49,7 @@ class ReportController extends Controller
 
         //Executa o arquivo de relatorio
         $process = JasperPHP::process(public_path() . '/reports/visitantes.jasper', $output, array($extencao), array('DescricaoNome' => 'Thiago'), $this->getDatabaseConfig())->execute();
-        Log::info($process);
+        dd($process);
 
 
         $file = $output . '.' . $extencao;
