@@ -40,6 +40,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     //Relatórios
     Route::get('/relatorio/usuarios', 'ReportController@index');
+    Route::get('/relatorio/usuarios11', 'ReportController@displayReport');
+    Route::get('/relatorio/usuarios03', 'ReportController@relatorio3');
 
 
 
