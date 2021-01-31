@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::patch('settings/password', 'Settings\PasswordController@update');
 
     //Relatórios
-    Route::get('/relatorio/usuarios', 'ReportController@index');
+    Route::get('/relatorio/visitantes', 'ReportController@relatorioVisitantes');
 
 
 

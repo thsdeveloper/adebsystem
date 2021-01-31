@@ -15,6 +15,9 @@
           Enviar Mensagens
         </v-btn>
       </div>
+      <v-btn text href="/api/relatorio/visitantes" target="_blank">
+        Gerar Relatório
+      </v-btn>
 
       <!--      <v-btn icon>-->
       <!--        <v-icon>mdi-dots-vertical</v-icon>-->
@@ -200,29 +203,9 @@
 
         </v-data-table>
       </v-tab-item>
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <h2>Informe o tipo de relatório:</h2>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col class="d-flex" cols="12" sm="6">
-                <v-select v-model="tipoRelatorio" :items="tiposRelatorios" item-value="id" item-text="nome" outlined
-                          label="Tipo do relatório"></v-select>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-<!--                <v-btn color="primary" elevation="2" href="/api/relatorio/usuarios" target="_blank">Gerar Relatório</v-btn>-->
-                <v-btn color="primary" elevation="2" href="/api/relatorio/usuarios" target="_blank">Gerar Relatório</v-btn>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
+<!--      <v-tab-item>-->
+<!--        <relatorio-visitantes/>-->
+<!--      </v-tab-item>-->
     </v-tabs-items>
     <v-btn dark fab fixed bottom right color="success" large @click="salvaVisitante()">
       <v-icon>save</v-icon>
@@ -233,8 +216,10 @@
 import {mapGetters} from "vuex";
 import swal from "sweetalert2";
 import * as types from "../../store/mutation-types";
+import RelatorioVisitantes from "../../components/RelatorioVisitantes";
 
 export default {
+  components: {RelatorioVisitantes},
   middleware: ["auth", 'permission'],
   metaInfo() {
     return {title: 'Cadastro de Visitantes'}
@@ -245,32 +230,8 @@ export default {
       tab: null,
       visitantesSelecionados: [],
       items: [
-        'Cadastro', 'Lista de Visitantes', 'Relatórios'
+        'Cadastro', 'Lista de Visitantes'
       ],
-      tipoRelatorio: 1,
-      tiposRelatorios: [
-        {
-          nome: 'Apresentação',
-          id: 1,
-        },
-        {
-          nome: 'Visitantes Procurando Igreja',
-          id: 2
-        },
-        {
-          nome: 'Visitantes Evangélicos',
-          id: 3
-        },
-        {
-          nome: 'Visitantes Não Evangélicos',
-          id: 4
-        },
-        {
-          nome: 'Todos os visitantes',
-          id: 5
-        }
-      ],
-
       form: {
         nome: null,
         email: null,
