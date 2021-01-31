@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar color="indigo" dark flat>
-<!--      <v-app-bar-nav-icon></v-app-bar-nav-icon>-->
+      <!--      <v-app-bar-nav-icon></v-app-bar-nav-icon>-->
 
       <v-toolbar-title>Controle de Visitantes</v-toolbar-title>
 
@@ -12,13 +12,16 @@
           Apresentar
         </v-btn>
         <v-btn text @click="enviarNotificacaoVisitante()">
-           Enviar Mensagens
+          Enviar Mensagens
         </v-btn>
       </div>
+      <v-btn text href="/api/relatorio/visitantes" target="_blank">
+        Gerar Relatório
+      </v-btn>
 
-<!--      <v-btn icon>-->
-<!--        <v-icon>mdi-dots-vertical</v-icon>-->
-<!--      </v-btn>-->
+      <!--      <v-btn icon>-->
+      <!--        <v-icon>mdi-dots-vertical</v-icon>-->
+      <!--      </v-btn>-->
 
 
       <template v-slot:extension>
@@ -91,7 +94,7 @@
         </v-card>
       </v-tab-item>
       <v-tab-item>
-        <v-data-table  v-model="visitantesSelecionados" show-select :single-select="false" item-key="id"
+        <v-data-table v-model="visitantesSelecionados" show-select :single-select="false" item-key="id"
                       :headers="headers" :items="visitantes" no-data-text="Nenhum visitante cadastrado!">
 
           <template v-slot:header.data-table-select="{ on , props }">
@@ -124,7 +127,9 @@
             <div v-if="item.autoriza_envio">
               <v-chip dark :color="(item.envio_mensagem ? 'success' : (item.envio_mensagem ? 'red' : 'dark' ))">
                 <v-avatar left>
-                  <v-icon>{{ item.envio_mensagem ? 'mdi-checkbox-marked-circle' : item.envio_mensagem ? 'red' : 'block' }}
+                  <v-icon>{{
+                      item.envio_mensagem ? 'mdi-checkbox-marked-circle' : item.envio_mensagem ? 'red' : 'block'
+                    }}
                   </v-icon>
                 </v-avatar>
                 {{ item.envio_mensagem | envioMensagem }}
@@ -145,7 +150,7 @@
                 </v-btn>
               </template>
 
-              <v-list>
+              <v-list dense>
                 <v-dialog v-model="dialog" width="500">
                   <template v-slot:activator="{ on, attrs }">
                     <v-list-item v-bind="attrs" v-on="on">
@@ -155,19 +160,19 @@
 
                   <v-card>
                     <v-card-title class="headline grey lighten-2">
-                      {{item.nome}}
+                      {{ item.nome }}
                     </v-card-title>
 
                     <v-card-text>
-                     <div class="p-4">
-                       <p>Email: <strong>{{item.email}}</strong></p>
-                       <p>Telefone: <strong>{{item.telefone}}</strong></p>
-                       <p>Já é evangélico: <strong>{{item.evangelico | simNao}}</strong></p>
-                       <p>Procurando Igreja?: <strong>{{item.procurando_igreja | simNao}}</strong></p>
-                       <p>Autoriza envio de mensagens?: <strong>{{item.autoriza_envio | simNao}}</strong></p>
-                       <p>Autoriza apresentação?: <strong>{{item.autoriza_apresentacao | simNao}}</strong></p>
-                       <p>Observações?: <strong>{{item.observacao}}</strong></p>
-                     </div>
+                      <div class="p-4">
+                        <p>Email: <strong>{{ item.email }}</strong></p>
+                        <p>Telefone: <strong>{{ item.telefone }}</strong></p>
+                        <p>Já é evangélico: <strong>{{ item.evangelico | simNao }}</strong></p>
+                        <p>Procurando Igreja?: <strong>{{ item.procurando_igreja | simNao }}</strong></p>
+                        <p>Autoriza envio de mensagens?: <strong>{{ item.autoriza_envio | simNao }}</strong></p>
+                        <p>Autoriza apresentação?: <strong>{{ item.autoriza_apresentacao | simNao }}</strong></p>
+                        <p>Observações?: <strong>{{ item.observacao }}</strong></p>
+                      </div>
                     </v-card-text>
 
                     <v-divider></v-divider>
@@ -186,6 +191,9 @@
                 <v-list-item :href="'/api/carta-boas-vindas/'+item.id" target="_blank">
                   <v-list-item-title>Emitir Carta</v-list-item-title>
                 </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>Aceitar Membro</v-list-item-title>
+                </v-list-item>
                 <v-list-item @click="enviarMensagemWhatsap(item)">
                   <v-list-item-title>Enviar mensagem WhatsApp</v-list-item-title>
                 </v-list-item>
@@ -195,6 +203,9 @@
 
         </v-data-table>
       </v-tab-item>
+<!--      <v-tab-item>-->
+<!--        <relatorio-visitantes/>-->
+<!--      </v-tab-item>-->
     </v-tabs-items>
     <v-btn dark fab fixed bottom right color="success" large @click="salvaVisitante()">
       <v-icon>save</v-icon>
@@ -205,8 +216,10 @@
 import {mapGetters} from "vuex";
 import swal from "sweetalert2";
 import * as types from "../../store/mutation-types";
+import RelatorioVisitantes from "../../components/RelatorioVisitantes";
 
 export default {
+  components: {RelatorioVisitantes},
   middleware: ["auth", 'permission'],
   metaInfo() {
     return {title: 'Cadastro de Visitantes'}
@@ -217,9 +230,8 @@ export default {
       tab: null,
       visitantesSelecionados: [],
       items: [
-        'Cadastro', 'Lista de Visitantes',
+        'Cadastro', 'Lista de Visitantes'
       ],
-
       form: {
         nome: null,
         email: null,
@@ -292,7 +304,7 @@ export default {
         }
       });
     },
-    enviarNotificacaoVisitante(){
+    enviarNotificacaoVisitante() {
       swal({
         type: 'warning',
         showCancelButton: true,
@@ -312,7 +324,7 @@ export default {
         }
       });
     },
-    enviarMensagemWhatsap(visitante){
+    enviarMensagemWhatsap(visitante) {
       swal({
         type: 'warning',
         showCancelButton: true,
@@ -332,7 +344,7 @@ export default {
         }
       });
     },
-    excluirVisitante(visitante){
+    excluirVisitante(visitante) {
       swal({
         type: 'warning',
         showCancelButton: true,

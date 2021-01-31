@@ -14,6 +14,7 @@
     "barryvdh/laravel-cors": "^0.11.2",
     "barryvdh/laravel-dompdf": "^0.8.5",
     "fideloper/proxy": "^4.0",
+    "geekcom/phpjasper": "^3.3",
     "guzzlehttp/guzzle": "^6.3",
     "intervention/image": "^2.5",
     "laravel/framework": "5.7.*",

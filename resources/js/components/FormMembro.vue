@@ -124,7 +124,7 @@
             </v-select>
           </v-col>
           <v-col cols="12" md="6">
-            <v-select v-model="form.trusts" :items="trusts" :rules="rules.campoObrigatorio"
+            <v-select v-model="form.trusts" :items="trusts"
                       attach chips outlined
                       label="Cargo/Função - Local" multiple item-text="name" item-value="id">
             </v-select>
