@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Visitante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use PHPJasper\PHPJasper;
 
 class ReportController extends Controller
@@ -26,10 +27,10 @@ class ReportController extends Controller
         $extencao = 'pdf';
 
         //Nome do arquivo
-        $nome = 'file_reports_jasper';
+        $nome = 'file_reports';
 
         // Nome do arquivo com time
-        $fileName = $nome . time();
+        $fileName = $nome;
 
         // coloca na variavel o caminho do novo relatório que será gerado
         $output = public_path() . '/reports/' . $fileName;
@@ -50,8 +51,7 @@ class ReportController extends Controller
 
 
         //Executa o arquivo de relatorio
-        $jasper->process($ArquivoJasper, $output, $options)->output();
-        dd($jasper);
+        $jasper->process($ArquivoJasper, $output, $options)->execute();
 
         $file = $output . '.' . $extencao;
         $path = $file;
@@ -65,7 +65,7 @@ class ReportController extends Controller
 
 
         //deleto o arquivo gerado, pois iremos mandar o conteudo para o navegador
-        $excluiArquivoPDF = unlink($path);
+//        $excluiArquivoPDF = unlink($path);
         $excluiArquivoJasper = unlink($output . '.jasper');
 
         if ($excluiArquivoJasper) {
