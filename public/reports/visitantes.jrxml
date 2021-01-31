@@ -23,7 +23,8 @@
 	visitantes.evangelico,
 	visitantes.procurando_igreja
 FROM visitantes
-WHERE nome like '%$P!{DescricaoNome}%']]>
+WHERE 
+	 visitantes.nome LIKE '%$P!{DescricaoNome}%']]>
 	</queryString>
 	<field name="nome" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nome"/>
@@ -86,11 +87,6 @@ WHERE nome like '%$P!{DescricaoNome}%']]>
 	<field name="evangelico" class="java.lang.Boolean">
 		<property name="com.jaspersoft.studio.field.name" value="evangelico"/>
 		<property name="com.jaspersoft.studio.field.label" value="evangelico"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="visitantes"/>
-	</field>
-	<field name="procurando_igreja" class="java.lang.Boolean">
-		<property name="com.jaspersoft.studio.field.name" value="procurando_igreja"/>
-		<property name="com.jaspersoft.studio.field.label" value="procurando_igreja"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="visitantes"/>
 	</field>
 	<sortField name="created_at"/>
@@ -210,13 +206,6 @@ Pastor Presidente: Orcival Pereira Xavier | Pastor Coordenador: Wilson Donizete 
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[($F{evangelico}==Boolean.TRUE?"Sim":"Não")]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="254" y="0" width="66" height="14" uuid="2197abcf-f9ec-44b6-995d-ae22eda83ea5">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="886cd19c-c142-4ad7-9e66-6dfd01b89049"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textFieldExpression><![CDATA[($F{procurando_igreja}==Boolean.TRUE?"Sim":"Não")]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="430" y="0" width="130" height="14" uuid="1db6113b-d5de-47ae-a88f-4dc0cb540197">
