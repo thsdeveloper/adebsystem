@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Visitante;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use JasperPHP;
-use PdfReport;
 use PHPJasper\PHPJasper;
 
 class ReportController extends Controller
@@ -15,10 +12,10 @@ class ReportController extends Controller
     {
         return [
             'driver' => 'postgres',
-            'username' => 'postgres',
-            'password' => 'Qsesbs2006',
-            'host' => 'localhost',
-            'database' => 'postgres',
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+            'host' => env('DB_HOST'),
+            'database' => env('DB_DATABASE'),
             'port' => '5432'
         ];
     }
