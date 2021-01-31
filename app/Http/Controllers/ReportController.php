@@ -50,7 +50,8 @@ class ReportController extends Controller
 
 
         //Executa o arquivo de relatorio
-        $jasper->process($ArquivoJasper, $output, $options)->execute();
+        $jasper->process($ArquivoJasper, $output, $options)->output();
+        dd($jasper);
 
         $file = $output . '.' . $extencao;
         $path = $file;
