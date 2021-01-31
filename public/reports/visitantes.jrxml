@@ -24,7 +24,9 @@
 	visitantes.procurando_igreja
 FROM visitantes
 WHERE 
-	 visitantes.nome LIKE '%$P!{DescricaoNome}%']]>
+	 visitantes.nome LIKE '%$P!{DescricaoNome}%' 
+	 AND visitantes.autoriza_apresentacao = 'true' 
+	 AND visitantes.apresentado = 'false']]>
 	</queryString>
 	<field name="nome" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nome"/>
@@ -89,6 +91,7 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="evangelico"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="visitantes"/>
 	</field>
+	<field name="procurando_igreja" class="java.lang.Boolean"/>
 	<sortField name="created_at"/>
 	<background>
 		<band splitType="Stretch">
@@ -126,6 +129,22 @@ Pastor Presidente: Orcival Pereira Xavier | Pastor Coordenador: Wilson Donizete 
 				<reportElement x="524" y="9" width="30" height="50" uuid="a655aff2-bc3e-439f-83d7-db691eda40e1"/>
 				<imageExpression><![CDATA["https://i.pinimg.com/originals/83/81/da/8381da3a855cedc87bbb2874abb9ec95.png"]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="70" y="55" width="84" height="10" uuid="76836419-e961-45f0-9e8d-dbc1f2469bff">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data do Relatório:]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="154" y="55" width="86" height="10" uuid="044d0a71-f1f2-43fb-9dab-0fcaedb3c687"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -134,11 +153,11 @@ Pastor Presidente: Orcival Pereira Xavier | Pastor Coordenador: Wilson Donizete 
 	<columnHeader>
 		<band height="19" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="180" height="14" uuid="b6265cb6-111d-40a9-8539-92bfeb7cbed1">
+				<reportElement x="0" y="0" width="160" height="14" uuid="b6265cb6-111d-40a9-8539-92bfeb7cbed1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="02eaaafc-df07-4a26-a0fd-e3ae9260dd58"/>
 				</reportElement>
 				<textElement>
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nome:]]></text>
 			</staticText>
@@ -148,27 +167,27 @@ Pastor Presidente: Orcival Pereira Xavier | Pastor Coordenador: Wilson Donizete 
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Observação:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="180" y="0" width="70" height="14" uuid="bbfb13e7-711f-40ea-a815-5d00b527ce3c">
+				<reportElement x="162" y="0" width="70" height="14" uuid="bbfb13e7-711f-40ea-a815-5d00b527ce3c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1d39c831-0089-455e-84d8-3f6dd3fe7ab4"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Evangélico?]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="254" y="0" width="66" height="14" uuid="b37ed62c-9118-44c9-a1a6-2c8fdee7b3e9">
+				<reportElement x="232" y="0" width="88" height="14" uuid="b37ed62c-9118-44c9-a1a6-2c8fdee7b3e9">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="886cd19c-c142-4ad7-9e66-6dfd01b89049"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Procurando Igreja?]]></text>
 			</staticText>
@@ -178,41 +197,48 @@ Pastor Presidente: Orcival Pereira Xavier | Pastor Coordenador: Wilson Donizete 
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Igreja do visitante:]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="180" height="14" uuid="1367d18a-632f-4778-9b80-a94e28a8a095">
+				<reportElement x="0" y="4" width="160" height="14" uuid="1367d18a-632f-4778-9b80-a94e28a8a095">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="02eaaafc-df07-4a26-a0fd-e3ae9260dd58"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="327" y="0" width="100" height="14" uuid="142b285d-1d52-4d4c-8cdc-b6a9185317cc">
+				<reportElement x="327" y="4" width="100" height="14" uuid="142b285d-1d52-4d4c-8cdc-b6a9185317cc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2e9d00ef-2697-463a-add7-77cbcf382a03"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{observacao}== null ? "Nenhuma..." : $F{observacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="180" y="0" width="70" height="14" uuid="528043df-73ad-4719-93cf-ad2ce4f3f066">
+				<reportElement x="162" y="4" width="70" height="14" uuid="528043df-73ad-4719-93cf-ad2ce4f3f066">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1d39c831-0089-455e-84d8-3f6dd3fe7ab4"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[($F{evangelico}==Boolean.TRUE?"Sim":"Não")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="430" y="0" width="130" height="14" uuid="1db6113b-d5de-47ae-a88f-4dc0cb540197">
+				<reportElement x="430" y="4" width="130" height="14" uuid="1db6113b-d5de-47ae-a88f-4dc0cb540197">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="375340af-d110-4281-be8f-0a0cb48bcc4a"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{igreja}== null ? "---" : $F{igreja}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="232" y="4" width="88" height="14" uuid="3db16bba-a83c-4d8f-81aa-0c7873f301a9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="20ae18f4-5734-4e16-b9de-e24dda059a94"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[($F{procurando_igreja}==Boolean.TRUE?"Sim":"Não")]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -221,40 +247,33 @@ Pastor Presidente: Orcival Pereira Xavier | Pastor Coordenador: Wilson Donizete 
 	</columnFooter>
 	<pageFooter>
 		<band height="32" splitType="Stretch">
-			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="90" y="20" width="100" height="10" uuid="044d0a71-f1f2-43fb-9dab-0fcaedb3c687"/>
-				<textElement>
+			<staticText>
+				<reportElement x="-20" y="0" width="594" height="10" uuid="d41ef42a-21f8-48b1-9cff-9534d703ce80">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Relatório Gerado pelo Sistema AdebSystem 1.0 - Todos os direitos reservados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="10" width="233" height="14" uuid="c5116a57-6010-4156-a621-f7e22594c372">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[www.adebriachofundo.com.br]]></text>
+			</staticText>
 			<textField evaluationTime="Report">
-				<reportElement x="40" y="10" width="90" height="10" uuid="59d230aa-c224-4b25-bda2-e03e597344ea"/>
+				<reportElement x="544" y="11" width="24" height="10" uuid="59d230aa-c224-4b25-bda2-e03e597344ea"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="550" height="10" uuid="d41ef42a-21f8-48b1-9cff-9534d703ce80">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Relatório Gerado pelo Sistema AdebSystem 1.0 - Todos os direitos reservados]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="20" width="90" height="10" uuid="76836419-e961-45f0-9e8d-dbc1f2469bff">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement>
-					<font size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Data do Relatório:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="10" width="40" height="10" uuid="63e8055b-a9a8-4dec-bf60-6116c0c19085">
+				<reportElement x="508" y="11" width="36" height="10" uuid="63e8055b-a9a8-4dec-bf60-6116c0c19085">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>

@@ -34,8 +34,10 @@ class ReportController extends Controller
         ];
     }
 
-    public function relatorioVisitantes()
+    public function relatorioVisitantes(Request $request)
     {
+        $nomeDescricao = $request->input('nome');
+
         //Extenção do relatório
         $extencao = 'pdf';
 
@@ -43,7 +45,7 @@ class ReportController extends Controller
         $nome = 'file_reports';
 
         // Nome do arquivo com time
-        $fileName = $nome;
+        $fileName = $nome . time();
 
         // coloca na variavel o caminho do novo relatório que será gerado
         $output = public_path() . '/reports/' . $fileName;
@@ -58,7 +60,7 @@ class ReportController extends Controller
         //Options do process
         $options = [
             'format' => ['pdf'],
-            'params' => ['DescricaoNome' => 'Thiago'],
+            'params' => ['DescricaoNome' => $nomeDescricao],
             'db_connection' => $this->getDataBaseConections(),
         ];
 
@@ -78,7 +80,7 @@ class ReportController extends Controller
 
 
         //deleto o arquivo gerado, pois iremos mandar o conteudo para o navegador
-//        $excluiArquivoPDF = unlink($path);
+        $excluiArquivoPDF = unlink($path);
         $excluiArquivoJasper = unlink($output . '.jasper');
 
         if ($excluiArquivoJasper) {
