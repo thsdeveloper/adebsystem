@@ -11,13 +11,15 @@ class ReportController extends Controller
 {
     private function getDataBaseConections()
     {
+        $DATABASE_URL = parse_url(getenv("DATABASE_URL"));
+
         return [
             'driver' => 'postgres',
-            'username' => env('DB_USERNAME'),
-            'password' => env('DB_PASSWORD'),
-            'host' => env('DB_HOST'),
-            'database' => env('DB_DATABASE'),
-            'port' => '5432'
+            'username' => env('DB_USERNAME', isset($DATABASE_URL['user'])),
+            'password' => env('DB_PASSWORD', isset($DATABASE_URL['pass'])),
+            'host' => env('DB_HOST', isset($DATABASE_URL['host'])),
+            'database' => env('DB_DATABASE', ltrim(isset($DATABASE_URL['path']), '/')),
+            'port' => env('DB_PORT', isset($DATABASE_URL['port'])),
         ];
     }
 
