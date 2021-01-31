@@ -61,7 +61,6 @@ class ReportController extends Controller
             'params' => ['DescricaoNome' => 'Thiago'],
             'db_connection' => $this->getDataBaseConections(),
         ];
-        dd($this->getDataBaseConections());
 
 
         //Executa o arquivo de relatorio
