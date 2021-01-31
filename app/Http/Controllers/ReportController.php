@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Visitante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Response;
 use PHPJasper\PHPJasper;
 
@@ -13,13 +14,23 @@ class ReportController extends Controller
     {
         $DATABASE_URL = parse_url(getenv("DATABASE_URL"));
 
+        if (!App::environment('local')) {
+            return [
+                'driver' => 'postgres',
+                'username' => env('DB_USERNAME', $DATABASE_URL['user']),
+                'password' => env('DB_PASSWORD', $DATABASE_URL['pass']),
+                'host' => env('DB_HOST', $DATABASE_URL['host']),
+                'database' => env('DB_DATABASE', ltrim($DATABASE_URL['path'], '/')),
+                'port' => env('DB_PORT', $DATABASE_URL['port']),
+            ];
+        }
         return [
             'driver' => 'postgres',
-            'username' => env('DB_USERNAME', isset($DATABASE_URL['user'])),
-            'password' => env('DB_PASSWORD', isset($DATABASE_URL['pass'])),
-            'host' => env('DB_HOST', isset($DATABASE_URL['host'])),
-            'database' => env('DB_DATABASE', ltrim(isset($DATABASE_URL['path']), '/')),
-            'port' => env('DB_PORT', isset($DATABASE_URL['port'])),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+            'host' => env('DB_HOST'),
+            'database' => env('DB_DATABASE'),
+            'port' => env('DB_PORT'),
         ];
     }
 
