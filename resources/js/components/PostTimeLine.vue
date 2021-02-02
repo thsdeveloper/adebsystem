@@ -25,8 +25,10 @@
                     </v-tooltip>
                 </v-card-actions>
             </v-card>
-            <create-post/>
         </v-flex>
+
+      <create-post/>
+
     </div>
 </template>
 
