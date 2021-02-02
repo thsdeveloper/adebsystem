@@ -71,6 +71,8 @@ export default {
   components: { GoogleMapLoader },
   props: {
     mapa: { type: Boolean, default: false },
+    tipo: { type: Number, default: 1 },
+    IdUser: { type: Number, default: 0 },
     form: { type: Boolean, default: true },
     centerMap: {
       type: Object,
@@ -143,6 +145,9 @@ export default {
     },
     clickInfoMap (event) {
       console.log('click: ', event.lng())
+    },
+    buscarEnderecoUser(id){
+      this.$store.dispatch('endereco/buscaEnderecoUser', id)
     }
   },
   computed: {
@@ -154,7 +159,11 @@ export default {
     })
   },
   mounted () {
-    this.buscarEstados()
+    this.buscarEstados();
+    if(this.tipo == 2){
+      this.buscarEnderecoUser(this.IdUser);
+    }
+
   }
 
 }

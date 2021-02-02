@@ -9,17 +9,14 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Laravel\Scout\Searchable;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 
-class User extends Authenticatable implements JWTSubject, HasMedia
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     use HasRoles;
-    use HasMediaTrait;
     use SoftDeletes;
     use Searchable;
 
@@ -59,10 +56,6 @@ class User extends Authenticatable implements JWTSubject, HasMedia
      */
     public function getPhotoUrlAttribute()
     {
-        $mediaProfiles = $this->getMedia('profile');
-        if (count($mediaProfiles) > 0) {
-            return $mediaProfiles[0]->getFullUrl();
-        }
         return url('img/avatar-default.png');
     }
 

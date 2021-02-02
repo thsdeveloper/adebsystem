@@ -24,7 +24,6 @@ export const actions = {
         try {
             const {data} = await axios.get('/api/departments');
             commit(types.FETCH_DEPARTMENTS, { departments: data })
-
         }catch (e) {
             alert('Ocorreu um erro no departments')
         }

@@ -25,7 +25,6 @@
     <v-row>
       <v-col>
         <v-btn slot="activator" flat to="/settings/password">Alterar senha</v-btn>
-<!--        <avatar-upload-crop/>-->
       </v-col>
     </v-row>
   </v-container>
@@ -35,11 +34,9 @@
 import Form from 'vform'
 import {mapGetters} from 'vuex'
 import {VclFacebook, VclInstagram, VueContentLoading} from 'vue-content-loading';
-import AvatarUploadCrop from "../../components/AvatarUploadCrop";
 
 export default {
   components: {
-    AvatarUploadCrop,
     VueContentLoading
   },
   scrollToTop: false,
