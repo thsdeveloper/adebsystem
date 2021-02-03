@@ -25,7 +25,6 @@
     "lucascudo/laravel-pt-br-localization": "^1.0",
     "nexmo/laravel": "^2.3",
     "pusher/pusher-php-server": "~3.0",
-    "spatie/laravel-medialibrary": "^7.0.0",
     "spatie/laravel-permission": "^2.25",
     "tymon/jwt-auth": "^1.0.0-rc.2"
   },

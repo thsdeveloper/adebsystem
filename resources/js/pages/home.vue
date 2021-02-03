@@ -1,79 +1,99 @@
 <template>
-  <v-container>
-    <google-map/>
+  <v-container fluid>
     <v-row>
       <v-col>
-        <v-card>
-          <v-card-title>Crescimento nos últimos anos</v-card-title>
-          <v-card-text>
-            <apexchart type="bar" :options="options" :series="series"/>
-          </v-card-text>
+        <v-card color="purple" dark>
+          <div class="d-flex flex-no-wrap justify-space-between">
+            <div>
+              <v-card-title>487 Membros</v-card-title>
+              <v-card-subtitle>Total de membros ativos cadastrados em nossa base de dados.</v-card-subtitle>
+              <v-card-actions>
+                <v-btn class="ml-2" small outlined to="members/all">
+                  Ver Membros
+                </v-btn>
+              </v-card-actions>
+            </div>
+          </div>
         </v-card>
       </v-col>
       <v-col>
-        <v-card color="#385F73" dark>
-          <v-card-text class="white--text">
-            <div class="headline mb-2">AdebSystem 1.0</div>
-            Sistema Integrado de Gerenciamento da ADEB
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn text>Contato</v-btn>
-          </v-card-actions>
+        <v-card color="cyan" dark>
+          <div class="d-flex flex-no-wrap justify-space-between">
+            <div>
+              <v-card-title>125 visitas nos últimos 30 dias</v-card-title>
+              <v-card-subtitle>Total de visitantes nos últimos 30 dias. Aproveite para convidar mais pessoas.</v-card-subtitle>
+              <v-card-actions>
+                <v-btn class="ml-2" small outlined to="secretaria/visitantes">
+                  Ver Visitantes
+                </v-btn>
+              </v-card-actions>
+            </div>
+          </div>
         </v-card>
-        <v-card>
-          <v-card-title>Crescimento nos últimos anos</v-card-title>
-          <v-card-text>
-            <!--           <apexchart width="380" type="donut" :options="options" :series="series"></apexchart>-->
-          </v-card-text>
+      </v-col>
+      <v-col>
+        <v-card color="orange" dark>
+          <div class="d-flex flex-no-wrap justify-space-between">
+            <div>
+              <v-card-title>Agenda Oficial</v-card-title>
+              <v-card-subtitle>Confira os últimos eventos oficiais em todos o ministério.</v-card-subtitle>
+              <v-card-actions>
+                <v-btn class="ml-2" small outlined to="calendar">
+                  ver agenda
+                </v-btn>
+              </v-card-actions>
+            </div>
+          </div>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card color="purple" dark>
+          <div class="d-flex flex-no-wrap justify-space-between">
+            <div>
+              <v-card-title>Setor / Igrejas</v-card-title>
+              <v-card-subtitle>Tenha acesso fácil ao cadastro de igrejas e setores do ministério.</v-card-subtitle>
+              <v-card-actions>
+                <v-btn class="ml-2" small outlined to="setoresIgrejas/home">
+                  Ver Setores e Igrejas
+                </v-btn>
+              </v-card-actions>
+            </div>
+          </div>
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
 
-      </v-col>
-      <v-col>
-        <post-time-line/>
-      </v-col>
+    <v-row>
+<!--      <post-time-line></post-time-line>-->
     </v-row>
+
   </v-container>
 </template>
 
 <script>
 
-import PostTimeLine from '../components/PostTimeLine'
-import GoogleMap from '../components/GoogleMapLoader'
+import PostTimeLine from "../components/PostTimeLine";
 
 export default {
-  components: { GoogleMap, PostTimeLine },
+  components: {PostTimeLine},
   middleware: 'auth',
-  metaInfo () {
-    return { title: this.$t('home') }
+  metaInfo() {
+    return {title: this.$t('home')}
   },
-  data () {
+  data() {
     return {
-      itemsRotas: [],
-      options: {
-        chart: {
-          id: 'vuechart-example'
-        },
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
-        }
-      },
-      series: [{
-        name: 'series-1',
-        data: [30, 40, 45, 50, 49, 60, 70, 91]
-      }]
+
     }
   },
-  created () {
-    this.$router.options.routes.forEach(route => {
-      this.itemsRotas.push({
-        name: route.name, path: route.path
-      })
-    })
+  methods: {
+
+
+  },
+  created() {
+
+  },
+  mounted() {
+
   }
 }
 </script>

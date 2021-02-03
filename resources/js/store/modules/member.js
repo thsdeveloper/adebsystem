@@ -156,6 +156,19 @@ export const actions = {
     }
   },
 
+  async editarMembro ({ commit }, form) {
+    try {
+      const { data } = await axios.post('/api/membro/editar', form)
+    } catch (e) {
+      swal({
+        type: 'error',
+        title: e.response.data.erros[0],
+        text: e.response.data.code + ' | ' + e.response.data.msg,
+        confirmButtonText: 'Ok',
+      })
+    }
+  },
+
   async fetchGenders ({ commit }) {
     try {
       const { data } = await axios.get('/api/membro/genders')

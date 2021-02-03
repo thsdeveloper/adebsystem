@@ -98,20 +98,23 @@ Route::group(['middleware' => 'guest:api'], function () {
 
 Route::get('/states', 'AddressController@getStates');
 Route::get('/states/{id}/cities', 'AddressController@getCities');
+Route::get('/endereco/user/{id}', 'AddressController@getUserEndereco');
+
 //Deppartments
 Route::get('/departments', 'DepartmentsController@getAll');
+
 //Membros
 Route::prefix('membro')->group(function () {
     Route::get('marital-status', 'MembroController@getTiposEstadoCivil');
     Route::get('genders', 'MembroController@getGeneros');
     Route::get('schoolings', 'MembroController@getNiveisEscolaridade');
     Route::post('cadastrar', 'MembroController@inserir');
+    Route::post('editar', 'MembroController@editar');
     Route::get('visualizar/{id}', 'MembroController@visualizarMembroPorId');
     Route::post('desativar', 'MembroController@desativarMembro');
     Route::get('situacoes', 'MembroController@situacoesMembros');
     Route::post('tesoureiros', 'MembroController@getTesoureiros');
     Route::post('buscar-cadastro-membro-cpf', 'MembroController@getCadastroCpf');
-
     Route::get('enviar-email', 'MembroController@enviarNotification');
 });
 //Cargo Funções
