@@ -44,7 +44,7 @@ mix.webpackConfig({
   },
   output: {
     chunkFilename: 'js/[name].[chunkhash].js',
-    jsonpFunction : 'ThirdPartyServicesShouldNamespaceStuff',
+    jsonpFunction: 'ThirdPartyServicesShouldNamespaceStuff',
     publicPath: mix.config.hmr ? '//localhost:8080' : '/'
   }
 });

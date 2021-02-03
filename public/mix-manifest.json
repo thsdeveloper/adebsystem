@@ -1,8 +1,18 @@
 {
-    "/js/lang-zh-CN.3a7a09a99830de9f4b4d.js": "/js/lang-zh-CN.3a7a09a99830de9f4b4d.js",
-    "/js/lang-pt.2630f69cd6c83618c7c0.js": "/js/lang-pt.2630f69cd6c83618c7c0.js",
-    "/js/lang-es.ac78d062b6685e4dc854.js": "/js/lang-es.ac78d062b6685e4dc854.js",
-    "/js/lang-en.416ecc0fa2d98f4319d4.js": "/js/lang-en.416ecc0fa2d98f4319d4.js",
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/js/lang-zh-CN.40868b4fd72277e34ce8.js": "/js/lang-zh-CN.40868b4fd72277e34ce8.js?id=9e9e3d668bc535a7800e",
+    "/js/lang-zh-CN.40868b4fd72277e34ce8.js.map": "/js/lang-zh-CN.40868b4fd72277e34ce8.js.map?id=822e98c68c5444bd80da",
+    "/js/lang-pt.8bbb900fbd03c53b4ed0.js": "/js/lang-pt.8bbb900fbd03c53b4ed0.js?id=a6393b26d260aa511c33",
+    "/js/lang-pt.8bbb900fbd03c53b4ed0.js.map": "/js/lang-pt.8bbb900fbd03c53b4ed0.js.map?id=b0715690d53d44c15193",
+    "/js/lang-es.1619007d4280f046cf2b.js": "/js/lang-es.1619007d4280f046cf2b.js?id=0d01e7aa3be10095df40",
+    "/js/lang-es.1619007d4280f046cf2b.js.map": "/js/lang-es.1619007d4280f046cf2b.js.map?id=2fc645cfa5a0fd26a733",
+    "/js/lang-en.cb1a89513f49fbf06394.js": "/js/lang-en.cb1a89513f49fbf06394.js?id=d49070fbb9c05eaa8a97",
+    "/js/lang-en.cb1a89513f49fbf06394.js.map": "/js/lang-en.cb1a89513f49fbf06394.js.map?id=f09f888936e27f122ecf",
+    "/js/app.js": "/js/app.js?id=7391b3b06c87502c1483",
+    "/css/app.css": "/css/app.css?id=87e896964bc02a3e6980",
+    "/js/app.js.map": "/js/app.js.map?id=537d9bd362da186bb069",
+    "/css/app.css.map": "/css/app.css.map?id=a0b177af8797b60fa863",
+    "/js/vendor.js": "/js/vendor.js?id=6d1f4c4bfeac83194740",
+    "/js/vendor.js.map": "/js/vendor.js.map?id=d9f4d6b6c757c451978f",
+    "/js/manifest.js": "/js/manifest.js?id=0cee50877da7ebf62081",
+    "/js/manifest.js.map": "/js/manifest.js.map?id=f6ad2b69e6fb691837be"
 }
