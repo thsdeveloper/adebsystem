@@ -30,9 +30,6 @@ class NovoMembroNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        if(app()->environment('production')){
-            return ['mail', 'nexmo'];
-        }
         return ['mail'];
     }
 
