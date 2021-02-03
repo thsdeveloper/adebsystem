@@ -57,7 +57,6 @@ export const mutations = {
   },
 
   [types.ATUALIZAR_ESTADO] (state, uf) {
-    console.log('Chegou o que??', state, uf)
     state.enderecoViaCep.uf = uf
   },
 
@@ -149,6 +148,22 @@ export const actions = {
       }
     } catch (e) {
       console.error('103', e);
+    }
+  },
+
+  async buscaEnderecoUser({state, commit, dispatch }, id) {
+    try {
+      const { data } = await axios.get('/api/endereco/user/' + id);
+      console.log(data);
+      state.enderecoViaCep.cep = data.cep;
+      state.enderecoViaCep.bairro = data.neighborhood;
+      state.enderecoViaCep.numero = data.number;
+      state.enderecoViaCep.logradouro = data.address;
+      state.enderecoViaCep.uf = data.state_id;
+      dispatch('buscarCEP', data.cep);
+      // commit(types.BUSCAR_CIDADES_NATURALIDADE, data)
+    } catch (e) {
+      alert('Ocorreu um erro na busca de cidades DA NATURALIDADE')
     }
   },
 

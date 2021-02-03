@@ -1,106 +1,111 @@
 <template>
-    <v-dialog v-model="dialog" width="600">
-        <v-btn slot="activator" dark fab fixed bottom right color="primary"><v-icon>add</v-icon></v-btn>
-
+  <div>
+    <v-row justify="center">
+      <v-dialog v-model="dialog" persistent fullscreen>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn dark fab fixed bottom right color="primary" v-bind="attrs" v-on="on">
+            <v-icon>add</v-icon>
+          </v-btn>
+        </template>
         <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>
-                E aí, quais são as novidades?
-            </v-card-title>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="dialog = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Criar publicação</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <v-btn dark text @click="publicar()">
+                Publicar
+              </v-btn>
+            </v-toolbar-items>
+          </v-toolbar>
+          <v-card-text>
+            <v-container>
+              <v-form ref="form" v-model="valid" lazy-validation>
+                <v-row>
+                  <v-col cols="12" sm="12" md="12">
+                    <v-radio-group v-model="form.tipo" row :rules="rulesObrigatorio">
+                      <v-radio label="Publicação" value="publicacao"></v-radio>
+                      <v-radio label="Artigo" value="artigo"></v-radio>
+                      <v-radio label="Evento" value="evento"></v-radio>
+                    </v-radio-group>
+                  </v-col>
+                  <v-col cols="12" sm="12" md="12" v-model="form.titulo">
+                    <v-text-field label="Título da publicação" outlined :rules="rulesObrigatorio"></v-text-field>
+                  </v-col>
 
-            <v-card-text>
-                <v-text-field label="Escreva sua publicação!" v-model="form.text" :autofocus="true"></v-text-field>
-                <upload-btn :fileChangedCallback="fileChanged" flat color="fff">
-                    <template slot="icon">
-                        <v-icon>camera_alt</v-icon>
-                    </template>
-                </upload-btn>
+                  <v-col cols="12" sm="12" md="12" v-model="form.conteudo" :rules="rulesObrigatorio">
+                    <vue-editor v-if="form.tipo === 'artigo'" v-model="form.conteudo"/>
+                    <v-textarea v-else label="O que está pensando?" :rules="rulesObrigatorio"
+                                hint="Escreva suas informações referente a publicação aqui" outlined></v-textarea>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-btn fab dark small color="indigo">
+                      <v-icon dark>add_photo_alternate</v-icon>
+                    </v-btn>
+                    <v-btn fab dark small color="indigo">
+                      <v-icon dark>movie_creation</v-icon>
+                    </v-btn>
+                    <v-btn fab dark small color="indigo">
+                      <v-icon dark>attachment</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+                <v-btn dark text @click="publicar()">
+                  Publicar
+                </v-btn>
+              </v-form>
 
-                <div v-if="this.form.urlImage">
-                    <v-layout row wrap>
-                        <v-flex xs3 d-flex>
-                            <v-card flat tile class="d-flex">
-                                <v-img :src="this.form.urlImage"
-                                       lazy-src="form.urlImage"
-                                       aspect-ratio="1"
-                                       class="grey lighten-2">
-                                    <v-layout slot="placeholder" fill-height align-center justify-center ma-0>
-                                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                    </v-layout>
-                                </v-img>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
-                </div>
-            </v-card-text>
-
-            <v-divider></v-divider>
-
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" flat @click="dialog = false">Cancelar</v-btn>
-                <v-btn color="primary" @click="createPost()" :disabled="!form.text || !form.urlImage">Postar</v-btn>
-            </v-card-actions>
+            </v-container>
+          </v-card-text>
         </v-card>
-    </v-dialog>
+      </v-dialog>
+    </v-row>
+  </div>
 </template>
 
 <script>
-    import UploadButton from 'vuetify-upload-button';
+import {VueEditor} from "vue2-editor";
 
-    export default {
-        name: "CreatePost",
-        components: {
-            'upload-btn': UploadButton
-        },
-        data: () => ({
-            dialog: false,
-            form:{
-                text: '',
-                urlImage: '',
-            },
-        }),
-        created(){
-            this.listenForChanges();
-        },
-        methods: {
-            fileChanged(file) {
-                let reader = new FileReader();
-                let vm = this;
-                reader.onload = (e) => {
-                    vm.form.urlImage = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            },
-            createPost(){
-                this.$store.dispatch('post/createPost', this.form);
-                this.newPost = '';
-                this.dialog = false;
-            },
-            listenForChanges(){
-                Echo.channel('posts').listen('PostPublished', post => {
-                    console.log('Got event...');
-                    console.log(post);
+export default {
+  name: "CreatePost",
+  components: {
+    VueEditor
+  },
+  data() {
+    return {
+      documents: [],
+      dialog: false,
+      valid: false,
 
-                    if(! ('Notification' in window)) {
-                        alert('Web Notification is not supported');
-                        return;
-                    }
-                    Notification.requestPermission(permission => {
-                        let notification = new Notification('Novo post criado!', {
-                            body: post.text.text, // content for the alert
-                            icon: "https://pusher.com/static_logos/320x320.png" // optional image url
-                        });
-                        // link to page on clicking the notification
-                        notification.onclick = () => {
-                            window.open(window.location.href);
-                        };
-                    });
-                })
-            }
-        },
+      form: {
+        tipo: 'publicacao',
+        titulo: null,
+        conteudo: null,
+        dataPublicacao: null,
+        dataEvento: null,
+      },
+
+      rulesObrigatorio: [
+        v => !!v || 'O campo é obrigatório',
+      ],
     }
+  },
+  methods: {
+    publicar() {
+      if (this.$refs.form.validate()) {
+        let loader = this.$loading.show();
+        this.$store.dispatch('post/criarPublicacao', this.form).then(res => {
+          loader.hide();
+        });
+      }
+    },
+  },
+  firestore: {
+    // documents: this.db.collection('documents'),
+  },
+}
 </script>
-
-<style scoped>
-
-</style>

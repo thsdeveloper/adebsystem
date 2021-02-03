@@ -35,7 +35,9 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->guard()->logout();
+        if ($this->guard()->logout()) {
+            return response()->json(['data' => 'Usuário deslogado.'], 200);
+        }
     }
 
     /**
@@ -72,7 +74,7 @@ class LoginController extends Controller
         if ($user === null) {
             return false;
         }
-        if(!(Hash::check($request->password, $user->password))){
+        if (!(Hash::check($request->password, $user->password))) {
             return false;
         }
 
