@@ -5,11 +5,9 @@ import router from '~/router'
 import i18n from '~/plugins/i18n'
 import vuetify  from '~/plugins/vuetify'
 import App from '~/components/App'
-
+require('vue-moment')
 import InstantSearch from 'vue-instantsearch';
 Vue.use(InstantSearch);
-
-Vue.use(require('vue-moment'));
 
 import Loading from 'vue-loading-overlay';
 // Import stylesheet

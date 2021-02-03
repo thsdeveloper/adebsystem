@@ -36,7 +36,6 @@
     import { mapGetters } from 'vuex'
     import CreatePost from "../components/CreatePost";
     import VButton from "./Button";
-
     export default {
         name: "PostTimeLine",
         components: {VButton, CreatePost},

@@ -145,7 +145,7 @@
           </v-row>
           <v-divider/>
           <v-card-title>Endereço</v-card-title>
-          <session-enderecos tipo="2" :id-user="membro.id" />
+          <session-enderecos />
 
           <v-divider v-if="form.tipo_cadastro_id === 1"/>
           <v-card-title v-if="form.tipo_cadastro_id === 1">Dados Ministeriais</v-card-title>
@@ -211,8 +211,22 @@
               <v-btn outlined color="indigo" href="/img/POLITICA_DE_PRIVACIDADE_ADEB.pdf" target="_blank">Ler políticas
                 de privacidade
               </v-btn>
+              <v-btn outlined color="indigo"
+                     href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/L13709.htm" target="_blank">
+                Lei Geral de Proteção de Dados (LGPD).
+              </v-btn>
               <v-checkbox :rules="rules.campoObrigatorio" v-model="form.politicas"
-                          label="Aceito as políticas de privacidade."></v-checkbox>
+                          label="Eu li e aceito os Termos de Uso e a Política de Privacidade.">
+              </v-checkbox>
+              <v-checkbox :rules="rules.campoObrigatorio" v-model="form.lgpd"
+                          label="Eu autorizo que a ADEB realize o tratamento dos dados contidos neste formulário e os dados que inserirei no sistema, em conformidade com a Lei Geral de Proteção de Dados (LGPD)."></v-checkbox>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              De acordo com a <strong>Lei Geral de Proteção de Dados Pessoais (LGPD)</strong>, todas as informações
+              cadastrais e dados inseridos na Igreja Digital serão mantidos estritamente confidenciais e protegidos em
+              servidores de alta segurança, e jamais serão usados para outros fins nem compartilhados com terceiros.
             </v-col>
           </v-row>
           <v-row v-if="this.formPublico === true">
@@ -239,6 +253,7 @@
 import {mapGetters} from 'vuex'
 import swal from 'sweetalert2'
 import SessionEnderecos from './SessionEndereco'
+import moment from 'moment'
 
 export default {
   name: 'FormMembro',
@@ -339,6 +354,7 @@ export default {
 
       observacao: null,
       politicas: false,
+      lgpd: false,
     },
   }),
   methods: {
@@ -363,7 +379,7 @@ export default {
           }
         })
       } else {
-        this.$toasted.show('Alguns campos estão incorretos! Favor verifique.', {type: 'error'})
+        this.$toasted.show('Alguns campos estão incorretos! Favor verifique.', {type: 'error', position: 'top-center'})
       }
     },
     salvaMembro() {
@@ -385,7 +401,7 @@ export default {
           })
         })
       } else {
-        this.$toasted.show('Alguns campos estão incorretos! Favor verifique.', {type: 'error'})
+        this.$toasted.show('Alguns campos estão incorretos! Favor verifique.', {type: 'error', position: 'top-center'})
       }
     },
     executeEditarMembro() {
@@ -472,7 +488,7 @@ export default {
         this.form.rg = membro.details.rg
         this.form.marital_status_id = membro.details.marital_status_id
         this.form.gender_id = membro.details.gender_id
-        this.form.data_nascimento = membro.details.data_nascimento
+        this.form.data_nascimento = null
         this.form.schooling_id = membro.details.schooling_id
         this.form.profession_id = membro.details.profession_id
         this.form.nome_conjuge = membro.details.nome_conjuge
@@ -491,18 +507,22 @@ export default {
         this.form.departments = membro.details.departamentos
         this.form.trusts = membro.details.cargos
 
-        this.form.data_conversao = membro.details.data_conversao
-        this.form.data_batismo = membro.details.data_batismo
+        this.form.data_conversao = null
+        this.form.data_batismo = null
         this.form.forma_ingresso_id = membro.details.forma_ingresso_id
 
         this.form.cep = membro.details.endereco.cep
-        // this.form.estado = membro.details.endereco.cep;
+        this.form.estado = membro.details.endereco.state_id
+        this.form.cidade = membro.details.endereco.city_id
+        this.form.bairro = membro.details.endereco.neighborhood
+        this.form.address = membro.details.endereco.address
+        this.form.numero = membro.details.endereco.number
 
         //Cargos ministeriais
         this.form.cargo_ministerial_id = membro.details.cargo_ministerial_id
         this.form.uf_naturalidade = membro.details.uf_naturalidade
         this.form.cidade_naturalidade = membro.details.cidade_naturalidade
-        this.form.data_consagracao = membro.details.data_consagracao
+        this.form.data_consagracao = null
         this.form.curso_teologico_id = membro.details.curso_teologico_id
         this.form.convencao_igreja = membro.details.convencao_igreja
         this.form.cod_comadebg = membro.details.cod_comadebg
@@ -512,6 +532,7 @@ export default {
 
         this.form.observacao = membro.details.observacao
         this.form.politicas = true
+        this.form.lgpd = true
       })
     },
   },

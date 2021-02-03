@@ -19,6 +19,14 @@
     <div>
       <v-tabs-items v-model="tab">
         <v-tab-item>
+          <v-card flat color="basil">
+            <v-card-text>
+              <v-data-table :headers="headersSetor" :items="setores" :items-per-page="5"
+                            class="elevation-1" no-data-text="Nenhum setor cadastrado..."/>
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
           <v-card color="basil">
             <v-card-text>
               <v-data-table :search="search" :headers="headersIgreja" :items="igrejas" :items-per-page="5"
@@ -51,16 +59,6 @@
             </v-card-text>
           </v-card>
         </v-tab-item>
-
-        <v-tab-item>
-          <v-card flat color="basil">
-            <v-card-text>
-              <v-data-table :headers="headersSetor" :items="setores" :items-per-page="5"
-                            class="elevation-1" no-data-text="Nenhum setor cadastrado..."/>
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-
       </v-tabs-items>
 
       <v-fab-transition>
@@ -151,9 +149,9 @@ export default {
     activeFab() {
       switch (this.tab) {
         case 0:
-          return {color: 'success', icon: 'add', url: 'cadastrar-igreja'}
-        case 1:
           return {color: 'red', icon: 'add', url: 'cadastrar-setor'}
+        case 1:
+          return {color: 'success', icon: 'add', url: 'cadastrar-igreja'}
         default:
           return {}
       }

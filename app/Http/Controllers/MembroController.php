@@ -181,6 +181,7 @@ class MembroController extends Controller
             $user->password = Hash::make($cpf);
 
             if ($user->save()) {
+
                 $address = Address::find($request->form['user_id']);
                 $address->cep = $cep;
                 $address->state_id = $state->id;
@@ -189,6 +190,7 @@ class MembroController extends Controller
                 $address->number = $request->endereco['numero'];
                 $address->neighborhood = $request->endereco['bairro'];
                 $address->user_id = $user->id;
+
                 if ($address->save()) {
                     $user_detail = UserDetail::find($request->form['user_id']);
                     $user_detail->tipo_cadastro_id = $request->form['tipo_cadastro_id'];

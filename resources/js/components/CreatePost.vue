@@ -31,13 +31,13 @@
                       <v-radio label="Evento" value="evento"></v-radio>
                     </v-radio-group>
                   </v-col>
-                  <v-col cols="12" sm="12" md="12" v-model="form.titulo" :rules="rulesObrigatorio">
-                    <v-text-field label="Título da publicação" outlined></v-text-field>
+                  <v-col cols="12" sm="12" md="12" v-model="form.titulo">
+                    <v-text-field label="Título da publicação" outlined :rules="rulesObrigatorio"></v-text-field>
                   </v-col>
 
                   <v-col cols="12" sm="12" md="12" v-model="form.conteudo" :rules="rulesObrigatorio">
                     <vue-editor v-if="form.tipo === 'artigo'" v-model="form.conteudo"/>
-                    <v-textarea v-else label="O que está pensando?"
+                    <v-textarea v-else label="O que está pensando?" :rules="rulesObrigatorio"
                                 hint="Escreva suas informações referente a publicação aqui" outlined></v-textarea>
                   </v-col>
                 </v-row>
@@ -77,6 +77,7 @@ export default {
   },
   data() {
     return {
+      documents: [],
       dialog: false,
       valid: false,
 
@@ -96,13 +97,15 @@ export default {
   methods: {
     publicar() {
       if (this.$refs.form.validate()) {
-        alert('opa esta valido')
         let loader = this.$loading.show();
         this.$store.dispatch('post/criarPublicacao', this.form).then(res => {
           loader.hide();
         });
       }
     },
+  },
+  firestore: {
+    // documents: this.db.collection('documents'),
   },
 }
 </script>

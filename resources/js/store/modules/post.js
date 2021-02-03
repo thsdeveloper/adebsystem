@@ -1,7 +1,6 @@
 import * as types from '../mutation-types'
 import axios from "axios";
-import firebase from '../firebaseConfig';
-const db = firebase.firestore();
+// const db = firebase.firestore();
 
 // state
 export const state = {
@@ -37,7 +36,7 @@ export const actions = {
   },
   async criarPublicacao({commit}, publicacao) {
     try {
-      const {data} = await db.collection("informativos").add(publicacao).then(() => {
+      const {data} = await db.collection("posts").add({sdsd: publicacao}).then(() => {
         console.log("Document successfully written!");
       }).catch((error) => {
         console.error("Error writing document: ", error);
