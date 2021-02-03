@@ -281,7 +281,7 @@ export default {
       {id: 1, nome: 'Aclamação - Aceito sem carta'},
       {id: 2, nome: 'Novo Convertido - Por meio do batismo'},
       {id: 3, nome: 'Transferência - Aceito com carta de recomendação'},
-      {id: 4, nome: 'Nacido na Igreja'},
+      {id: 4, nome: 'Nascido na Igreja'},
       {id: 5, nome: 'Outros'},
     ],
 
