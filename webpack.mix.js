@@ -8,27 +8,11 @@ mix
   .js('resources/js/app.js', 'public/js')
   .sass('resources/sass/app.scss', 'public/css')
   .sourceMaps();
-
+mix.version();
 if (mix.inProduction()) {
   mix.version();
 
-  mix.extract([
-    'vue',
-    'vform',
-    'axios',
-    'vuex',
-    'jquery',
-    'popper.js',
-    'vue-i18n',
-    'vue-meta',
-    'js-cookie',
-    'bootstrap',
-    'vue-router',
-    'sweetalert2',
-    'vuex-router-sync',
-    '@fortawesome/vue-fontawesome',
-    '@fortawesome/fontawesome-svg-core'
-  ])
+
 }
 
 mix.webpackConfig({
@@ -44,7 +28,5 @@ mix.webpackConfig({
   },
   output: {
     chunkFilename: 'js/[name].[chunkhash].js',
-    jsonpFunction: 'ThirdPartyServicesShouldNamespaceStuff',
-    publicPath: mix.config.hmr ? '//localhost:8080' : '/'
   }
 });

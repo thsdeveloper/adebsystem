@@ -9,7 +9,7 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "lint": "eslint --fix --ext .js,.vue resources/js",
-    "start": "npm run production"
+    "heroku-postbuild": "npm run prod"
   },
   "engines": {
     "node": "10.23.0",
