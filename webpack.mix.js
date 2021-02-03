@@ -1,7 +1,5 @@
 const path = require('path');
 const mix = require('laravel-mix');
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-
 mix.config.vue.esModule = true;
 
 mix
