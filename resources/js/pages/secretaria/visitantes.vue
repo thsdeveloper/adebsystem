@@ -46,7 +46,7 @@
                                 required></v-text-field>
                 </v-col>
                 <v-col cols="12" xs="12" sm="12" md="4">
-                  <v-text-field v-model="form.email" :rules="emailRules" outlined label="Email do visitante"
+                  <v-text-field v-model="form.email" :rules="emailRules" outlined label="Email dos visitante"
                                 hint="Email válido para envio de notificações"></v-text-field>
                 </v-col>
                 <v-col cols="12" xs="12" sm="12" md="4">
