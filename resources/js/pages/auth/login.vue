@@ -79,6 +79,7 @@ export default {
   methods: {
     async login() {
       if (this.$refs.form.validate()) {
+        let loader = this.$loading.show()
         const data = await this.$store.dispatch('auth/login', this.form);
 
         if(data){
@@ -93,11 +94,9 @@ export default {
 
           // Redirect home.
           await this.$router.push({name: 'home'})
+          loader.hide()
         }
-
-
-
-
+        loader.hide()
       }
     }
   },
