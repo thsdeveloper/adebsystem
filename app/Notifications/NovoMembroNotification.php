@@ -46,7 +46,7 @@ class NovoMembroNotification extends Notification implements ShouldQueue
             ->greeting('Olá '.$notifiable->name.'. Paz do Senhor!')
             ->line('Seja muito bem vindo ao AdebSystem, o sistema de gerenciamento de membros da ADEB Setor 11 - Riacho Fundo.')
             ->line('Segue abaixo os seus dados de acesso ao sistema.')
-            ->line('Login: '.$notifiable->details->cpf)
+            ->line('Login: '.$notifiable->email)
             ->line('Senha: '.$notifiable->details->cpf)
             ->action('Acessar o sistema', url('/'))
             ->line('Obrigado por se cadastrar, em breve teremos novidades!');

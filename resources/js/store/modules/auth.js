@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import * as types from '../mutation-types'
+import swal from 'sweetalert2'
 
 // state
 export const state = {
@@ -75,6 +76,24 @@ export const actions = {
       });
       commit(types.FETCH_USERS_SUCCESS, {users: data});
       return data;
+    } catch (e) {
+      commit(types.FETCH_USER_FAILURE)
+    }
+  },
+
+  async login({commit}, form){
+    try {
+      const {data} = await axios.post('/api/login', form).catch(error => {
+        console.error(error.response.data.errors.email[0])
+        swal({
+          type: 'error',
+          title: 'Ops! Acorreu algum erro!',
+          text: error.response.data.errors.email[0],
+        })
+      });
+      if(data){
+        return data;
+      }
     } catch (e) {
       commit(types.FETCH_USER_FAILURE)
     }
