@@ -135,8 +135,8 @@ class MembroController extends Controller
                     }
 
                     if ($user_detail->save()) {
-                        DB::commit();
                         $user->notify(new NovoMembroNotification());
+                        DB::commit();
                         return response()->json([
                             'status' => true,
                             'msg' => 'Membro cadastrado com sucesso!',
@@ -145,8 +145,6 @@ class MembroController extends Controller
                     }
                 }
             }
-
-
         } catch (ValidationException $exception) {
             return response()->json([
                 'status' => 'error',
