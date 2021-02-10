@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col>
+      <v-col cols="12" sm="6" md="3">
         <v-card color="purple" dark>
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
@@ -16,7 +16,7 @@
           </div>
         </v-card>
       </v-col>
-      <v-col>
+      <v-col cols="12" sm="6" md="3">
         <v-card color="cyan" dark>
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
@@ -31,7 +31,7 @@
           </div>
         </v-card>
       </v-col>
-      <v-col>
+      <v-col cols="12" sm="6" md="3">
         <v-card color="orange" dark>
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
@@ -46,7 +46,7 @@
           </div>
         </v-card>
       </v-col>
-      <v-col>
+      <v-col cols="12" sm="6" md="3">
         <v-card color="purple" dark>
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
@@ -64,7 +64,12 @@
     </v-row>
 
     <v-row>
-<!--      <post-time-line></post-time-line>-->
+      <v-col cols="12" md="6">
+        <post-time-line></post-time-line>
+      </v-col>
+      <v-col cols="12" md="6">
+        Aqui outra coisa...
+      </v-col>
     </v-row>
 
   </v-container>
