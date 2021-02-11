@@ -41,11 +41,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     //Relatórios
     Route::get('/relatorio/visitantes', 'ReportController@relatorioVisitantes');
 
-
+    Route::prefix('membro')->group(function () {
+        Route::get('/quantidade', 'MembroController@getNumeroMembros');
+        Route::get('/aniversariantes', 'MembroController@getAniversariantes');
+    });
 
     //Members
     Route::get('/pastores', 'UserController@getPastores');
-
 
 
     //Secretária

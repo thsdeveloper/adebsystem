@@ -21,11 +21,6 @@
     "npm": "6.14.8"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.22",
-    "@fortawesome/free-brands-svg-icons": "^5.10.2",
-    "@fortawesome/free-regular-svg-icons": "^5.10.2",
-    "@fortawesome/free-solid-svg-icons": "^5.10.2",
-    "@fortawesome/vue-fontawesome": "^0.1.7",
     "@mdi/font": "^4.2.95",
     "algoliasearch": "^3.35.1",
     "animate.css": "^3.7.2",
@@ -52,6 +47,7 @@
     "laravel-echo": "^1.5.4",
     "laravel-mix": "^2.1.11",
     "lottie-vuejs": "^0.3.7",
+    "material-design-icons-iconfont": "^6.1.0",
     "moment": "^2.24.0",
     "popper.js": "^1.15.0",
     "postinstall": "*",

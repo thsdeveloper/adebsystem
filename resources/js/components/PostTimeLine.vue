@@ -89,7 +89,6 @@ export default {
       if (val) {
         return moment(val).format('DD/MM/YYYY HH:mm')
       }
-
     }
   }
 }

@@ -231,7 +231,6 @@ class MembroController extends Controller
                     $trusts = $request->form['trusts'];
 
 
-
                     $depCount = (is_array($departaments) ? count($departaments) : 0);
                     if ($depCount > 0) {
                         $DepartamntosIds = [];
@@ -354,6 +353,29 @@ class MembroController extends Controller
         }
 
         return response()->json(false);
+    }
+
+    public function getNumeroMembros()
+    {
+        $users = User::get();
+        $UsersCount = $users->count();
+        return response()->json(['quantidade' => $UsersCount], 200);
+    }
+
+    public function getAniversariantes()
+    {
+        $doMes = now()->format('m');
+        $dados = UserDetail::aniversariantesEntre('' . $doMes . '-01', '' . $doMes . '-31')->get();
+
+        $total = $dados->count();
+
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dt = Carbon::now();
+        $mes = $dt->formatLocalized('%B');
+
+        return response()->json(['detalhes' => $dados, 'mesAtual'=> $mes, 'total'=> $total], 200);
     }
 
 }
