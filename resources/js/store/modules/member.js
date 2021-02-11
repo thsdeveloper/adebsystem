@@ -14,6 +14,7 @@ export const state = {
   newUser: null,
   situacoesmembros: null,
   tesoureiros: [],
+  aniversariantes: null
 }
 
 // getters
@@ -28,6 +29,7 @@ export const getters = {
   cargosMinisteriais: state => state.cargosMinisteriais,
   situacoesmembros: state => state.situacoesmembros,
   tesoureiros: state => state.tesoureiros,
+  aniversariantes: state => state.aniversariantes,
 }
 
 // mutations
@@ -70,6 +72,10 @@ export const mutations = {
 
   [types.BUSCAR_SITUACOES_MEMBROS] (state, data) {
     state.situacoesmembros = data
+  },
+
+  [types.BUSCA_ANIVERSARIANTES] (state, data) {
+    state.aniversariantes = data
   },
 }
 
@@ -212,6 +218,24 @@ export const actions = {
       return data
     } catch (e) {
       alert('Ocorreu ao buscar os tesoureiros')
+    }
+  },
+
+  async buscarNumerosMembros ({ commit }) {
+    try {
+      const { data } = await axios.get('/api/membro/quantidade')
+      return data
+    } catch (e) {
+      alert('Ocorreu ao buscar os tesoureiros')
+    }
+  },
+
+  async buscarAniversariantes ({ commit }) {
+    try {
+      const { data } = await axios.get('/api/membro/aniversariantes')
+      commit(types.BUSCA_ANIVERSARIANTES, data)
+    } catch (e) {
+      alert('Ocorreu ao buscar dos aniversariantes');
     }
   },
 

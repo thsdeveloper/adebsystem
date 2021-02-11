@@ -3,13 +3,15 @@
     <v-img :aspect-ratio="16/9" src="/img/fachada_adeb.jpg" class="imagem-cover">
       <v-layout pa-2 column fill-height class="lightbox white--text">
         <v-spacer></v-spacer>
-        <v-flex shrink>
+        <v-col>
           <v-avatar size="40px" class="avatar-img">
             <img :src="user.photo_url" :alt="user.name">
           </v-avatar>
-          <div class="subheading">{{user.name}}</div>
-          <div class="body-1">{{user.email}}</div>
-        </v-flex>
+        </v-col>
+        <v-col>
+          <div class="subtitle-2">{{user.name}}</div>
+          <div class="body-2">{{user.email}}</div>
+        </v-col>
       </v-layout>
       <div class="fill-height repeating-gradient"></div>
     </v-img>
