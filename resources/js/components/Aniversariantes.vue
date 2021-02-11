@@ -7,25 +7,33 @@
           Aniversariantes do Mês
         </div>
       </v-card-title>
-      <v-card-subtitle>
-        Confira os {{aniversariantes.total}} aniversariantes do mês de <strong>{{ aniversariantes.mesAtual }}</strong>
+      <v-card-subtitle v-if="aniversariantes.total > 0">
+        Confira os {{ aniversariantes.total }} aniversariantes do mês de <strong>{{ aniversariantes.mesAtual }}</strong>
       </v-card-subtitle>
-      <v-list-item v-for="item in aniversariantes.detalhes" :key="item.user.id">
+      <v-divider></v-divider>
+
+      <v-list-item v-if="aniversariantes.total > 0" v-for="item in aniversariantes.detalhes" :key="item.user.id">
+        <v-list-item-avatar>
+          <v-img :src="item.user.photo_url"></v-img>
+        </v-list-item-avatar>
+
+
         <v-list-item-content>
-          <v-chip text-color="white" color="primary">
-            <v-avatar left>
-              <v-img :src="item.user.photo_url"></v-img>
-            </v-avatar> {{ item.data_nascimento | data}}
-          </v-chip>
           <v-list-item-title class="headline mb-1">
             {{ item.user.name }}
           </v-list-item-title>
-          <v-list-item-subtitle>{{ item.user.email }} | <span v-if="item.igreja">{{item.igreja.nome_igreja}}</span></v-list-item-subtitle>
+          <v-list-item-subtitle><strong>{{ item.data_nascimento | data }}</strong> | {{ item.user.email }} | <span
+            v-if="item.igreja">{{ item.igreja.nome_igreja }}</span></v-list-item-subtitle>
         </v-list-item-content>
+
       </v-list-item>
 
-      <v-card-actions>
-      </v-card-actions>
+
+      <v-card-text>
+        <div v-if="aniversariantes.total === 0">
+          <v-alert color="grey lighten-1" type="warning">Nenhum aniversariante neste mês</v-alert>
+        </div>
+      </v-card-text>
     </v-card>
   </div>
 </template>
