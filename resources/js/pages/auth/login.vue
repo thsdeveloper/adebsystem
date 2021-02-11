@@ -10,28 +10,37 @@
             </v-toolbar>
             <v-card-text>
 
-              <v-flex>
+              <v-col>
                 <v-text-field v-model="form.email" autofocus outlined label="Email:"
                               :rules="emailRules" placeholder="Digite o seu e-mail cadastrado"/>
-              </v-flex>
-
-              <v-flex>
+              </v-col>
+              <v-col>
                 <v-text-field v-model="form.password" outlined label="Senha:" :rules="rulesSenha" type="password" />
-              </v-flex>
+              </v-col>
 
-              <!-- Remember Me -->
-              <v-switch v-model="remember" name="remember" label="Lembrar dados de acesso"
-                        messages="Marque este opção para lembrar os dados de acesso.">
-              </v-switch>
+              <v-col>
+                <!-- Remember Me -->
+                <v-switch v-model="remember" name="remember" label="Lembrar dados de acesso"
+                          messages="Marque este opção para lembrar os dados de acesso.">
+                </v-switch>
+              </v-col>
 
-              <v-btn class="btnLogin" color="primary" block large rounded @click="login" :loading="form.busy" :disabled="!valid">
-                {{ $t('login') }}
-              </v-btn>
+             <v-col>
+               <v-btn class="btnLogin" color="primary" block large rounded @click="login" :loading="form.busy" :disabled="!valid">
+                 {{ $t('login') }}
+               </v-btn>
+             </v-col>
 
             </v-card-text>
             <v-card-actions>
-              <v-btn color="primary" text :to="{ name: 'password.request' }">{{ $t('forgot_password') }}</v-btn>
-              <v-btn color="primary" text to="/cadastrar">Cadastrar novo membro</v-btn>
+             <v-row>
+               <v-col>
+                 <v-btn color="primary" text :to="{ name: 'password.request' }">{{ $t('forgot_password') }}</v-btn>
+               </v-col>
+               <v-col>
+                 <v-btn color="primary" text to="/cadastrar">Cadastrar novo membro</v-btn>
+               </v-col>
+             </v-row>
             </v-card-actions>
           </v-form>
 

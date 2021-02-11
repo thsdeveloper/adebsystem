@@ -23,40 +23,26 @@
           <v-card-text>
             <v-container>
               <v-form ref="form" v-model="valid" lazy-validation>
-                <v-row>
+                <v-row class="p-5">
                   <v-col cols="12" sm="12" md="12">
-                    <v-radio-group v-model="form.tipo" row :rules="rulesObrigatorio">
-                      <v-radio label="Publicação" value="publicacao"></v-radio>
-                      <v-radio label="Artigo" value="artigo"></v-radio>
-                      <v-radio label="Evento" value="evento"></v-radio>
-                    </v-radio-group>
+                    <v-text-field v-model="form.titulo" label="Título da publicação" outlined
+                                  :rules="rulesObrigatorio"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="12" md="12" v-model="form.titulo">
-                    <v-text-field label="Título da publicação" outlined :rules="rulesObrigatorio"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" sm="12" md="12" v-model="form.conteudo" :rules="rulesObrigatorio">
-                    <vue-editor v-if="form.tipo === 'artigo'" v-model="form.conteudo"/>
-                    <v-textarea v-else label="O que está pensando?" :rules="rulesObrigatorio"
+                  <v-col cols="12" sm="12" md="12">
+                    <v-textarea v-model="form.conteudo" label="O que está pensando?" :rules="rulesObrigatorio"
                                 hint="Escreva suas informações referente a publicação aqui" outlined></v-textarea>
                   </v-col>
-                </v-row>
-                <v-row>
                   <v-col>
-                    <v-btn fab dark small color="indigo">
-                      <v-icon dark>add_photo_alternate</v-icon>
-                    </v-btn>
-                    <v-btn fab dark small color="indigo">
-                      <v-icon dark>movie_creation</v-icon>
-                    </v-btn>
-                    <v-btn fab dark small color="indigo">
-                      <v-icon dark>attachment</v-icon>
-                    </v-btn>
+                    <v-file-input counter accept="image/*" show-size small-chips truncate-length="50" placeholder="Escolha uma imagem para o post"
+                    v-model="image" @change="previewImage"></v-file-input>
+                    <v-img
+                      v-if="imagePreviewURL"
+                      :src="imagePreviewURL"
+                      max-height="300"
+                      max-width="317"
+                    ></v-img>
                   </v-col>
                 </v-row>
-                <v-btn dark text @click="publicar()">
-                  Publicar
-                </v-btn>
               </v-form>
 
             </v-container>
@@ -68,25 +54,27 @@
 </template>
 
 <script>
-import {VueEditor} from "vue2-editor";
+import {mapGetters} from "vuex";
 
 export default {
   name: "CreatePost",
-  components: {
-    VueEditor
-  },
   data() {
     return {
       documents: [],
       dialog: false,
       valid: false,
 
+      image: null,
+      imagePreviewURL: null,
+
       form: {
-        tipo: 'publicacao',
         titulo: null,
+        dataPublicacao: new Date(),
         conteudo: null,
-        dataPublicacao: null,
-        dataEvento: null,
+        user: {},
+        urlImage: null,
+        likes: 0,
+        rating: 0,
       },
 
       rulesObrigatorio: [
@@ -98,14 +86,32 @@ export default {
     publicar() {
       if (this.$refs.form.validate()) {
         let loader = this.$loading.show();
-        this.$store.dispatch('post/criarPublicacao', this.form).then(res => {
+        this.$store.dispatch('post/criarPublicacao', {form: this.form, image: this.image}).then(res => {
           loader.hide();
+          this.dialog = false;
+        }).catch(error => {
+          console.error(error);
         });
       }
     },
+
+    previewImage(event) {
+      const file = event; // in case vuetify file input
+      if (file) {
+        this.imagePreviewURL = URL.createObjectURL(file);
+        URL.revokeObjectURL(file); // free memory
+      } else {
+        this.imagePreviewURL =  null
+      }
+    },
   },
-  firestore: {
-    // documents: this.db.collection('documents'),
+  computed: {
+    ...mapGetters({
+      usuario: 'auth/user',
+    }),
   },
+  created() {
+    this.form.user = this.usuario;
+  }
 }
 </script>

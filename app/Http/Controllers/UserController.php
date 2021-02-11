@@ -34,6 +34,8 @@ class UserController extends Controller
             'details.igreja.setor',
             'details.tipoCadastro')
             ->where('status_id', '!=', Config::get('constants.USER.MEMBRO_INATIVO'))->orderBy('created_at', 'DESC')->paginate($request->itemsPerPage); //2 - Inativo
+
+
         return response()->json($users, 200);
     }
 

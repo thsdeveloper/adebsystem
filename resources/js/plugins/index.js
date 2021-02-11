@@ -1,5 +1,4 @@
 import './axios'
-import './fontawesome'
 import './bootstrap'
 import './googlemaps'
 import './vue-toasted'

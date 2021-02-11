@@ -1,37 +1,36 @@
 <template>
     <v-container fluid>
-        <!--    <v-row>-->
-        <!--      <v-col>-->
-        <!--        <v-text-field v-model="form.nomeMembro" label="Nome membro" placeholder="Pesquisar por nome" outlined></v-text-field>-->
-        <!--      </v-col>-->
-        <!--      <v-col>-->
-        <!--        <v-select dense v-model="form.setor_id" :items="setores" outlined-->
-        <!--                  label="Escolha o Setor" item-text="codigo_setor"-->
-        <!--                  @change="buscaIgreja" item-value="id">-->
-        <!--        </v-select>-->
-        <!--      </v-col>-->
-        <!--      <v-col>-->
-        <!--        <v-autocomplete dense v-model="form.igreja_id" :items="igrejas" outlined-->
-        <!--                        label="Escolha a Igreja" item-text="nome_igreja" item-value="id"-->
-        <!--                        hint="Selecione a igreja do membro"-->
-        <!--                        no-data-text="Não encontramos esta igreja">-->
-        <!--        </v-autocomplete>-->
-        <!--      </v-col>-->
-        <!--      <v-col>-->
-        <!--        <v-select dense v-model="form.situacao_id" :items="situacoesmembros" label="Situação do membro" outlined-->
-        <!--                  item-text="nome" item-value="id" required></v-select>-->
-        <!--      </v-col>-->
-        <!--      <v-col>-->
-        <!--        <v-btn text outlined color="primary" block @click="getUsersApi()">Buscar membros</v-btn>-->
-        <!--      </v-col>-->
-        <!--    </v-row>-->
+            <v-row>
+              <v-col>
+                <v-text-field v-model="form.nomeMembro" dense label="Nome membro" placeholder="Pesquisar por nome" outlined></v-text-field>
+              </v-col>
+              <v-col>
+                <v-select dense v-model="form.setor_id" :items="setores" outlined
+                          label="Escolha o Setor" item-text="codigo_setor"
+                          @change="buscaIgreja" item-value="id">
+                </v-select>
+              </v-col>
+              <v-col>
+                <v-autocomplete dense v-model="form.igreja_id" :items="igrejas" outlined
+                                label="Escolha a Igreja" item-text="nome_igreja" item-value="id"
+                                hint="Selecione a igreja do membro"
+                                no-data-text="Não encontramos esta igreja">
+                </v-autocomplete>
+              </v-col>
+              <v-col>
+                <v-select dense v-model="form.situacao_id" :items="situacoesmembros" label="Situação do membro" outlined
+                          item-text="nome" item-value="id" required></v-select>
+              </v-col>
+              <v-col>
+                <v-btn text outlined color="primary" block @click="getUsersApi()">Buscar membros</v-btn>
+              </v-col>
+            </v-row>
         <v-row>
             <v-col>
-
                 <v-data-table
                         :headers="headers"
                         :items="membros"
-                        :search="search"
+                        :search="form.nomeMembro"
                         :options.sync="options"
                         :server-items-length="totalMembros"
                         :loading="loading"
@@ -41,7 +40,6 @@
 
                     <template v-slot:item.photo_url="{ item }">
                         <v-avatar size="30px">
-<!--                          {{item.photo_url}}-->
                             <img :src="item.photo_url" alt="Imagem de Perfil">
                         </v-avatar>
                     </template>
@@ -57,9 +55,6 @@
                                 <v-list-item :to="'detail/'+item.id">
                                     <v-list-item-title>Visualizar perfil</v-list-item-title>
                                 </v-list-item>
-<!--                                <v-list-item @click="">-->
-<!--                                    <v-list-item-title>Emitir carta de recomendação</v-list-item-title>-->
-<!--                                </v-list-item>-->
                                 <v-list-item @click="">
                                     <v-list-item-title @click="editarMembro(item)">Editar</v-list-item-title>
                                 </v-list-item>
@@ -90,7 +85,6 @@
         totalMembros: 0,
         membros: [],
         loading: false,
-        search: '',
         options: {},
         headers: [
           {
