@@ -1,12 +1,12 @@
 <?php
-
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Faker\Factory as FactoryFaker;
 
 class PostsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

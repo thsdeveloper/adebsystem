@@ -1,17 +1,18 @@
 <?php
-
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class SchoolingsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */
     public function run()
     {
-        DB::table('user_details', 'schoolings')->truncate();
+//        DB::table('user_details', 'schoolings')->truncate();
         DB::table('schoolings')->insert([
             [
                 'name' => 'Analfabeto',

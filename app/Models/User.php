@@ -115,6 +115,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Address::class);
     }
 
+    public function setor()
+    {
+        return $this->belongsTo(Setor::class);
+    }
+
     public function isRoleAdmin()
     {
         return response()->json($this->hasRole('admin'));

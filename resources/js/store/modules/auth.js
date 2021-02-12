@@ -6,7 +6,6 @@ import swal from 'sweetalert2'
 // state
 export const state = {
   user: null,
-  users: null,
   token: Cookies.get('token'),
   drawer: null,
   permissions: null
@@ -15,7 +14,6 @@ export const state = {
 // getters
 export const getters = {
   user: state => state.user,
-  users: state => state.users,
   token: state => state.token,
   check: state => state.user !== null,
   drawer: state => state.drawer,
@@ -27,10 +25,6 @@ export const mutations = {
   [types.SAVE_TOKEN](state, {token, remember}) {
     state.token = token
     Cookies.set('token', token, {expires: remember ? 365 : null})
-  },
-
-  [types.FETCH_USERS_SUCCESS](state, {users}) {
-    state.users = users
   },
 
   [types.TOGGLE_DRAWER](state) {
@@ -64,23 +58,6 @@ export const mutations = {
 
 // actions
 export const actions = {
-
-  async fetchUsers({commit}, options) {
-    console.log('Options Auth', options);
-    try {
-      const {data} = await axios.get('/api/users', {
-        params: {
-          page: options.page,
-          itemsPerPage: options.itemsPerPage,
-        }
-      });
-      commit(types.FETCH_USERS_SUCCESS, {users: data});
-      return data;
-    } catch (e) {
-      commit(types.FETCH_USER_FAILURE)
-    }
-  },
-
   async login({commit}, form){
     try {
       const {data} = await axios.post('/api/login', form).catch(error => {
