@@ -34,7 +34,7 @@
                         :options.sync="options"
                         :server-items-length="totalMembros"
                         :loading="loading"
-                        loading-text="Loading... Please wait"
+                        loading-text="Aguarde! Carregando..."
                         class="elevation-1">
 
 
@@ -48,7 +48,7 @@
                         <v-menu bottom left>
                             <template v-slot:activator="{ on }">
                                 <v-btn icon v-on="on">
-                                    <v-icon>mdi-dots-vertical</v-icon>
+                                    <v-icon>more_vert</v-icon>
                                 </v-btn>
                             </template>
                             <v-list dense>
@@ -139,8 +139,7 @@
         return new Promise((resolve, reject) => {
           const { sortBy, descending, page, itemsPerPage } = this.options
 
-          this.$store.dispatch('auth/fetchUsers', { page: page, itemsPerPage: itemsPerPage }).then(data => {
-            console.log('auth/fetchUsers', data)
+          this.$store.dispatch('member/buscarMembros', { page: page, itemsPerPage: itemsPerPage, form: this.form }).then(data => {
             let items = data.data
             const total = data.total
             this.loading = false

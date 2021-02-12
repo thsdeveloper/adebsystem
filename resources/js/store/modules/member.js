@@ -3,6 +3,7 @@ import axios from 'axios'
 import swal from 'sweetalert2'
 // state
 export const state = {
+  membros: null,
   professions: [],
   memberDetail: null,
   maritalStatus: null,
@@ -30,12 +31,17 @@ export const getters = {
   situacoesmembros: state => state.situacoesmembros,
   tesoureiros: state => state.tesoureiros,
   aniversariantes: state => state.aniversariantes,
+  membros: state => state.membros,
 }
 
 // mutations
 export const mutations = {
   [types.FETCH_PROFESSIONS] (state, { professions }) {
     state.professions = professions
+  },
+
+  [types.FETCH_USERS_SUCCESS](state, {users}) {
+    state.membros = users
   },
 
   [types.BUSCAR_TIPOS_CADASTROS] (state, { tiposCadastros }) {
@@ -81,6 +87,24 @@ export const mutations = {
 
 // actions
 export const actions = {
+
+  async buscarMembros({commit}, options) {
+    console.log('Options Auth', options);
+    try {
+      const {data} = await axios.get('/api/users', {
+        params: {
+          page: options.page,
+          itemsPerPage: options.itemsPerPage,
+          form: options.form
+        }
+      });
+      commit(types.FETCH_USERS_SUCCESS, {users: data});
+      return data;
+    } catch (e) {
+      commit(types.FETCH_USER_FAILURE)
+    }
+  },
+
   async fetchProfessions ({ commit }) {
     try {
       const { data } = await axios.get('/api/professions')

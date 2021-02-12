@@ -19,10 +19,10 @@
 
 
         <v-list-item-content>
-          <v-list-item-title class="headline mb-1">
-            {{ item.user.name }}
+          <v-list-item-title class="subtitle-1 mb-1">
+            <v-chip small><strong>{{ item.data_nascimento | data }}</strong></v-chip> {{ item.user.name }}
           </v-list-item-title>
-          <v-list-item-subtitle><strong>{{ item.data_nascimento | data }}</strong> | {{ item.user.email }} | <span
+          <v-list-item-subtitle>{{ item.user.email }} | <span
             v-if="item.igreja">{{ item.igreja.nome_igreja }}</span></v-list-item-subtitle>
         </v-list-item-content>
 
