@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b11a91aa1bd48df96b982cf87ec29a8",
+    "content-hash": "49213bd50779d8db3db88e3dfdeeca7a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1749,6 +1749,53 @@
                 "ui"
             ],
             "time": "2021-01-06T19:20:22+00:00"
+        },
+        {
+            "name": "laravellegends/pt-br-validator",
+            "version": "8.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelLegends/pt-br-validator.git",
+                "reference": "d41f9d3a9a4e1791dbf6c09f2070d6c6648c2fc7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelLegends/pt-br-validator/zipball/d41f9d3a9a4e1791dbf6c09f2070d6c6648c2fc7",
+                "reference": "d41f9d3a9a4e1791dbf6c09f2070d6c6648c2fc7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.0 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.0 || ^5.0 || ^6.0",
+                "phpunit/phpunit": "^8.3 || ^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelLegends\\PtBrValidator\\ValidatorProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LaravelLegends\\PtBrValidator\\": "src/pt-br-validator"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wallace de Souza Vizerra",
+                    "email": "wallacemaxters@gmail.com"
+                }
+            ],
+            "description": "Uma biblioteca contendo validações de formatos Brasileiros, para o Laravel",
+            "time": "2021-01-28T14:15:19+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -6897,53 +6944,6 @@
                 "webdriver"
             ],
             "time": "2021-02-09T16:14:48+00:00"
-        },
-        {
-            "name": "laravellegends/pt-br-validator",
-            "version": "8.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/LaravelLegends/pt-br-validator.git",
-                "reference": "d41f9d3a9a4e1791dbf6c09f2070d6c6648c2fc7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/LaravelLegends/pt-br-validator/zipball/d41f9d3a9a4e1791dbf6c09f2070d6c6648c2fc7",
-                "reference": "d41f9d3a9a4e1791dbf6c09f2070d6c6648c2fc7",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "^6.0 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^4.0 || ^5.0 || ^6.0",
-                "phpunit/phpunit": "^8.3 || ^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "LaravelLegends\\PtBrValidator\\ValidatorProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "LaravelLegends\\PtBrValidator\\": "src/pt-br-validator"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Wallace de Souza Vizerra",
-                    "email": "wallacemaxters@gmail.com"
-                }
-            ],
-            "description": "Uma biblioteca contendo validações de formatos Brasileiros, para o Laravel",
-            "time": "2021-01-28T14:15:19+00:00"
         },
         {
             "name": "mockery/mockery",
