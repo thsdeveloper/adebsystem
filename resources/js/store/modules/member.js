@@ -89,16 +89,22 @@ export const mutations = {
 export const actions = {
 
   async buscarMembros({commit}, options) {
-    console.log('Options Auth', options);
+    console.log('buscarMembros action', options);
     try {
       const {data} = await axios.get('/api/users', {
         params: {
           page: options.page,
           itemsPerPage: options.itemsPerPage,
-          form: options.form
+          'filter[name]': options.form.nome,
+          'filter[email]': options.form.email,
+          'filter[details.cpf]': options.form.cpf,
+          'filter[details.igreja.setor.nome_setor]': options.form.nome_setor,
+          'filter[details.igreja.nome_igreja]': options.form.nome_igreja,
+          'filter[departments.name]': options.form.nome_departamento,
+          'filter[trusts.name]': options.form.nome_funcao_igreja,
         }
       });
-      commit(types.FETCH_USERS_SUCCESS, {users: data});
+      // commit(types.FETCH_USERS_SUCCESS, {users: data});
       return data;
     } catch (e) {
       commit(types.FETCH_USER_FAILURE)

@@ -2,43 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
-use App\Models\City;
-use App\Models\Gender;
-use App\Models\MaritalStatu;
-use App\Models\Schooling;
-use App\Models\SituacoesMembro;
-use App\Models\State;
 use App\Models\User;
-use App\Models\UserDetail;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-use function GuzzleHttp\Promise\all;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $users = user::with('details.maritalStatus',
+        $dadosArray = ['details.maritalStatus',
             'details.schooling',
             'details.spouse',
-            'posts',
+            'trusts',
+            'departments',
             'situacaoMembro',
             'details.igreja.setor',
-            'details.tipoCadastro')
-            ->where('status_id', '!=', Config::get('constants.USER.MEMBRO_INATIVO'))
-            ->orderBy('created_at', 'DESC')
-            ->paginate($request->itemsPerPage); //2 - Inativo
+            'details.tipoCadastro'];
 
+        $users = QueryBuilder::for(User::class)
+            ->allowedFilters([
+                'name',
+                'email',
+                'details.cpf',
+                'details.igreja.nome_igreja',
+                'details.igreja.setor.nome_setor',
+                'departments.name',
+                'trusts.name'
+            ])
+            ->with($dadosArray)
+            ->allowedIncludes(['details'])
+            ->paginate($request->itemsPerPage);
 
         return response()->json($users, 200);
+
+
+
+//
+//        $dadosArray = ['details.maritalStatus',
+//            'details.schooling',
+//            'details.spouse',
+//            'posts',
+//            'situacaoMembro',
+//            'details.igreja.setor',
+//            'details.tipoCadastro'];
+//
+//        $users = user::with($dadosArray)
+//            ->where('status_id', '!=', Config::get('constants.USER.MEMBRO_INATIVO'))
+//            ->orderBy('created_at', 'DESC')
+//            ->paginate($request->itemsPerPage); //2 - Inativo
+//
+//
+//        return response()->json($users, 200);
     }
 
     public function getUser(Request $request)

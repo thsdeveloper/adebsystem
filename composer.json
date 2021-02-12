@@ -21,6 +21,7 @@
     "laravellegends/pt-br-validator": "^8.0",
     "nexmo/laravel": "^2.4",
     "spatie/laravel-permission": "^4.0",
+    "spatie/laravel-query-builder": "^3.3",
     "tymon/jwt-auth": "^1.0.1"
   },
   "require-dev": {
