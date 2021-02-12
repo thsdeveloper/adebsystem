@@ -69,6 +69,11 @@
         </v-list-item>
       </template>
     </v-list>
+    <template v-slot:append>
+      <div class="pa-2">
+        <v-chip>Versão: 1.3.0</v-chip>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 

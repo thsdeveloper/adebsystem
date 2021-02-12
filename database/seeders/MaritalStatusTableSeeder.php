@@ -1,17 +1,18 @@
 <?php
-
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class MaritalStatusTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */
     public function run()
     {
-        DB::table('user_details', 'marital_status')->truncate();
+//        DB::table('user_details', 'marital_status')->truncate();
         DB::table('marital_status')->insert([
             ['name' => 'Solteiro(a)', 'description' => 'Uma pessoa sem atribuições legais', 'status' => 1],
             ['name' => 'Casado(a)', 'description' => 'Que se encontra no estado de matrimônio.', 'status' => 1],
