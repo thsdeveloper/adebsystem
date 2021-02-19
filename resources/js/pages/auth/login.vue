@@ -9,7 +9,6 @@
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
-
               <v-row>
                 <v-col cols="12">
                   <v-text-field v-model="form.email" autofocus outlined label="Email:"
@@ -25,14 +24,14 @@
                   </v-btn>
                 </v-col>
               </v-row>
-              <v-row>
-                <v-col>
-                  <v-btn color="primary" block outlined :to="{ name: 'password.request' }">
-                    <v-icon left color="red">password</v-icon> Esqueceu a senha?</v-btn>
-                </v-col>
-                <v-col>
-                  <v-btn color="primary" block outlined to="/cadastrar">Cadastrar novo membro</v-btn>
-                </v-col>
+              <v-row class="pt-4">
+                 <v-col>
+                   <v-btn color="primary" block outlined :to="{ name: 'password.request' }">
+                     <v-icon left color="red">password</v-icon> Esqueceu a senha?</v-btn>
+                 </v-col>
+                 <v-col>
+                   <v-btn color="primary" block outlined to="/cadastrar">Cadastrar novo membro</v-btn>
+                 </v-col>
               </v-row>
 
             </v-card-text>
