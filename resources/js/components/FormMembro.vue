@@ -80,7 +80,7 @@
             </v-col>
             <v-col cols="12" md="4">
               <v-text-field v-model="form.nome_pai" label="Nome do pai"
-                            outlined :rules="rules.campoObrigatorio"/>
+                            outlined/>
             </v-col>
             <v-col cols="12" md="4">
               <v-text-field v-model="form.email" outlined label="Email" :rules="rules.emailRules"
@@ -126,11 +126,11 @@
             </v-col>
             <v-col cols="12" md="4">
               <v-text-field v-model="form.data_conversao" label="Data de Conversão" v-mask="maskDate"
-                            outlined :rules="rules.campoObrigatorio" clearable/>
+                            outlined clearable/>
             </v-col>
             <v-col cols="12" md="4">
               <v-text-field v-model="form.data_batismo" label="Data do Batismo" v-mask="maskDate"
-                            outlined :rules="rules.campoObrigatorio" clearable/>
+                            outlined clearable/>
             </v-col>
             <v-col cols="12" sm="4">
               <v-select
