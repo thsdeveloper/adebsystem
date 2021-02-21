@@ -15,7 +15,8 @@ export const state = {
   newUser: null,
   situacoesmembros: null,
   tesoureiros: [],
-  aniversariantes: null
+  aniversariantes: null,
+  membrosAlgolia: []
 }
 
 // getters
@@ -32,6 +33,7 @@ export const getters = {
   tesoureiros: state => state.tesoureiros,
   aniversariantes: state => state.aniversariantes,
   membros: state => state.membros,
+  membrosAlgolia: state => state.membrosAlgolia,
 }
 
 // mutations
@@ -82,6 +84,10 @@ export const mutations = {
 
   [types.BUSCA_ANIVERSARIANTES] (state, data) {
     state.aniversariantes = data
+  },
+
+  [types.BUSCA_MEMBROS_ALGOLIA] (state, data) {
+    state.membrosAlgolia = data
   },
 }
 
@@ -266,6 +272,15 @@ export const actions = {
       commit(types.BUSCA_ANIVERSARIANTES, data)
     } catch (e) {
       alert('Ocorreu ao buscar dos aniversariantes');
+    }
+  },
+
+  async buscarMembrosApiAlgolia ({ commit }, query) {
+    try {
+      const { data } = await axios.post('/api/search', {query: query})
+      commit(types.BUSCA_MEMBROS_ALGOLIA, data)
+    } catch (e) {
+      alert('Ocorreu ao buscar dados dos membros');
     }
   },
 

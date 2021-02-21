@@ -10,6 +10,8 @@ Vue.use(require('vue-moment'));
 import InstantSearch from 'vue-instantsearch';
 Vue.use(InstantSearch);
 
+
+
 import VueSocialSharing from 'vue-social-sharing'
 Vue.use(VueSocialSharing);
 
