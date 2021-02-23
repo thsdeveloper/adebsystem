@@ -9,7 +9,6 @@
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
-
               <v-col>
                 <v-text-field v-model="form.email" autofocus outlined label="Email:"
                               :rules="emailRules" placeholder="Digite o seu e-mail cadastrado"/>
