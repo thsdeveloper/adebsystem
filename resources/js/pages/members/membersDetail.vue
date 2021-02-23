@@ -1,100 +1,73 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col>
-        <v-flex xs12 sm12>
-          <v-card>
-            <v-toolbar dark color="primary">
-              <v-row>
-                <v-col>
-                  <v-avatar size="50" color="grey lighten-4">
-                    <img :src="member.photo_url" :tile="true" :alt="member.name">
-                  </v-avatar>
-                </v-col>
-                <v-col>
-                  <v-toolbar-title>{{member.name}}</v-toolbar-title>
-                </v-col>
-              </v-row>
-            </v-toolbar>
-            <v-img class="white--text" height="100px">
-              <v-container fill-height fluid>
-                <v-layout fill-height align-content-center>
-                  <v-flex md1>
-                    <v-avatar size="50" color="grey lighten-4">
-                      <img :src="member.photo_url" :tile="true" :alt="member.name">
-                    </v-avatar>
-                  </v-flex>
-                  <v-flex align-center flexbox>
-                    <span class="headline">{{member.name}}</span><br>
-                    <span class="body-1">{{member.email}}</span><br>
-                  </v-flex>
-                  <v-flex align-self-baseline>
-                    <v-btn color="primary" block>Enviar mensagem</v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-img>
-            <v-card-title>
-              <v-container fill-height fluid>
-                <v-layout>
-                  <v-flex md5>
-                    <div class="subtitle-1">
-                      <v-icon>card_giftcard</v-icon>
-                      {{member.details.data_nascimento}}
-                    </div>
-                    <div class="subtitle-1">
-                      <v-icon>account_balance_wallet</v-icon>
-                      CPF: {{member.details.cpf}}
-                    </div>
-                    <div class="subtitle-1">
-                      <v-icon>assignment_ind</v-icon>
-                      {{member.details.profession.name}}
-                    </div>
-                  </v-flex>
-                  <v-flex md4>
-                    sdsd
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-card-title>
-            <v-card-actions>
-              <!--<v-btn flat color="orange">Share</v-btn>-->
-              <!--<v-btn flat color="orange">Explore</v-btn>-->
-            </v-card-actions>
-          </v-card>
-        </v-flex>
+    <v-row v-if="member">
+      <v-col cols="12" lg="8">
+        <v-card class="mx-auto">
+          <v-img height="150" class="" src="/img/fachada_adeb.jpg" gradient="rgba(255,255,255, 0), rgba(0,0,0, 1)"></v-img>
+
+          <div class="mold-imageProfile">
+            <v-avatar size="100">
+              <img :src="member.photo_url" :alt="member.name">
+            </v-avatar>
+          </div>
+          <div class="caption mold-info white--text">
+            <span>Cadastrado em: {{member.created_at}}</span>
+            <span>Matrícula: {{member.matricula}}</span>
+          </div>
+
+
+          <v-card-title>
+            <div class="full-width pb-4">
+              <div>
+                {{ member.name }}
+              </div>
+              <div class="body-2">
+                {{ member.details.profession.name }} | {{ member.email }}
+              </div>
+            </div>
+
+            <div>
+              <v-btn text color="primary" outlined>
+                Informações de contato
+              </v-btn>
+            </div>
+          </v-card-title>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
-
-
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 
-  export default {
-    name: 'DetalheDoMebro',
-    methods: {
-      fetchUser () {
-        var id = this.$route.params.id
-        this.$store.dispatch('member/fetchMember', id)
-      }
-    },
-    mounted () {
-      this.fetchUser()
-    },
-    computed: {
-      ...mapGetters({
-        member: 'member/memberDetail',
-      }),
-    },
-    beforeMount () {
-      // console.log('IdUser', this.$route.params.userId)
+export default {
+  name: 'DetalheDoMebro',
+  methods: {
+    fetchUser() {
+      var id = this.$route.params.id
+      this.$store.dispatch('member/fetchMember', id)
     }
-  }
+  },
+  mounted() {
+    this.fetchUser()
+  },
+  computed: {
+    ...mapGetters({
+      member: 'member/memberDetail',
+    }),
+  },
+}
 </script>
 
 <style scoped>
+.full-width {
+  width: 100%;
+}
 
+.mold-imageProfile {
+  position: absolute;
+  top: 25px;
+  left: 10px;
+}
 </style>

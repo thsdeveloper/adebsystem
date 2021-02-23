@@ -1,8 +1,8 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <v-form ref="form" v-model="valid">
             <v-card>
-                <v-card-title class="">
+                <v-card-title>
                     <v-icon left>mdi-church</v-icon>
                     Cadastro de igreja
                 </v-card-title>
