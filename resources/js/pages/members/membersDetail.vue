@@ -50,6 +50,11 @@
                       <v-icon>assignment_ind</v-icon>
                       {{member.details.profession.name}}
                     </div>
+                    <div class="subtitle-1">
+                      <v-icon>assignment_ind</v-icon>
+                      Endereço:
+                      {{details.endereco}}
+                    </div>
                   </v-flex>
                   <v-flex md4>
                     sdsd
