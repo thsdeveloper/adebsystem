@@ -12,8 +12,8 @@
                       v-on:keyup.enter="getMembrosApi" clearable @click:clear="getMembrosApi()" outlined></v-text-field>
       </v-col>
       <v-col>
-        <v-text-field v-model="form.cpf" autofocus dense label="Pesquise por cpf"
-                      placeholder="Pesquisar por cpf"
+        <v-text-field v-model="form.cpf" autofocus dense label="Pesquise por CPF"
+                      placeholder="Pesquisar por CPF"
                       v-on:keyup.enter="getMembrosApi" clearable @click:clear="getMembrosApi()" outlined></v-text-field>
       </v-col>
       <v-col>
@@ -68,6 +68,10 @@
               <img :src="item.photo_url" alt="Imagem de Perfil">
             </v-avatar>
           </template>
+          
+          <template v-slot:item.created_at="{ item }">
+            {{item.created_at | datacerta}}
+          </template>
 
           <template v-slot:item.acoes="{ item }">
             <v-menu bottom left>
@@ -101,6 +105,7 @@
 <script>
 import {mapGetters} from 'vuex'
 import swal from 'sweetalert2'
+import moment from 'moment'
 
 export default {
   middleware: ['auth', 'permission'],
@@ -124,6 +129,7 @@ export default {
         {text: 'Congregação', value: 'details.igreja.nome_igreja'},
         {text: 'Situação', value: 'situacao_membro.nome'},
         {text: 'Tipo de Cadastro', value: 'details.tipo_cadastro.nome'},
+        {text: 'Data de Cadastro', value: 'created_at'},
         {text: 'Ações', value: 'acoes', sortable: false},
       ],
       form: {
@@ -137,7 +143,6 @@ export default {
       }
     }
   },
-
   watch: {
     options: {
       handler() {
@@ -236,5 +241,12 @@ export default {
       trusts: 'member/trusts',
     }),
   },
+  filters: {
+     datacerta(data){
+      if (data) {
+        return moment(data).format('DD/MM/YYYY HH:mm')
+      }
+    }
+  }
 }
 </script>

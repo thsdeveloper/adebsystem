@@ -50,6 +50,10 @@
                       <v-icon>assignment_ind</v-icon>
                       {{member.details.profession.name}}
                     </div>
+                    <div class="subtitle-1">
+                      <v-icon>assignment_ind</v-icon>
+                      Estado Civil: {{maritalStatu}}
+                    </div>
                   </v-flex>
                   <v-flex md4>
                     sdsd

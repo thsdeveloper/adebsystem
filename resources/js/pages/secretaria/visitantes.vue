@@ -33,6 +33,10 @@
         </v-tabs>
       </template>
 
+      <template v-slot:item.created_at="{ item }">
+            {{item.created_at | datacerta}}
+          </template>
+
     </v-toolbar>
 
     <v-tabs-items v-model="tab">
@@ -79,7 +83,7 @@
                 </v-col>
                 <v-col xs="12" sm="6" md="8" v-if="form.evangelico">
                   <v-text-field v-model="form.igreja" outlined
-                                label="Qual igreja o senhor(a) pertence?"></v-text-field>
+                                label="Qual igreja você frequenta?"></v-text-field>
                 </v-col>
                 <v-col cols="12">
                   <v-textarea
@@ -217,6 +221,7 @@ import {mapGetters} from "vuex";
 import swal from "sweetalert2";
 import * as types from "../../store/mutation-types";
 import RelatorioVisitantes from "../../components/RelatorioVisitantes";
+import moment from 'moment'
 
 export default {
   components: {RelatorioVisitantes},
@@ -395,13 +400,18 @@ export default {
     this.buscarVisitantes();
   },
   filters: {
-    // Filter definitions
+   datacerta(data){
+      if (data) {
+        return moment(data).format('DD/MM/YYYY HH:mm')
+      }
+    },
     verificaNull(value) {
       if (value === null) {
         return 'Nenhuma informação'
       }
       return value
     },
+    
     apresentado(value) {
       if (value) {
         return 'Apresentado!'
