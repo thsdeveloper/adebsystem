@@ -103,7 +103,7 @@
           <template v-slot:item.data-table-select="{ isSelected, select }">
             <v-simple-checkbox :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </template>
-          
+
           <template v-slot:item.created_at="{ item }">
             {{item.created_at | datacerta}}
           </template>
