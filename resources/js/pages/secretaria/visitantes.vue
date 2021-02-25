@@ -23,7 +23,6 @@
       <!--        <v-icon>mdi-dots-vertical</v-icon>-->
       <!--      </v-btn>-->
 
-
       <template v-slot:extension>
         <v-tabs v-model="tab" align-with-title>
           <v-tabs-slider color="yellow"></v-tabs-slider>
@@ -32,10 +31,6 @@
           </v-tab>
         </v-tabs>
       </template>
-
-      <template v-slot:item.created_at="{ item }">
-            {{item.created_at | datacerta}}
-          </template>
 
     </v-toolbar>
 
@@ -108,7 +103,10 @@
           <template v-slot:item.data-table-select="{ isSelected, select }">
             <v-simple-checkbox :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </template>
-
+          
+          <template v-slot:item.created_at="{ item }">
+            {{item.created_at | datacerta}}
+          </template>
 
           <template v-slot:item.apresentado="{ item }">
             <div v-if="item.autoriza_apresentacao">
