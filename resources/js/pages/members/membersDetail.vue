@@ -19,7 +19,7 @@
             </v-img>
             <v-col class="l-flex">
                   <v-chip>Situação: {{}}</v-chip>
-                  <v-chip>Tipo de Cadastro: {{}}</v-chip>
+                  <v-chip>Tipo de Cadastro: {{member.details.tipo_cadastro_id}}</v-chip>
                   <v-chip>Data de Cadastro: {{}}</v-chip>
             </v-col>
             <v-card-title>
@@ -152,7 +152,15 @@
                     </div>
                     <div class="subtitle-1">
                       <v-icon>room</v-icon>
-                      Endereço: {{member.details.endereco.address}}  Número: {{member.details.endereco.number}}  Cidade: {{member.details.endereco.city}}  Bairro: {{member.details.endereco.neighborhood}}
+                      Endereço: {{member.details.endereco.address}}  Número: {{member.details.endereco.number}}
+                    </div>
+                    <div class="subtitle-1">
+                    <v-icon>location_city</v-icon>
+                      Cidade: {{member.details.endereco.city}}
+                    </div>
+                    <div class="subtitle-1">
+                      <v-icon>apartment</v-icon>
+                        Bairro: {{member.details.endereco.neighborhood}}
                     </div>
                     <br />
                     <br />
@@ -180,7 +188,7 @@
                   <v-container>
                     <div class="subtitle-1">
                       <v-icon>notes</v-icon>
-                      Observações: gjgaladfjadgnjamgdfajgklklajdfçkjadsmvkladmnvjkadflmbafdklmaklçnbaknnfklvmadfkbnskvlgdhvijhnjfdnajlkvnladfadvaklvma{{member.details.observacao}}
+                      Observações: {{member.details.observacao}}
                     </div>
                   </v-container>
                 </v-row>
@@ -192,6 +200,9 @@
               <!--<v-btn flat color="orange">Share</v-btn>-->
               <!--<v-btn flat color="orange">Explore</v-btn>-->
             </v-card-actions>
+            <v-btn dark fab fixed bottom right large color="indigo">
+              <v-icon color="white">mode_edit</v-icon>                
+            </v-btn>
           </v-card>
         </v-flex>
       </v-col>
