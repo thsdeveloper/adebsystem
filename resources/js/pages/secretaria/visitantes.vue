@@ -23,7 +23,6 @@
       <!--        <v-icon>mdi-dots-vertical</v-icon>-->
       <!--      </v-btn>-->
 
-
       <template v-slot:extension>
         <v-tabs v-model="tab" align-with-title>
           <v-tabs-slider color="yellow"></v-tabs-slider>
@@ -79,7 +78,7 @@
                 </v-col>
                 <v-col xs="12" sm="6" md="8" v-if="form.evangelico">
                   <v-text-field v-model="form.igreja" outlined
-                                label="Qual igreja o senhor(a) pertence?"></v-text-field>
+                                label="Qual igreja você frequenta?"></v-text-field>
                 </v-col>
                 <v-col cols="12">
                   <v-textarea
@@ -105,6 +104,9 @@
             <v-simple-checkbox :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </template>
 
+          <template v-slot:item.created_at="{ item }">
+            {{item.created_at | datacerta}}
+          </template>
 
           <template v-slot:item.apresentado="{ item }">
             <div v-if="item.autoriza_apresentacao">
@@ -217,6 +219,7 @@ import {mapGetters} from "vuex";
 import swal from "sweetalert2";
 import * as types from "../../store/mutation-types";
 import RelatorioVisitantes from "../../components/RelatorioVisitantes";
+import moment from 'moment'
 
 export default {
   components: {RelatorioVisitantes},
@@ -395,13 +398,18 @@ export default {
     this.buscarVisitantes();
   },
   filters: {
-    // Filter definitions
+   datacerta(data){
+      if (data) {
+        return moment(data).format('DD/MM/YYYY HH:mm')
+      }
+    },
     verificaNull(value) {
       if (value === null) {
         return 'Nenhuma informação'
       }
       return value
     },
+    
     apresentado(value) {
       if (value) {
         return 'Apresentado!'
