@@ -207,12 +207,10 @@
       </v-col>
     </v-row>
   </v-container>
-
-
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 
   export default {
     name: 'DetalheDoMebro',
@@ -238,5 +236,13 @@
 </script>
 
 <style scoped>
+.full-width {
+  width: 100%;
+}
 
+.mold-imageProfile {
+  position: absolute;
+  top: 25px;
+  left: 10px;
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <v-form ref="form" v-model="valid">
             <v-card>
-                <v-card-title class="">
+                <v-card-title>
                     <v-icon left>mdi-cube</v-icon>
                     Cadastro de setor
                 </v-card-title>
