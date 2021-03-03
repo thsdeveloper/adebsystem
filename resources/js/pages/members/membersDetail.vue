@@ -156,7 +156,7 @@
                     </div>
                     <div class="subtitle-1">
                     <v-icon>location_city</v-icon>
-                      Cidade: {{member.details.endereco.city}}
+                      Cidade: {{}}
                     </div>
                     <div class="subtitle-1">
                       <v-icon>apartment</v-icon>
@@ -164,11 +164,10 @@
                     </div>
                     <br />
                     <br />
-                    <br />
                     <p></p>
                     <div class="subtitle-1">
                       <v-icon>group_add</v-icon>
-                      Forma de Ingresso na Igreja:{{member.details.forma_ingresso}}
+                      Forma de Ingresso na Igreja:{{}}
                     </div>
                     <div class="subtitle-1">
                       <v-icon>book_online</v-icon>
