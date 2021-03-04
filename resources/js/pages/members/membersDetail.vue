@@ -160,7 +160,7 @@
                     </div>
                     <div class="subtitle-1">
                     <v-icon>location_city</v-icon>
-                      Cidade: {{}}
+                      Cidade: {{member.details.endereco.city_id}}
                     </div>
                     <div class="subtitle-1">
                       <v-icon>apartment</v-icon>
