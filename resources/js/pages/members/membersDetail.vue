@@ -18,9 +18,9 @@
               </v-container>
             </v-img>
             <v-col class="l-flex">
-                  <v-chip>Situação: {{}}</v-chip>
-                  <v-chip>Tipo de Cadastro: {{}}</v-chip>
-                  <v-chip>Data de Cadastro: {{}}</v-chip>
+                  <v-chip>Situação: {{member.details.status}}</v-chip>
+                  <v-chip>Tipo de Cadastro: {{member.details.tipo_cadastro}}</v-chip>
+                  <v-chip>Data de Cadastro: {{created}}</v-chip>
             </v-col>
             <v-card-title>
               <v-container fill-height fluid>
@@ -65,7 +65,11 @@
                     </div>
                     <div class="subtitle-1">
                       <v-icon>work</v-icon>
-                      Cargo/Função: {{}}
+                      Cargo/Função: {{member.details.cargos_id_name}}
+                    </div>
+                    <div class="subtitle-1">
+                      <v-icon>groups</v-icon>
+                      Departamentos: {{}}
                     </div>
                     <v-subheader inset>Dados Ministeriais
                     </v-subheader>
@@ -81,7 +85,7 @@
                     </div>
                     <div class="subtitle-1">
                       <v-icon>how_to_reg</v-icon>
-                      Situação no Ministério: {{member.details.situacao_ministerio}}
+                      Situação no Ministério: {{}}
                     </div>
                     <p></p>
                     <p></p>
@@ -118,7 +122,7 @@
                     <p></p>
                     <div class="subtitle-1">
                       <v-icon>festival</v-icon>
-                      Igreja: {{}}
+                      Igreja: {{member.details.igreja.nome_igreja}}
                     </div>
                     <div class="subtitle-1">
                      <v-icon>book_online</v-icon>
@@ -152,15 +156,22 @@
                     </div>
                     <div class="subtitle-1">
                       <v-icon>room</v-icon>
-                      Endereço: {{member.details.endereco.address}}  Número: {{member.details.endereco.number}}  Cidade: {{member.details.endereco.city}}  Bairro: {{member.details.endereco.neighborhood}}
+                      Endereço: {{member.details.endereco.address}}  Número: {{member.details.endereco.number}}
                     </div>
-                    <br />
+                    <div class="subtitle-1">
+                    <v-icon>location_city</v-icon>
+                      Cidade: {{member.details.endereco.city_id}}
+                    </div>
+                    <div class="subtitle-1">
+                      <v-icon>apartment</v-icon>
+                        Bairro: {{member.details.endereco.neighborhood}}
+                    </div>
                     <br />
                     <br />
                     <p></p>
                     <div class="subtitle-1">
                       <v-icon>group_add</v-icon>
-                      Forma de Ingresso na Igreja:{{member.details.forma_ingresso}}
+                      Forma de Ingresso na Igreja:{{}}
                     </div>
                     <div class="subtitle-1">
                       <v-icon>book_online</v-icon>
@@ -180,7 +191,7 @@
                   <v-container>
                     <div class="subtitle-1">
                       <v-icon>notes</v-icon>
-                      Observações: gjgaladfjadgnjamgdfajgklklajdfçkjadsmvkladmnvjkadflmbafdklmaklçnbaknnfklvmadfkbnskvlgdhvijhnjfdnajlkvnladfadvaklvma{{member.details.observacao}}
+                      Observações: {{member.details.observacao}}
                     </div>
                   </v-container>
                 </v-row>
@@ -192,15 +203,20 @@
               <!--<v-btn flat color="orange">Share</v-btn>-->
               <!--<v-btn flat color="orange">Explore</v-btn>-->
             </v-card-actions>
+            <v-btn dark fab fixed bottom right large color="indigo">
+              <v-icon color="white">mode_edit</v-icon>                
+            </v-btn>
           </v-card>
         </v-flex>
       </v-col>
     </v-row>
   </v-container>
+          
+
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'DetalheDoMebro',
@@ -226,13 +242,5 @@ import {mapGetters} from 'vuex';
 </script>
 
 <style scoped>
-.full-width {
-  width: 100%;
-}
 
-.mold-imageProfile {
-  position: absolute;
-  top: 25px;
-  left: 10px;
-}
 </style>

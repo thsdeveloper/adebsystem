@@ -4,7 +4,9 @@
             <v-app-bar-nav-icon @click.native.stop="toggleDrawer"/>
             <span class="hidden-sm-and-down">AdebSystem</span>
         </v-toolbar-title>
-        <search-navigate/>
+        <v-text-field flat solo-inverted hide-details prepend-inner-icon="search"
+                      :label="$t('what_are_you_looking_for')"
+                      class="hidden-sm-and-down"/>
         <v-spacer/>
         <v-btn icon>
             <v-icon>apps</v-icon>
@@ -34,11 +36,9 @@
   import { mapGetters } from 'vuex'
   import Notification from './Notification'
   import algoliasearch from 'algoliasearch/lite'
-  import SearchNavigate from "./SearchNavigate";
 
   export default {
     components: {
-      SearchNavigate,
       Notification,
     },
 
