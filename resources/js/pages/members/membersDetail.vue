@@ -18,9 +18,9 @@
               </v-container>
             </v-img>
             <v-col class="l-flex">
-                  <v-chip>Situação: {{}}</v-chip>
-                  <v-chip>Tipo de Cadastro: {{member.details.tipo_cadastro_id}}</v-chip>
-                  <v-chip>Data de Cadastro: {{}}</v-chip>
+                  <v-chip>Situação: {{member.details.status}}</v-chip>
+                  <v-chip>Tipo de Cadastro: {{member.details.tipo_cadastro}}</v-chip>
+                  <v-chip>Data de Cadastro: {{created}}</v-chip>
             </v-col>
             <v-card-title>
               <v-container fill-height fluid>
@@ -65,7 +65,11 @@
                     </div>
                     <div class="subtitle-1">
                       <v-icon>work</v-icon>
-                      Cargo/Função: {{}}
+                      Cargo/Função: {{member.details.cargos_id_name}}
+                    </div>
+                    <div class="subtitle-1">
+                      <v-icon>groups</v-icon>
+                      Departamentos: {{}}
                     </div>
                     <v-subheader inset>Dados Ministeriais
                     </v-subheader>
@@ -81,7 +85,7 @@
                     </div>
                     <div class="subtitle-1">
                       <v-icon>how_to_reg</v-icon>
-                      Situação no Ministério: {{member.details.situacao_ministerio}}
+                      Situação no Ministério: {{}}
                     </div>
                     <p></p>
                     <p></p>
@@ -118,7 +122,7 @@
                     <p></p>
                     <div class="subtitle-1">
                       <v-icon>festival</v-icon>
-                      Igreja: {{}}
+                      Igreja: {{member.details.igreja.nome_igreja}}
                     </div>
                     <div class="subtitle-1">
                      <v-icon>book_online</v-icon>
@@ -156,7 +160,7 @@
                     </div>
                     <div class="subtitle-1">
                     <v-icon>location_city</v-icon>
-                      Cidade: {{}}
+                      Cidade: {{member.details.endereco.city_id}}
                     </div>
                     <div class="subtitle-1">
                       <v-icon>apartment</v-icon>
@@ -207,10 +211,12 @@
       </v-col>
     </v-row>
   </v-container>
+          
+
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'DetalheDoMebro',
@@ -236,13 +242,5 @@ import {mapGetters} from 'vuex';
 </script>
 
 <style scoped>
-.full-width {
-  width: 100%;
-}
 
-.mold-imageProfile {
-  position: absolute;
-  top: 25px;
-  left: 10px;
-}
 </style>

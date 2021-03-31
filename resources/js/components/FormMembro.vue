@@ -197,7 +197,7 @@
               <v-select v-model="form.situacao_ministerio_id" :items="siatuacoesNoMinisterio"
                         :rules="rules.campoObrigatorio"
                         label="Situação no Ministério" item-text="nome"
-                        item-value="id" outlined outlined/>
+                        item-value="id" outlined/>
             </v-col>
           </v-row>
           <v-row>

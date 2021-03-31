@@ -89,8 +89,8 @@ class MembroController extends Controller
                     $user_detail->nome_conjuge = $request->form['nome_conjuge'];
                     $user_detail->nome_pai = $request->form['nome_pai'];
                     $user_detail->nome_mae = $request->form['nome_mae'];
-                    $user_detail->data_conversao = ($request->form['data_conversao'] !== null) ? Carbon::createFromFormat('d/m/Y', $request->form['data_conversao']) : null;
-                    $user_detail->data_batismo = ($request->form['data_batismo'] !== null) ? Carbon::createFromFormat('d/m/Y', $request->form['data_batismo']) : null;
+                    $user_detail->data_conversao = (Carbon::createFromFormat('d/m/Y', $request->form['data_conversao']) !== null ? Carbon::createFromFormat('d/m/Y', $request->form['data_conversao']) : null);
+                    $user_detail->data_batismo = (Carbon::createFromFormat('d/m/Y', $request->form['data_batismo']) !== null ? Carbon::createFromFormat('d/m/Y', $request->form['data_batismo']) : null);
                     $user_detail->schooling_id = $request->form['schooling_id'];
                     $user_detail->forma_ingresso_id = $request->form['forma_ingresso_id'];
                     $user_detail->observacao = $request->form['observacao'];
@@ -104,7 +104,7 @@ class MembroController extends Controller
                         $user_detail->cargo_ministerial_id = $request->form['cargo_ministerial_id'];
                         $user_detail->uf_naturalidade_id = $state_naturalidade->id;
                         $user_detail->cidade_naturalidade_id = $cidade_naturalidade->id;
-                        $user_detail->data_consagracao = ($request->form['data_consagracao'] !== null) ? Carbon::createFromFormat('d/m/Y', $request->form['data_consagracao']) : null;
+                        $user_detail->data_consagracao = (Carbon::createFromFormat('d/m/Y', $request->form['data_consagracao']) !== null ? Carbon::createFromFormat('d/m/Y', $request->form['data_consagracao']) : null);
                         $user_detail->curso_teologico_id = $request->form['curso_teologico_id'];
                         $user_detail->convencao_igreja = $request->form['convencao_igreja'];
                         $user_detail->cod_comadebg = $request->form['cod_comadebg'];
