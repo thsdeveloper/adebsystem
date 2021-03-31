@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container>
         <form-cadastro-receita-despesa/>
     </v-container>
 </template>

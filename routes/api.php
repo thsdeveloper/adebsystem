@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Storage;
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
 
-    Route::post('search', 'SearchNavigate@getIndex');
 
     //users
     Route::get('/user', 'UserController@getUser');
